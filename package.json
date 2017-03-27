@@ -1,0 +1,41 @@
+{
+  "name": "text-adventure",
+  "version": "0.1.0",
+  "description": "an engine for a text-based adventure game",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha",
+    "lint": "tslint ./src/**/*.ts"
+  },
+  "files": ["lib", "game"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dshaneg/text-adventure-core.git"
+  },
+  "author": "Shane Gibbons <shanegibbons@gamestop.com> (https://github.com/dshaneg)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dshaneg/text-adventure-core/issues"
+  },
+  "homepage": "https://github.com/dshaneg/text-adventure-core#readme",
+  "dependencies": {
+    "number-to-words": "^1.2.3",
+    "pluralize": "^3.0.0",
+    "postal": "^2.0.5",
+    "postal.request-response": "^0.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.46",
+    "@types/node-uuid": "0.0.28",
+    "@types/pluralize": "0.0.27",
+    "@types/postal": "^1.0.28",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5",
+    "sinon-as-promised": "^4.0.2",
+    "tslint": "^3.15.1",
+    "typescript": "^2.2.1"
+  }
+}
