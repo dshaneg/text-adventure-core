@@ -43,7 +43,6 @@ export class PlayerMapNode {
   }
 
   private checkTraversed(gameState: GameState, gameMap: GameMap, discoveredSet: Set<number>) {
-    // todo: see if everything past this node has been visited
     // be careful: this is not an acyclic graph
     if (!this.visited) {
       return false;
@@ -53,10 +52,12 @@ export class PlayerMapNode {
 
     const mapNode = gameMap.get(this.id);
     for (const edge of mapNode.edges) {
-      // todo: need to get the playermapnode from player, but have to expose a way to get it.
-      // eventually need to simplify into another map structure that combines the static values from gamemap with the dynamic ones of gamestate.player
-      if (!discoveredSet.has(edge.headNode.id) && !edge.headNode.checkTraversed(gameState, gameMap, discoveredSet)) {
-        return false;
+      // todo: eventually need to simplify into another map structure that combines the static values from gamemap with the dynamic ones of gamestate.player
+      if (!discoveredSet.has(edge.headNode.id)) {
+        const playerMapNode = gameState.player.getPlayerMapNode(mapNode);
+        if (!playerMapNode || !playerMapNode.checkTraversed(gameState, gameMap, discoveredSet)) {
+          return false;
+        }
       }
     }
 

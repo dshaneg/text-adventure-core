@@ -22,6 +22,10 @@ export class Player {
     return playerNode && playerNode.visited;
   }
 
+  getPlayerMapNode(mapNode: MapNode) {
+    return this._playerMapNodes.get(mapNode.id);
+  }
+
   get currentNode() {
     return this._currentNode;
   }
