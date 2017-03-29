@@ -13,7 +13,7 @@ import { TeleportHandler } from './command-handlers/teleport-handler';
 import { ConjureItemHandler } from './command-handlers/conjure-item-handler';
 import { AddInventoryHandler } from './command-handlers/add-inventory-handler';
 import { EquipItemHandler } from './command-handlers/equip-item-handler';
-import { StartGameHandler } from './command-handlers/start-game-handler';
+import { StartGameHandler, RepositorySet } from './command-handlers/start-game-handler';
 import { StopGameHandler } from './command-handlers/stop-game-handler';
 
 export class GameEngine {
@@ -23,7 +23,7 @@ export class GameEngine {
     const mapNodeRepository = new MapNodeRepository();
     const gameDefinitionRepository = new GameDefinitionRepository();
 
-    const repositorySet = {
+    const repositorySet: RepositorySet = {
       itemRepository,
       gameDefinitionRepository,
       mapNodeRepository

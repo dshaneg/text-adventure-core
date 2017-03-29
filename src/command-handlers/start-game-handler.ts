@@ -13,7 +13,7 @@ import { GameDefinitionRepository } from '../game-definition-repository';
 import { MapNodeRepository } from '../map-node-repository';
 import { GameState } from '../game-state';
 
-type RepositorySet = {
+export type RepositorySet = {
   itemRepository: ItemRepository,
   gameDefinitionRepository: GameDefinitionRepository,
   mapNodeRepository: MapNodeRepository
