@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "description": "an engine for a text-based adventure game",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "mocha",
-    "lint": "tslint ./src/**/*.ts"
+    "lint": "tslint ./src/**/*.ts",
+    "prepublish": "tsc"
   },
   "files": ["lib", "game"],
   "repository": {
