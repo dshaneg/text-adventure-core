@@ -25,11 +25,13 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
       - run: yarn lint
-      # - run: yarn test
-      # - run: yarn prepublish
+      - run: yarn test
+      - run: yarn tsc
       - run: yarn pack
+
+      - store_artifacts:
+          path: test-adventure-core-$CIRCLE_TAG.tgz
 
   publish:
     docker:
