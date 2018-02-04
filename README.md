@@ -1,5 +1,7 @@
 # text adventure
 
+[![CircleCI](https://circleci.com/gh/dshaneg/text-adventure-core.svg?style=svg)](https://circleci.com/gh/dshaneg/text-adventure-core)
+
      _____         _
     |_   _|____  _| |_
       | |/ _ \ \/ / __|
