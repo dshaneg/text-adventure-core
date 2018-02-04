@@ -53,6 +53,7 @@ jobs:
           command: |
             set +e
             ssh -T -o StrictHostKeyChecking=no git@github.com
+            echo "github always makes ssh exit with non-zero, so echoing for 0 exit code"
       - run:
           name: Publish to NPM
           command: npm publish dist/*.tgz
