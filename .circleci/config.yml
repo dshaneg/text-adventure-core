@@ -30,6 +30,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: target/dist
+          paths: Makefile
+          paths: bin
 
       - store_artifacts:
           path: target/dist
