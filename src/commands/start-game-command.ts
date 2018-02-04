@@ -7,7 +7,7 @@ const topic = 'game.start';
 
 export type StartGameData = {
   gameState: GameState
-}
+};
 
 /**
  * Class representing a command instructing the game to initialize and start.

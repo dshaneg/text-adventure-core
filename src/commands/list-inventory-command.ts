@@ -7,7 +7,7 @@ const topic = 'player.inventory.list';
 
 export type ListInventoryData = {
   gameState: GameState
-}
+};
 
 /**
  * Class representing a command instructing the game to provide the contents of the player's inventory.

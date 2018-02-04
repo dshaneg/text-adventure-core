@@ -7,7 +7,7 @@ const topic = 'game.help';
 
 export type HelpData = {
   gameState: GameState
-}
+};
 
 /**
  * Class representing a command instructing the provide help text.
