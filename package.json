@@ -1,6 +1,6 @@
 {
   "name": "text-adventure-core",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "an engine for a text-based adventure game",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
