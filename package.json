@@ -1,5 +1,5 @@
 {
-  "name": "text-adventure",
+  "name": "text-adventure-core",
   "version": "0.1.0",
   "description": "an engine for a text-based adventure game",
   "main": "lib/index.js",

@@ -6,15 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: dshaneg/nodejs:8-alpine
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
 
     steps:
       - checkout
@@ -36,5 +28,42 @@ jobs:
       # run tests!
       - run: yarn lint
       # - run: yarn test
-      - run: yarn prepublish
+      # - run: yarn prepublish
+      - run: yarn pack
 
+  publish:
+    docker:
+      - image: dshaneg/nodejs:8-alpine
+
+    steps:
+      - run: ls -l
+      - run:
+          name: Set npm token
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+
+
+workflows:
+  version: 2
+  build-publish:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      # - approve:
+      #     type: approval
+      #     requires:
+      #       - build
+      #     filters:
+      #       tags:
+      #         only: /v[0-9]+(\.[0-9]+)*/
+      #       branches:
+      #         ignore: /.*/
+      - publish:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
