@@ -1,0 +1,7 @@
+# set the default line ending behavior
+* text=auto
+
+# linux shell scripts should always have lf line endings
+*.sh eol=lf
+*.yml eol=lf
+*.yaml eol=lf
