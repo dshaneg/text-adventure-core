@@ -31,8 +31,8 @@ jobs:
       - run: mkdir -p target/dist && yarn pack && mv *.tgz target/dist
 
       - persist_to_workspace:
-          root: target/dist
-          paths: *.tgz
+          root: target
+          paths: dist
 
       - store_artifacts:
           path: target/dist
