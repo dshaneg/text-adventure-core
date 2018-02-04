@@ -32,7 +32,7 @@ jobs:
 
       - persist_to_workspace:
           root: target/dist
-          paths: text-adventure-core.tgz
+          paths: *.tgz
 
       - store_artifacts:
           path: target/dist
