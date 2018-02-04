@@ -1,5 +1,5 @@
 {
-  "name": "text-adventure-core",
+  "name": "@dshaneg/text-adventure-core",
   "version": "0.1.5-alpha.10",
   "description": "an engine for a text-based adventure game",
   "main": "lib/index.js",
@@ -9,13 +9,16 @@
     "lint": "tslint ./src/**/*.ts",
     "tsc": "tsc"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "lib",
     "game"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dshaneg/text-adventure-core.git"
+    "url": "https://github.com/dshaneg/text-adventure-core.git"
   },
   "author": "Shane Gibbons <shanegibbons@gamestop.com> (https://github.com/dshaneg)",
   "license": "MIT",
