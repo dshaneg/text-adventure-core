@@ -28,17 +28,17 @@ jobs:
       - run: yarn lint
       - run: yarn tsc
       - run: yarn test
-      - run: yarn pack
+      - run: mkdir -p target/dist && yarn pack --filename target/dist/text-adventure-core-v0.1.4.tgz
 
       - store_artifacts:
-          path: test-adventure-core-*.tgz
+          path: target/dist
 
   publish:
     docker:
       - image: dshaneg/nodejs:8-alpine
 
     steps:
-      - run: ls -l
+      - run: ls -l target/dist
       - run:
           name: Set npm token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
