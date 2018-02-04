@@ -25,14 +25,11 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn lint
-      - run: yarn tsc
-      - run: yarn test
-      - run: mkdir -p target/dist && yarn pack && mv *.tgz target/dist
+      - run: make build
 
       - persist_to_workspace:
-          root: target
-          paths: dist
+          root: .
+          paths: target/dist
 
       - store_artifacts:
           path: target/dist
@@ -46,17 +43,8 @@ jobs:
           at: .
 
       - run:
-          name: Set npm token
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-      - run:
-          name: Establish git host
-          command: |
-            set +e
-            ssh -T -o StrictHostKeyChecking=no git@github.com
-            echo "github always makes ssh exit with non-zero, so echoing for 0 exit code"
-      - run:
           name: Publish to NPM
-          command: cd dist && npm publish *.tgz
+          command: make publish
 
 
 workflows:
@@ -67,15 +55,6 @@ workflows:
           filters:
             tags:
               only: /.*/
-      # - approve:
-      #     type: approval
-      #     requires:
-      #       - build
-      #     filters:
-      #       tags:
-      #         only: /v[0-9]+(\.[0-9]+)*/
-      #       branches:
-      #         ignore: /.*/
       - publish:
           requires:
             - build
