@@ -45,7 +45,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - run: ls -l dist/*
+      - run: npm --version
       - run:
           name: Set npm token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
