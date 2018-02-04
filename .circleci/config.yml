@@ -45,10 +45,14 @@ jobs:
       - attach_workspace:
           at: .
 
-      - run: npm --version
       - run:
           name: Set npm token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run:
+          name: Establish git host
+          command: |
+            set +e
+            ssh -T -o StrictHostKeyChecking=no git@github.com
       - run:
           name: Publish to NPM
           command: npm publish dist/*.tgz
