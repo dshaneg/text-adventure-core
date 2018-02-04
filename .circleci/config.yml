@@ -51,7 +51,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run:
           name: Publish to NPM
-          command: yarn publish *.tgz
+          command: yarn publish dist/*.tgz
 
 
 workflows:
