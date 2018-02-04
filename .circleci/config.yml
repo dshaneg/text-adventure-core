@@ -28,7 +28,11 @@ jobs:
       - run: yarn lint
       - run: yarn tsc
       - run: yarn test
-      - run: mkdir -p target/dist && yarn pack --filename target/dist/text-adventure-core.tgz
+      - run: mkdir -p target/dist && yarn pack && mv *.tgz target/dist
+
+      - persist_to_workspace:
+          root: target/dist
+          paths: text-adventure-core.tgz
 
       - store_artifacts:
           path: target/dist
@@ -38,16 +42,16 @@ jobs:
       - image: dshaneg/nodejs:8-alpine
 
     steps:
-      - run: ls -l target/dist
+      - attach_workspace:
+          at: .
+
+      - run: ls -l
       - run:
           name: Set npm token
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run:
-          name: Rename package with tag suffix
-          command: mv target/dist/text-adventure-core.tgz target/dist/text-adventure-core-$CIRCLE_TAG.tgz
-      - run:
           name: Publish to NPM
-          command: yarn publish target/dist/*.tgz
+          command: yarn publish *.tgz
 
 
 workflows:
