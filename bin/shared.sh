@@ -10,6 +10,7 @@ function marquee {
     len=${#padded}
     border=$(repeatchar "#" $len)
 
+    echo
     echo $border
     echo $padded
     echo $border
