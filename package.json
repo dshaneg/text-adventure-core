@@ -5,9 +5,30 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "mocha lib/**/*test.js",
-    "lint": "tslint ./src/**/*.ts",
+    "test": "mocha src/test/**/*test.ts --recursive --compilers ts:ts-node/register --bail",
+    "cover": "nyc npm test",
+    "lint": "tslint src/**/*.ts",
     "tsc": "tsc"
+  },
+  "nyc": {
+    "include": [
+      "app/*.ts",
+      "app/**/*.ts"
+    ],
+    "exclude": [
+      "typings"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "json",
+      "html"
+    ],
+    "all": true
   },
   "publishConfig": {
     "access": "public"
@@ -43,8 +64,10 @@
     "chai-as-promised": "^5.3.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
+    "nyc": "^11.4.1",
     "sinon": "^1.17.5",
     "sinon-as-promised": "^4.0.2",
+    "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "typescript": "^2.6.2"
   }
