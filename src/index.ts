@@ -11,6 +11,9 @@ import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
 import { eventChannel, queryChannel, commandChannel, clientEventChannel, clientCommandChannel } from './message-bus';
 
+import { StartGameCommand } from './commands/start-game-command';
+import { StopGameCommand } from './commands/stop-game-command';
+
 const parser = new MoveParser();
 const chainTail = parser
   .setNext(new ListInventoryParser())
@@ -32,4 +35,9 @@ export const bus = {
   commandChannel,
   clientEventChannel,
   clientCommandChannel
+};
+
+export const commands = {
+  StartGameCommand,
+  StopGameCommand
 };
