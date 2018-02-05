@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 source bin/shared.sh
 
 function get_npm_tag {
