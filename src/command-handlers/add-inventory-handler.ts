@@ -16,9 +16,9 @@ export class AddInventoryHandler extends CommandHandler {
         data.gameState.player.inventory.add(delta.item, delta.count);
       }
 
-      eventChannel.publish({ topic: 'player.inventory.added', data });
+      eventChannel.publish('player.inventory.added', data);
     } catch (error) {
-      eventChannel.publish({ topic: 'error', data: error });
+      eventChannel.publish('error', error);
     }
   }
 }

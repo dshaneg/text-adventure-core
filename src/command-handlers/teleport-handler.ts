@@ -23,22 +23,22 @@ export class TeleportHandler extends CommandHandler {
       const targetNode = this.gameMap.get(data.targetNodeId);
 
       if (!targetNode) {
-        eventChannel.publish({
-          topic: 'error',
-          data: `Could not teleport. No node with id ${data.targetNodeId}.`
-        });
+        eventChannel.publish(
+          'error',
+          `Could not teleport. No node with id ${data.targetNodeId}.`
+        );
 
         return;
       }
 
       data.gameState.player.currentNode = targetNode;
 
-      eventChannel.publish({
-        topic: 'player.location.teleported',
-        data: { previousNode: data.gameState.player.currentNode, currentNode: targetNode }
-      });
+      eventChannel.publish(
+        'player.location.teleported',
+        { previousNode: data.gameState.player.currentNode, currentNode: targetNode }
+      );
     } catch (error) {
-      eventChannel.publish({ topic: 'error', data: error });
+      eventChannel.publish('error', error);
     }
   }
 }

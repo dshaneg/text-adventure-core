@@ -4,7 +4,7 @@
       "name": "Launch",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceRoot}\\lib\\index.js",
+      "program": "${workspaceRoot}\\lib\\init.js",
       "stopOnEntry": false,
       "args": ["--dev", "--debug"],
       "cwd": "${workspaceRoot}",
@@ -36,7 +36,7 @@
       "name": "Attach to Process",
       "type": "node",
       "request": "attach",
-      "processId": "${command.PickProcess}",
+      "processId": "${command:PickProcess}",
       "port": 5858,
       "sourceMaps": false,
       "outFiles": []

@@ -16,7 +16,7 @@ export class ListInventoryHandler extends CommandHandler {
 
       eventChannel.publish('player.inventory.list-requested', { items: inventoryList });
     } catch (error) {
-      eventChannel.publish({ topic: 'error', data: error });
+      eventChannel.publish('error', error);
     }
   }
 }

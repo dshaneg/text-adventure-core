@@ -7,8 +7,9 @@ import { PlayerMapNode } from './player-map-node';
 export class Player {
   constructor(currentNode: MapNode) {
     this.inventory = new Inventory();
-    this.currentNode = currentNode;
     this._playerMapNodes = new Map<number, PlayerMapNode>();
+
+    this.currentNode = currentNode;
   }
 
   public inventory: Inventory;

@@ -12,9 +12,9 @@ export class StopGameHandler extends CommandHandler {
 
   static handle(data: StopGameData) {
     if (data.force) {
-      eventChannel.publish({ topic: 'game.stopped', data: { gameState: data.gameState } });
+      eventChannel.publish('game.stopped', { gameState: data.gameState });
     } else {
-      eventChannel.publish({ topic: 'game.stop-requested', data: { gameState: data.gameState } });
+      eventChannel.publish('game.stop-requested', { gameState: data.gameState });
     }
   }
 }

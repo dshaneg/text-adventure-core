@@ -40,29 +40,26 @@ export class StartGameHandler extends CommandHandler {
       data.gameState.start();
 
       // initialize starting inventory
-      commandChannel.publish(new AddInventoryCommand(data.gameState, this.itemRepository.startSet));
+      commandChannel.publish(AddInventoryCommand.topic, new AddInventoryCommand(data.gameState, this.itemRepository.startSet));
 
       for (const startItem of this.itemRepository.startSet) {
         if (startItem.equip) {
-          commandChannel.publish(new EquipItemCommand(data.gameState, startItem.item));
+          commandChannel.publish(EquipItemCommand.topic, new EquipItemCommand(data.gameState, startItem.item));
         }
       }
 
       // game.started is a trigger for other subscribers (notably text-engine) to add their subscriptions after initialization
-      eventChannel.publish({
-        topic: 'game.started',
-        data: {
+      eventChannel.publish(
+        'game.started',
+        {
           banner: this.gameDefinitionRepository.gameDefinition.banner,
           text: this.gameDefinitionRepository.gameDefinition.opening
         }
-      });
+      );
 
-      commandChannel.publish(new TeleportCommand(data.gameState, this.mapNodeRepository.gameMap.entryNode.id));
+      commandChannel.publish(TeleportCommand.topic, new TeleportCommand(data.gameState, this.mapNodeRepository.gameMap.entryNode.id));
     } catch (error) {
-      eventChannel.publish({
-        topic: 'error',
-        data: error
-      });
+      eventChannel.publish('error', error);
     }
   }
 }

@@ -9,10 +9,16 @@ import { HelpParser } from './parsers/help-parser';
 // dev-mode (cheat) command parsers
 import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
-import { eventChannel, queryChannel, commandChannel, clientEventChannel, clientCommandChannel } from './message-bus';
+// import { eventChannel, queryChannel, commandChannel, clientEventChannel, clientCommandChannel } from './message-bus';
 
-import { StartGameCommand } from './commands/start-game-command';
-import { StopGameCommand } from './commands/stop-game-command';
+import { GameSessionRepositoryMem } from './game-session-repository-mem';
+import { CreateGameHandler } from './command-handlers/create-game-handler';
+// import { StartGameCommand } from './commands/start-game-command';
+// import { StopGameCommand } from './commands/stop-game-command';
+import { GameManager } from './game-manager';
+import { GameEngine } from './game-engine';
+
+const gameSessionRepository = new GameSessionRepositoryMem();
 
 const parser = new MoveParser();
 const chainTail = parser
@@ -24,20 +30,20 @@ chainTail
   .setNext(new TeleportParser())
   .setNext(new ConjureItemParser());
 
-import { GameEngine } from './game-engine';
+export const gameEngine = new GameEngine();
 
-const gameEngine = new GameEngine();
-gameEngine.initialize();
+export const gameManager = new GameManager(gameSessionRepository);
 
-export const bus = {
-  eventChannel,
-  queryChannel,
-  commandChannel,
-  clientEventChannel,
-  clientCommandChannel
-};
+// export const bus = {
+//   eventChannel,
+//   queryChannel,
+//   commandChannel,
+//   clientEventChannel,
+//   clientCommandChannel
+// };
 
-export const commands = {
-  StartGameCommand,
-  StopGameCommand
-};
+// export const commands = {
+//   CreateGameCommand,
+//   StartGameCommand,
+//   StopGameCommand
+// };

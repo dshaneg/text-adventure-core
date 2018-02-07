@@ -20,18 +20,18 @@ export class MoveHandler extends CommandHandler {
       if (successor) {
         data.gameState.player.currentNode = successor;
 
-        eventChannel.publish({
-          topic: 'player.location.moved',
-          data: { previousNode: currentNode, currentNode: successor, direction: directionName }
-        });
+        eventChannel.publish(
+          'player.location.moved',
+          { previousNode: currentNode, currentNode: successor, direction: directionName }
+        );
       } else {
-        eventChannel.publish({
-          topic: 'player.location.move-blocked',
-          data: { currentNode, direction: directionName }
-        });
+        eventChannel.publish(
+          'player.location.move-blocked',
+          { currentNode, direction: directionName }
+        );
       }
     } catch (error) {
-      eventChannel.publish({ topic: 'error', data: error });
+      eventChannel.publish('error', error);
     }
   }
 }

@@ -25,16 +25,16 @@ export class ConjureItemHandler extends CommandHandler {
       const count = data.count || 1;
 
       if (!item) {
-        eventChannel.publish({ topic: 'error', data: `Could not conjure item ${data.itemId}. No such item exists.` });
+        eventChannel.publish('error', `Could not conjure item ${data.itemId}. No such item exists.`);
         return;
       }
 
       // in the future, I want to conjure items to a map location as well
-      eventChannel.publish({ topic: 'item.conjured', data: { item, count, target: 'inventory' } });
+      eventChannel.publish('item.conjured', { item, count, target: 'inventory' });
 
-      commandChannel.publish(new AddInventoryCommand(data.gameState, [{ item, count }]));
+      commandChannel.publish(AddInventoryCommand.topic, new AddInventoryCommand(data.gameState, [{ item, count }]));
     } catch (error) {
-      eventChannel.publish({ topic: 'error', data: error });
+      eventChannel.publish('error', error);
     }
   }
 }

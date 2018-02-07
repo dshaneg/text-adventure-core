@@ -17,7 +17,7 @@ import { StartGameHandler, RepositorySet } from './command-handlers/start-game-h
 import { StopGameHandler } from './command-handlers/stop-game-handler';
 
 export class GameEngine {
-  initialize() {
+  constructor() {
     // repositories
     const itemRepository = new ItemRepository();
     const mapNodeRepository = new MapNodeRepository();

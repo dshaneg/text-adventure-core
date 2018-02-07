@@ -14,9 +14,9 @@ export class EquipItemHandler extends CommandHandler {
     try {
       data.gameState.player.inventory.equip(data.item);
 
-      eventChannel.publish({ topic: 'player.inventory.item-equipped', data });
+      eventChannel.publish('player.inventory.item-equipped', data);
     } catch (error) {
-      eventChannel.publish({ topic: 'error', error });
+      eventChannel.publish('error', error);
     }
   }
 }

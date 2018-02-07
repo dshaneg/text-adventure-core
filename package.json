@@ -48,10 +48,11 @@
   },
   "homepage": "https://github.com/dshaneg/text-adventure-core#readme",
   "dependencies": {
+    "@types/uuid": "^3.4.3",
     "number-to-words": "^1.2.3",
     "pluralize": "^3.0.0",
     "postal": "^2.0.5",
-    "postal.request-response": "^0.3.1"
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
