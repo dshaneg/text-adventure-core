@@ -1,6 +1,7 @@
 'use strict';
 
 import { GameSessionRepository } from './game-session-repository';
+import { GameState } from './game-state';
 
 export class GameManager {
   private gameSessionRepository: GameSessionRepository;
@@ -10,9 +11,19 @@ export class GameManager {
   }
 
   createGame() {
-    const sessionToken = this.gameSessionRepository.create();
+    const gameState = this.gameSessionRepository.create();
 
-    return sessionToken;
+    return gameState;
+  }
+
+  fetchGame(sessionToken: string): GameState {
+    const gameState = this.gameSessionRepository.get(sessionToken);
+
+    return gameState;
+  }
+
+  stashGame(sessionToken: string, gameState: GameState) {
+    this.gameSessionRepository.set(sessionToken, gameState);
   }
 }
 

@@ -1,6 +1,7 @@
 'use strict';
 
+import { GameState } from '../game-state';
+
 export interface Command {
-  topic: string;
-  data: {};
+  execute(gameState: GameState): void;
 }

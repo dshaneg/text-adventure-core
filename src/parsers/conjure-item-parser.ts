@@ -1,10 +1,9 @@
 'use strict';
 
 import { Parser } from './parser';
+import { CommandFactory } from '../commands/command-factory';
 import { ConjureItemCommand } from '../commands/conjure-item-command';
 import { GameState } from '../game-state';
-
-import { commandChannel as channel } from '../message-bus';
 
 const verbSynonyms = ['conjureitem', 'conjure-item', 'ci'];
 
@@ -16,8 +15,9 @@ const verbSynonyms = ['conjureitem', 'conjure-item', 'ci'];
  * @class ConjureItemParser
  */
 export class ConjureItemParser extends Parser {
+  constructor(commandFactory: CommandFactory) { super(commandFactory); }
 
-  parseInput(gameState: GameState, inputText: string): { channel: any, command: ConjureItemCommand } {
+  parseInput(inputText: string): ConjureItemCommand {
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 
     if (words && (words.length === 2 || words.length === 3) && verbSynonyms.indexOf(words[0]) !== -1) {
@@ -27,7 +27,7 @@ export class ConjureItemParser extends Parser {
         count = Number(words[2]);
       }
 
-      return { channel, command: new ConjureItemCommand(gameState, itemId, count) };
+      return this.commandFactory.createConjureItemHandlerCommand(itemId, count);
     }
 
     return null;

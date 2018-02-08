@@ -2,24 +2,14 @@
 
 import { GameSessionRepository } from './game-session-repository';
 import { GameState } from './game-state';
-import uuid = require('uuid');
 
-export class GameSessionRepositoryMem implements GameSessionRepository {
+export class GameSessionRepositoryMem extends GameSessionRepository {
   constructor() {
+    super();
     this.sessions = new Map();
   }
 
-  public sessions: Map<string, GameState>;
-
-  create() {
-    const token = uuid.v4();
-
-    const gameState = new GameState();
-
-    this.sessions.set(token, gameState);
-
-    return token;
-  }
+  private sessions: Map<string, GameState>;
 
   get(sessionToken: string): GameState {
     return this.sessions.get(sessionToken);

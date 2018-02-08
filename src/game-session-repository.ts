@@ -1,9 +1,17 @@
 import { GameState } from './game-state';
+import uuid = require('uuid');
 
-export interface GameSessionRepository {
-    create(): string;
+export abstract class GameSessionRepository {
+    create(): GameState {
+      const token = uuid.v4();
+      const gameState = new GameState(token);
 
-    get(sessionToken: string): GameState;
+      this.set(token, gameState);
 
-    set(sessionToken: string, gameState: GameState): void;
+      return gameState;
+    }
+
+    abstract get(sessionToken: string): GameState;
+
+    abstract set(sessionToken: string, gameState: GameState): void;
   }

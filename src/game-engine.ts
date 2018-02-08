@@ -1,43 +1,48 @@
 'use strict';
 
-// repositories
-import { GameDefinitionRepository } from './game-definition-repository';
-import { MapNodeRepository } from './map-node-repository';
-import { ItemRepository } from './item-repository';
+import { CommandFactory } from './commands/command-factory';
+
+// command parsers
+import { MoveParser } from './parsers/move-parser';
+import { ListInventoryParser } from './parsers/list-inventory-parser';
+import { ExitParser } from './parsers/exit-parser';
+import { HelpParser } from './parsers/help-parser';
+
+// dev-mode (cheat) command parsers
+import { TeleportParser } from './parsers/teleport-parser';
+import { ConjureItemParser } from './parsers/conjure-item-parser';
+
+import { GameState } from './game-state';
+import { Parser } from './parsers/parser';
 
 // game command handlers
-import { MoveHandler } from './command-handlers/move-handler';
-import { ListInventoryHandler } from './command-handlers/list-inventory-handler';
-import { HelpHandler } from './command-handlers/help-handler';
-import { TeleportHandler } from './command-handlers/teleport-handler';
-import { ConjureItemHandler } from './command-handlers/conjure-item-handler';
-import { AddInventoryHandler } from './command-handlers/add-inventory-handler';
-import { EquipItemHandler } from './command-handlers/equip-item-handler';
-import { StartGameHandler, RepositorySet } from './command-handlers/start-game-handler';
-import { StopGameHandler } from './command-handlers/stop-game-handler';
-
 export class GameEngine {
-  constructor() {
-    // repositories
-    const itemRepository = new ItemRepository();
-    const mapNodeRepository = new MapNodeRepository();
-    const gameDefinitionRepository = new GameDefinitionRepository();
+  constructor(commandFactory: CommandFactory, debugMode: boolean = false) {
+    this.parser = new MoveParser(commandFactory);
+    const chainTail = this.parser
+      .setNext(new ListInventoryParser(commandFactory))
+      .setNext(new ExitParser(commandFactory))
+      .setNext(new HelpParser(commandFactory));
 
-    const repositorySet: RepositorySet = {
-      itemRepository,
-      gameDefinitionRepository,
-      mapNodeRepository
-    };
+    if (debugMode) {
+      chainTail
+        .setNext(new TeleportParser(commandFactory))
+        .setNext(new ConjureItemParser(commandFactory));
+    }
+  }
 
-    new MoveHandler().subscribe();
-    new TeleportHandler(mapNodeRepository.gameMap).subscribe();
-    new AddInventoryHandler().subscribe();
-    new EquipItemHandler().subscribe();
-    new ConjureItemHandler(itemRepository).subscribe();
-    new StartGameHandler(repositorySet).subscribe();
-    new StopGameHandler().subscribe();
-    new ListInventoryHandler().subscribe();
+  parser: Parser;
 
-    new HelpHandler(gameDefinitionRepository).subscribe();
+  handleInput(gameState: GameState, inputText: string): any {
+    const command = this.parser.parse(inputText);
+
+    if (command) {
+      command.execute(gameState);
+
+      // return list of events from gamestate's new flushevents method
+    }
+    else {
+      // return bad parse error message
+    }
   }
 }
