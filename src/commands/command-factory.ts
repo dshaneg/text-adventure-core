@@ -12,7 +12,6 @@ import { ListInventoryCommand } from './list-inventory-command';
 import { StopGameCommand } from './stop-game-command';
 
 import { ItemRepository } from '../item-repository';
-import { GameSessionRepository } from '../game-session-repository';
 import { GameDefinitionRepository } from '../game-definition-repository';
 import { MapNodeRepository } from '../map-node-repository';
 import { GameMap } from '../game-map';
@@ -22,20 +21,19 @@ import { GameMap } from '../game-map';
  */
 export class CommandFactory {
 
-  constructor(itemRepository: ItemRepository,
-              gameSessionRepository: GameSessionRepository,
-              gameDefinitionRepository: GameDefinitionRepository,
-              mapNodeRepository: MapNodeRepository) {
-    this.itemRepository = itemRepository;
-    this.gameSessionRepository = gameSessionRepository;
+  constructor(
+    gameDefinitionRepository: GameDefinitionRepository,
+    mapNodeRepository: MapNodeRepository,
+    itemRepository: ItemRepository) {
+
     this.gameDefinitionRepository = gameDefinitionRepository;
     this.mapNodeRepository = mapNodeRepository;
+    this.itemRepository = itemRepository;
   }
 
   private gameDefinitionRepository: GameDefinitionRepository;
   private mapNodeRepository: MapNodeRepository;
   private itemRepository: ItemRepository;
-  private gameSessionRepository: GameSessionRepository;
 
   createAddInventoryCommand(deltas: Array<{ item: any, count: number }>) {
     return new AddInventoryCommand(deltas);

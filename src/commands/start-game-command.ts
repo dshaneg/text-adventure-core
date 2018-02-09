@@ -37,6 +37,11 @@ export class StartGameCommand {
   public data: {};
 
   execute(gameState: GameState): void {
+    if (gameState.isStarted) {
+      // todo: should warn when this happens--it isn't supposed to.
+      return;
+    }
+
     // initialize starting inventory
     this.commandFactory.createAddInventoryCommand(this.itemRepository.startSet).execute(gameState);
 

@@ -7,7 +7,7 @@ import { GameState } from '../game-state';
 
 const verbSynonyms = ['quit', 'q', 'exit', 'bye', 'leave'];
 
-export class ExitParser extends Parser {
+export class StopGameParser extends Parser {
   parseInput(inputText: string): StopGameCommand {
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 

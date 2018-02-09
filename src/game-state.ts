@@ -7,21 +7,26 @@ export class GameState {
   constructor(sessionToken: string) {
     const currentNode = new MapNode({ id: -1, name: 'the real world', description: [''], location: { x: 0, y: 0, z: 0 } });
 
+    this.sessionToken = sessionToken;
     this.player = new Player(currentNode);
   }
 
-  private started: boolean;
+  public get isStarted(): boolean {
+    return this._started;
+  }
+
+  private _started: boolean;
 
   public player: Player;
 
   public sessionToken: string;
 
   start() {
-    this.started = true;
+    this._started = true;
   }
 
   stop() {
-    this.started = false;
+    this._started = false;
   }
 
   tryMove(direction: string) {
