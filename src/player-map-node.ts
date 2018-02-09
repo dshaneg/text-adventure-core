@@ -35,8 +35,12 @@ export class PlayerMapNode {
 
     for (const edge of mapNode.edges) {
       const discoveredSet = new Set([this.id]);
-      const visited = gameState.player.visited(edge.headNode);
-      directions.push({ direction: edge.direction, visited: visited, traversed: this.checkTraversed(gameState, gameMap, discoveredSet) });
+
+      const playerHeadNode = gameState.player.getPlayerMapNode(edge.headNode);
+      const visited = (playerHeadNode != null) && playerHeadNode.visited;
+      const traversed = (playerHeadNode != null) && playerHeadNode.checkTraversed(gameState, gameMap, discoveredSet);
+
+      directions.push({ direction: edge.direction, visited: visited, traversed: traversed });
     }
 
     return directions.sort(directionCompare);
@@ -54,7 +58,7 @@ export class PlayerMapNode {
     for (const edge of mapNode.edges) {
       // todo: eventually need to simplify into another map structure that combines the static values from gamemap with the dynamic ones of gamestate.player
       if (!discoveredSet.has(edge.headNode.id)) {
-        const playerMapNode = gameState.player.getPlayerMapNode(mapNode);
+        const playerMapNode = gameState.player.getPlayerMapNode(edge.headNode);
         if (!playerMapNode || !playerMapNode.checkTraversed(gameState, gameMap, discoveredSet)) {
           return false;
         }

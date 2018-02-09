@@ -2,6 +2,8 @@
 
 import { MapNode } from './map-node';
 import { Player } from './player';
+import { GameMap } from './game-map';
+import { EdgeState } from './player-map-node';
 
 export class GameState {
   constructor(sessionToken: string) {
@@ -43,6 +45,10 @@ export class GameState {
     //     { currentNode, direction: directionName }
     //   );
     }
+  }
+
+  queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
+    return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
   }
 
   queryInventory() {

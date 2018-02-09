@@ -18,10 +18,10 @@ export class Player {
 
   private _playerMapNodes: Map<number, PlayerMapNode>;
 
-  visited(node: MapNode): number {
-    const playerNode = this._playerMapNodes.get(node.id);
-    return playerNode && playerNode.visited;
-  }
+  // visited(node: MapNode): number {
+  //   const playerNode = this._playerMapNodes.get(node.id);
+  //   return playerNode && playerNode.visited;
+  // }
 
   getPlayerMapNode(mapNode: MapNode) {
     return this._playerMapNodes.get(mapNode.id);
