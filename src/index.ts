@@ -38,7 +38,7 @@ export class TextAdventureCore {
 
     const parser = buildParserChain(commandFactory, debugMode);
 
-    return new GameEngine(parser);
+    return new GameEngine(parser, mapNodeRepository);
   }
 
   static interfaces = {
