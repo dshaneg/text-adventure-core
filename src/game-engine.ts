@@ -1,43 +1,33 @@
 'use strict';
 
-// repositories
-import { GameDefinitionRepository } from './game-definition-repository';
-import { MapNodeRepository } from './map-node-repository';
-import { ItemRepository } from './item-repository';
+import { CommandFactory } from './commands/command-factory';
+
+import { GameState } from './game-state';
+import { Parser } from './parsers/parser';
 
 // game command handlers
-import { MoveHandler } from './command-handlers/move-handler';
-import { ListInventoryHandler } from './command-handlers/list-inventory-handler';
-import { HelpHandler } from './command-handlers/help-handler';
-import { TeleportHandler } from './command-handlers/teleport-handler';
-import { ConjureItemHandler } from './command-handlers/conjure-item-handler';
-import { AddInventoryHandler } from './command-handlers/add-inventory-handler';
-import { EquipItemHandler } from './command-handlers/equip-item-handler';
-import { StartGameHandler, RepositorySet } from './command-handlers/start-game-handler';
-import { StopGameHandler } from './command-handlers/stop-game-handler';
-
 export class GameEngine {
-  initialize() {
-    // repositories
-    const itemRepository = new ItemRepository();
-    const mapNodeRepository = new MapNodeRepository();
-    const gameDefinitionRepository = new GameDefinitionRepository();
+  constructor(parser: Parser) {
+    this.parser = parser;
+  }
 
-    const repositorySet: RepositorySet = {
-      itemRepository,
-      gameDefinitionRepository,
-      mapNodeRepository
-    };
+  parser: Parser;
 
-    new MoveHandler().subscribe();
-    new TeleportHandler(mapNodeRepository.gameMap).subscribe();
-    new AddInventoryHandler().subscribe();
-    new EquipItemHandler().subscribe();
-    new ConjureItemHandler(itemRepository).subscribe();
-    new StartGameHandler(repositorySet).subscribe();
-    new StopGameHandler().subscribe();
-    new ListInventoryHandler().subscribe();
+  startGame(gameState: GameState): any {
+    return this.handleInput(gameState, 'start game');
+  }
 
-    new HelpHandler(gameDefinitionRepository).subscribe();
+  handleInput(gameState: GameState, inputText: string): any {
+    const command = this.parser.parse(inputText);
+
+    if (command) {
+      command.execute(gameState);
+
+      // return list of events from gamestate's new flushevents method
+      return gameState;
+    }
+    else {
+      // return bad parse error message
+    }
   }
 }

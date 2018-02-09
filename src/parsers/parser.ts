@@ -1,9 +1,16 @@
 'use strict';
 
 import { Command } from '../commands/command';
+import { CommandFactory } from '../commands/command-factory';
 import { GameState } from '../game-state';
 
 export abstract class Parser {
+  constructor(commandFactory: CommandFactory) {
+    this.commandFactory = commandFactory;
+  }
+
+  protected commandFactory: CommandFactory;
+
   setNext(parser: Parser) {
     this.next = parser;
     return parser;
@@ -11,15 +18,15 @@ export abstract class Parser {
 
   public next: Parser;
 
-  parse(gameState: GameState, input: string): { channel: any, command: Command } {
-    const command = this.parseInput(gameState, input);
+  parse(input: string): Command {
+    const command = this.parseInput(input);
     if (!command && this.next) {
-      return this.next.parse(gameState, input);
+      return this.next.parse(input);
     }
 
     return command;
   }
 
-  abstract parseInput(gameState: GameState, input: string): { channel: any, command: Command };
+  abstract parseInput(input: string): Command;
 }
 

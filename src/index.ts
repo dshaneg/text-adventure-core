@@ -1,43 +1,71 @@
 'use strict';
 
+import { GameSessionRepository } from './game-session-repository';
+import { GameSessionRepositoryMem } from './game-session-repository-mem';
+
+import { GameDefinitionRepository } from './game-definition-repository';
+import { MapNodeRepository } from './map-node-repository';
+import { ItemRepository } from './item-repository';
+
+import { CommandFactory } from './commands/command-factory';
+
+import { GameManager } from './game-manager';
+import { GameEngine } from './game-engine';
+
 // command parsers
 import { MoveParser } from './parsers/move-parser';
 import { ListInventoryParser } from './parsers/list-inventory-parser';
-import { ExitParser } from './parsers/exit-parser';
 import { HelpParser } from './parsers/help-parser';
+import { StartGameParser } from './parsers/start-game-parser';
+import { StopGameParser } from './parsers/stop-game-parser';
 
 // dev-mode (cheat) command parsers
 import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
-import { eventChannel, queryChannel, commandChannel, clientEventChannel, clientCommandChannel } from './message-bus';
 
-import { StartGameCommand } from './commands/start-game-command';
-import { StopGameCommand } from './commands/stop-game-command';
+export class TextAdventureCore {
+  static createGameManager(gameSessionRepository: GameSessionRepository) {
+    return new GameManager(gameSessionRepository);
+  }
 
-const parser = new MoveParser();
-const chainTail = parser
-  .setNext(new ListInventoryParser())
-  .setNext(new ExitParser())
-  .setNext(new HelpParser());
+  static createGameEngine(
+    gameDefinitionRepository: GameDefinitionRepository,
+    mapNodeRepository: MapNodeRepository,
+    itemRepository: ItemRepository,
+    debugMode: boolean = false) {
 
-chainTail
-  .setNext(new TeleportParser())
-  .setNext(new ConjureItemParser());
+    const commandFactory = new CommandFactory(gameDefinitionRepository, mapNodeRepository, itemRepository);
 
-import { GameEngine } from './game-engine';
+    const parser = buildParserChain(commandFactory, debugMode);
 
-const gameEngine = new GameEngine();
-gameEngine.initialize();
+    return new GameEngine(parser);
+  }
 
-export const bus = {
-  eventChannel,
-  queryChannel,
-  commandChannel,
-  clientEventChannel,
-  clientCommandChannel
-};
+  static interfaces = {
+    GameSessionRepository
+  };
 
-export const commands = {
-  StartGameCommand,
-  StopGameCommand
-};
+  static defaultImplementations = {
+    GameSessionRepositoryMem,
+    ItemRepository,
+    GameDefinitionRepository,
+    MapNodeRepository
+  };
+}
+
+function buildParserChain(commandFactory: CommandFactory, debugMode: boolean = false) {
+  const head = new MoveParser(commandFactory);
+  const tail = head
+    .setNext(new ListInventoryParser(commandFactory))
+    .setNext(new HelpParser(commandFactory))
+    .setNext(new StartGameParser(commandFactory))
+    .setNext(new StopGameParser(commandFactory));
+
+  if (debugMode) {
+    tail
+      .setNext(new TeleportParser(commandFactory))
+      .setNext(new ConjureItemParser(commandFactory));
+  }
+
+  return head;
+}

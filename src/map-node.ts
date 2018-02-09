@@ -2,7 +2,7 @@
 
 export type Edge = { direction: string, headNode: MapNode, tailNode: MapNode };
 // export type EdgeState = { direction: string, visited: number, traversed: boolean };
-export type MapCoordinates = { x: number, y: number, z: number }
+export type MapCoordinates = { x: number, y: number, z: number };
 
 export class MapNode {
   constructor(nodeConfig: any) {
