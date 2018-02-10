@@ -35,20 +35,21 @@ export class GameEngine {
       });
     }
 
-    const availableDirections = gameState.queryAvailableDirections(this._mapNodeRepository.gameMap);
     const events = gameState.events;
     gameState.flushEvents();
+    return { command: inputText, events };
 
+    // const availableDirections = gameState.queryAvailableDirections(this._mapNodeRepository.gameMap);
     // return list of events from gamestate's new flushevents method
-    const currentNode = gameState.player.currentNode;
+    // const currentNode = gameState.player.currentNode;
 
-    return {
-      command: inputText,
-      locName: currentNode.name,
-      locDescription: currentNode.description,
-      locVisited: gameState.player.visited(currentNode),
-      events: events,
-      moves: availableDirections
-    };
+    // return {
+    //   command: inputText,
+    //   locName: currentNode.name,
+    //   locDescription: currentNode.description,
+    //   locVisited: gameState.player.visited(currentNode),
+    //   events: events,
+    //   moves: availableDirections
+    // };
   }
 }
