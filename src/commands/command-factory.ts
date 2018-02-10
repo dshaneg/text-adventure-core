@@ -48,7 +48,7 @@ export class CommandFactory {
   }
 
   createHelpCommand() {
-    return new HelpCommand();
+    return new HelpCommand(this.gameDefinitionRepository);
   }
 
   createListInventoryCommand() {

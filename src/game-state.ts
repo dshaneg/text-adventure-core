@@ -99,13 +99,6 @@ export class GameState {
 
     // eventChannel.publish('player.inventory.list-requested', { items: inventoryList });
   }
-
-  queryHelp() {
-    throw new Error('not implemented');
-    // eventChannel.publish('game.help-requested', {
-    //   text: this.gameDefinitionRepository.gameDefinition.help
-    // })
-  }
 }
 
 function getDirectionName(abbreviation: string) {

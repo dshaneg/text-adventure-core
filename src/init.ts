@@ -19,6 +19,9 @@ debug(response);
 response = gameEngine.handleInput(gameState, 'conjureitem 1002');
 debug(response);
 
+response = gameEngine.handleInput(gameState, 'help');
+debug(response);
+
 response = gameEngine.handleInput(gameState, 'exit');
 debug(response);
 
