@@ -12,6 +12,8 @@ export class ListInventoryCommand implements Command {
   }
 
   execute(gameState: GameState, addEvent: AddEventCall): void {
-    gameState.queryInventory();
+    const items = gameState.queryInventory();
+
+    addEvent({ topic: 'player.inventory.list-requested', items });
   }
 }

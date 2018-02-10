@@ -22,6 +22,9 @@ debug(response);
 response = gameEngine.handleInput(gameState, 'help');
 debug(response);
 
+response = gameEngine.handleInput(gameState, 'inventory');
+debug(response);
+
 response = gameEngine.handleInput(gameState, 'exit');
 debug(response);
 

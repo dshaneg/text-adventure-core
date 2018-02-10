@@ -64,10 +64,7 @@ export class GameState {
   }
 
   queryInventory() {
-    throw new Error('not implemented');
-    // const inventoryList = data.gameState.player.inventory.getAll();
-
-    // eventChannel.publish('player.inventory.list-requested', { items: inventoryList });
+    return this.player.inventory.getAll();
   }
 }
 
