@@ -16,6 +16,9 @@ console.log(JSON.stringify(response, null, 2));
 response = gameEngine.handleInput(gameState, 'go south');
 console.log(JSON.stringify(response, null, 2));
 
+response = gameEngine.handleInput(gameState, 'conjureitem 1002');
+console.log(JSON.stringify(response, null, 2));
+
 response = gameEngine.handleInput(gameState, 'exit');
 console.log(JSON.stringify(response, null, 2));
 

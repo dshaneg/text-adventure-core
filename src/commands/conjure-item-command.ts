@@ -30,10 +30,11 @@ export class ConjureItemCommand implements Command {
     const count = this.count || 1;
 
     if (!item) {
-      throw new Error(`Could not conjure item ${this.itemId}. No such item exists.`);
+      gameState.addEvent( { topic: 'error', message: `Could not conjure item ${this.itemId}. No such item exists.` });
     }
 
     // in the future, I want to conjure items to a map location as well
+    gameState.addEvent({ topic: 'item.conjured', item, count, target: 'inventory' });
 
     this.commandFactory.createAddInventoryCommand([{ item, count }]).execute(gameState);
   }

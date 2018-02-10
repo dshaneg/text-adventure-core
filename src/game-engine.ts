@@ -40,10 +40,13 @@ export class GameEngine {
     gameState.flushEvents();
 
     // return list of events from gamestate's new flushevents method
+    const currentNode = gameState.player.currentNode;
+
     return {
       command: inputText,
-      locName: gameState.player.currentNode.name,
-      locDescription: gameState.player.currentNode.description,
+      locName: currentNode.name,
+      locDescription: currentNode.description,
+      locVisited: gameState.player.visited(currentNode),
       events: events,
       moves: availableDirections
     };
