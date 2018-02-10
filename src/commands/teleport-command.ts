@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 import { GameMap } from '../game-map';
 
@@ -20,14 +20,16 @@ export class TeleportCommand implements Command {
   private map: GameMap;
   private targetNodeId: number;
 
-  execute(gameState: GameState): void {
+  execute(gameState: GameState, addEvent: AddEventCall): void {
     const targetNode = this.map.get(this.targetNodeId);
 
     if (!targetNode) {
-      throw new Error(`Could not teleport. No node with id ${this.targetNodeId}.`);
-    }
+      addEvent({
+        topic: 'error',
+        message: `Could not teleport. No node with id ${this.targetNodeId}.`
+    });
 
     gameState.player.currentNode = targetNode;
+    }
   }
 }
-

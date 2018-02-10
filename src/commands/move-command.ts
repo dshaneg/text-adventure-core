@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 
 /**
@@ -21,7 +21,7 @@ export class MoveCommand implements Command {
 
   private direction: string;
 
-  execute(gameState: GameState): void {
+  execute(gameState: GameState, addEvent: AddEventCall): void {
     gameState.tryMove(this.direction);
   }
 }

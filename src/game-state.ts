@@ -12,53 +12,27 @@ export class GameState {
     this.player = new Player(currentNode);
 
     this._sessionToken = sessionToken;
-    this._eventQueue = new Array<any>();
   }
 
   public get isStarted(): boolean {
     return this._started;
   }
 
-  private _eventQueue: Array<any>;
   private _started: boolean;
   private _sessionToken: string;
 
   public player: Player;
 
-  public addEvent(event: any) {
-    this._eventQueue.push(event);
-  }
-
   public get sessionToken(): string {
     return this._sessionToken;
   }
 
-  public get events(): Array<any> {
-    // I'd rather get a copy of the array, but this can slide for now.
-    return this._eventQueue;
-  }
-
-  flushEvents() {
-    this._eventQueue = new Array<any>();
-  }
-
-  start(gameDefinition: any) {
+  start() {
     this._started = true;
-
-    this.addEvent({
-      topic: 'game.started',
-      banner: gameDefinition.banner,
-      text: gameDefinition.opening
-    });
   }
 
-  stop(force: boolean) {
-    if (force) {
-      this._started = false;
-      this.addEvent({ topic: 'game.stopped', sessionToken: this._sessionToken });
-    } else {
-      this.addEvent({ topic: 'game.stop-requested', sessionToken: this._sessionToken });
-    }
+  stop() {
+    this._started = false;
   }
 
   tryMove(direction: string) {
@@ -79,8 +53,6 @@ export class GameState {
 
   equip(item: any) {
     this.player.inventory.equip(item);
-
-    this.addEvent({ topic: 'player.inventory.item-equipped', item });
   }
 
   queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
@@ -89,8 +61,6 @@ export class GameState {
 
   addInventory(item: any, count: number) {
     this.player.inventory.add(item, count);
-
-    this.addEvent({ topic: 'player.inventory.added', item, count });
   }
 
   queryInventory() {
