@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 
 /**
@@ -11,7 +11,9 @@ export class ListInventoryCommand implements Command {
   constructor() {
   }
 
-  execute(gameState: GameState): void {
-    gameState.queryInventory();
+  execute(gameState: GameState, addEvent: AddEventCall): void {
+    const items = gameState.queryInventory();
+
+    addEvent({ topic: 'player.inventory.list-requested', items });
   }
 }

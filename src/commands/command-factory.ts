@@ -48,7 +48,7 @@ export class CommandFactory {
   }
 
   createHelpCommand() {
-    return new HelpCommand();
+    return new HelpCommand(this.gameDefinitionRepository);
   }
 
   createListInventoryCommand() {
@@ -69,8 +69,8 @@ export class CommandFactory {
     return new StartGameCommand(this, repositorySet);
   }
 
-  createStopGameCommand() {
-    return new StopGameCommand();
+  createStopGameCommand(force: boolean) {
+    return new StopGameCommand(force);
   }
 
   createTeleportCommand(targetNodeId: number) {

@@ -5,7 +5,7 @@ import { CommandFactory } from '../commands/command-factory';
 import { ConjureItemCommand } from '../commands/conjure-item-command';
 import { GameState } from '../game-state';
 
-const verbSynonyms = ['conjureitem', 'conjure-item', 'ci'];
+const verbSynonyms = ['conjureitem', 'conjure_item', 'ci'];
 
 /**
  * Note: Developer Command a.k.a. cheat.

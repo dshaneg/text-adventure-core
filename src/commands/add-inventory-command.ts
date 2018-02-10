@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 
 /** Class representing a command instructing the game to add a list of item deltas to inventory.
@@ -33,9 +33,10 @@ export class AddInventoryCommand implements Command {
     this.deltas.push({ item, count });
   }
 
-  execute(gameState: GameState): void {
+  execute(gameState: GameState, addEvent: AddEventCall): void {
     for (const delta of this.deltas) {
-      gameState.player.inventory.add(delta.item, delta.count);
+      gameState.addInventory(delta.item, delta.count);
+      addEvent({ topic: 'player.inventory.added', item: delta.item, count: delta.count });
     }
   }
 }

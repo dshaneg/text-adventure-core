@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 import { CommandFactory } from './command-factory';
 
@@ -25,16 +25,17 @@ export class ConjureItemCommand implements Command {
   private itemId: number;
   private count: number;
 
-  execute(gameState: GameState): void {
+  execute(gameState: GameState, addEvent: AddEventCall): void {
     const item = this.itemRepository.get(this.itemId);
     const count = this.count || 1;
 
     if (!item) {
-      throw new Error(`Could not conjure item ${this.itemId}. No such item exists.`);
+      addEvent( { topic: 'error', message: `Could not conjure item ${this.itemId}. No such item exists.` });
     }
 
     // in the future, I want to conjure items to a map location as well
+    addEvent({ topic: 'item.conjured', item, count, target: 'inventory' });
 
-    this.commandFactory.createAddInventoryCommand([{ item, count }]).execute(gameState);
+    this.commandFactory.createAddInventoryCommand([{ item, count }]).execute(gameState, addEvent);
   }
 }

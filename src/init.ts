@@ -8,11 +8,30 @@ const itemRepository = new Core.defaultImplementations.ItemRepository();
 const gameSessionRepository = new Core.defaultImplementations.GameSessionRepositoryMem();
 
 const gameState = Core.createGameManager(gameSessionRepository).createGame();
-console.log(gameState);
-
 const gameEngine = Core.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, true);
+
 let response = gameEngine.startGame(gameState);
-console.log(response);
+debug(response);
 
 response = gameEngine.handleInput(gameState, 'go south');
-console.log(response);
+debug(response);
+
+response = gameEngine.handleInput(gameState, 'conjureitem 1002');
+debug(response);
+
+response = gameEngine.handleInput(gameState, 'help');
+debug(response);
+
+response = gameEngine.handleInput(gameState, 'inventory');
+debug(response);
+
+response = gameEngine.handleInput(gameState, 'exit');
+debug(response);
+
+response = gameEngine.handleInput(gameState, 'force stop game');
+debug(response);
+
+function debug(response: any) {
+  console.log('==============================================');
+  console.log(JSON.stringify(response, null, 2));
+}

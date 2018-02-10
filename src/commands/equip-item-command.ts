@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 
 const topic = 'player.inventory.equip-item';
@@ -18,7 +18,9 @@ export class EquipItemCommand implements Command {
 
   private item: any;
 
-  execute(gameState: GameState): void {
-    gameState.player.inventory.equip(this.item);
+  execute(gameState: GameState, addEvent: AddEventCall): void {
+    gameState.equip(this.item);
+
+    addEvent({ topic: 'player.inventory.item-equipped', item: this.item });
   }
 }

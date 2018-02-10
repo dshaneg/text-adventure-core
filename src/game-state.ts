@@ -9,8 +9,9 @@ export class GameState {
   constructor(sessionToken: string) {
     const currentNode = new MapNode({ id: -1, name: 'the real world', description: [''], location: { x: 0, y: 0, z: 0 } });
 
-    this.sessionToken = sessionToken;
     this.player = new Player(currentNode);
+
+    this._sessionToken = sessionToken;
   }
 
   public get isStarted(): boolean {
@@ -18,10 +19,13 @@ export class GameState {
   }
 
   private _started: boolean;
+  private _sessionToken: string;
 
   public player: Player;
 
-  public sessionToken: string;
+  public get sessionToken(): string {
+    return this._sessionToken;
+  }
 
   start() {
     this._started = true;
@@ -31,56 +35,31 @@ export class GameState {
     this._started = false;
   }
 
-  tryMove(direction: string) {
+  tryMove(direction: string): boolean {
     const currentNode = this.player.currentNode;
     const successor = currentNode.getSuccessor(direction);
 
-    const directionName = getDirectionName(direction);
-
     if (successor) {
       this.player.currentNode = successor;
-    // } else {
-    //   eventChannel.publish(
-    //     'player.location.move-blocked',
-    //     { currentNode, direction: directionName }
-    //   );
+      return true;
     }
+
+    return false;
+  }
+
+  equip(item: any) {
+    this.player.inventory.equip(item);
   }
 
   queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
     return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
   }
 
+  addInventory(item: any, count: number) {
+    this.player.inventory.add(item, count);
+  }
+
   queryInventory() {
-    throw new Error('not implemented');
-    // const inventoryList = data.gameState.player.inventory.getAll();
-
-    // eventChannel.publish('player.inventory.list-requested', { items: inventoryList });
-  }
-
-  queryHelp() {
-    throw new Error('not implemented');
-    // eventChannel.publish('game.help-requested', {
-    //   text: this.gameDefinitionRepository.gameDefinition.help
-    // })
-  }
-}
-
-function getDirectionName(abbreviation: string) {
-  switch (abbreviation) {
-    case 'n':
-      return 'north';
-    case 's':
-      return 'south';
-    case 'e':
-      return 'east';
-    case 'w':
-      return 'west';
-    case 'u':
-      return 'up';
-    case 'd':
-      return 'down';
-    default:
-      return 'unknown';
+    return this.player.inventory.getAll();
   }
 }

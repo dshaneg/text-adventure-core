@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 
 /**
@@ -21,7 +21,47 @@ export class MoveCommand implements Command {
 
   private direction: string;
 
-  execute(gameState: GameState): void {
-    gameState.tryMove(this.direction);
+  execute(gameState: GameState, addEvent: AddEventCall): void {
+    const previous = gameState.player.currentNode;
+
+    const moved = gameState.tryMove(this.direction);
+
+    const directionName = getDirectionName(this.direction);
+
+    const current = gameState.player.currentNode;
+
+    if (moved) {
+      addEvent({
+        topic: 'player.location.moved',
+        previousNode: { id: previous.id, name: previous.name, description: previous.description, location: previous.location },
+        currentNode: { id: current.id, name: current.name, description: current.description, location: current.location },
+        direction: directionName
+      });
+    } else {
+      addEvent({
+        topic: 'player.location.move-blocked',
+        currentNode: { id: current.id, name: current.name, description: current.description, location: current.location },
+        direction: directionName
+      });
+    }
+  }
+}
+
+function getDirectionName(abbreviation: string) {
+  switch (abbreviation) {
+    case 'n':
+      return 'north';
+    case 's':
+      return 'south';
+    case 'e':
+      return 'east';
+    case 'w':
+      return 'west';
+    case 'u':
+      return 'up';
+    case 'd':
+      return 'down';
+    default:
+      return 'unknown';
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-import { Command } from './command';
+import { Command, AddEventCall } from './command';
 import { GameState } from '../game-state';
 import { CommandFactory } from './command-factory';
 
@@ -24,8 +24,6 @@ export class StartGameCommand {
     this.itemRepository = repositorySet.itemRepository;
     this.gameDefinitionRepository = repositorySet.gameDefinitionRepository;
     this.mapNodeRepository = repositorySet.mapNodeRepository;
-
-    this.data = {};
   }
 
   private commandFactory: CommandFactory;
@@ -34,36 +32,28 @@ export class StartGameCommand {
   private gameDefinitionRepository: GameDefinitionRepository;
   private mapNodeRepository: MapNodeRepository;
 
-  public data: {};
-
-  execute(gameState: GameState): void {
+  execute(gameState: GameState, addEvent: AddEventCall): void {
     if (gameState.isStarted) {
-      // todo: should warn when this happens--it isn't supposed to.
       return;
     }
 
     // initialize starting inventory
-    this.commandFactory.createAddInventoryCommand(this.itemRepository.startSet).execute(gameState);
+    this.commandFactory.createAddInventoryCommand(this.itemRepository.startSet).execute(gameState, addEvent);
 
     for (const startItem of this.itemRepository.startSet) {
       if (startItem.equip) {
-        this.commandFactory.createEquipItemCommand(startItem.item).execute(gameState);
+        this.commandFactory.createEquipItemCommand(startItem.item).execute(gameState, addEvent);
       }
     }
 
     gameState.start();
-    // game.started (used to be) a trigger for other subscribers (notably text-engine) to add their subscriptions after initialization
-    // TODO: move this text to an event published by gamestate when the game is started.
-    // gamestate will accumulate events to be flushed before returning...maybe
-    // eventChannel.publish(
-    //   'game.started',
-    //   {
-    //     banner: this.gameDefinitionRepository.gameDefinition.banner,
-    //     text: this.gameDefinitionRepository.gameDefinition.opening
-    //   }
-    // );
+    addEvent({
+      topic: 'game.started',
+      banner: this.gameDefinitionRepository.gameDefinition.banner,
+      message: this.gameDefinitionRepository.gameDefinition.opening
+    });
 
-    this.commandFactory.createTeleportCommand(this.mapNodeRepository.gameMap.entryNode.id).execute(gameState);
+    this.commandFactory.createTeleportCommand(this.mapNodeRepository.gameMap.entryNode.id).execute(gameState, addEvent);
   }
 }
 
