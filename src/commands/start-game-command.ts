@@ -51,17 +51,7 @@ export class StartGameCommand {
       }
     }
 
-    gameState.start();
-    // game.started (used to be) a trigger for other subscribers (notably text-engine) to add their subscriptions after initialization
-    // TODO: move this text to an event published by gamestate when the game is started.
-    // gamestate will accumulate events to be flushed before returning...maybe
-    // eventChannel.publish(
-    //   'game.started',
-    //   {
-    //     banner: this.gameDefinitionRepository.gameDefinition.banner,
-    //     text: this.gameDefinitionRepository.gameDefinition.opening
-    //   }
-    // );
+    gameState.start(this.gameDefinitionRepository.gameDefinition);
 
     this.commandFactory.createTeleportCommand(this.mapNodeRepository.gameMap.entryNode.id).execute(gameState);
   }

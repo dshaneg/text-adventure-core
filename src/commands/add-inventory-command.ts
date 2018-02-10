@@ -35,7 +35,7 @@ export class AddInventoryCommand implements Command {
 
   execute(gameState: GameState): void {
     for (const delta of this.deltas) {
-      gameState.player.inventory.add(delta.item, delta.count);
+      gameState.addInventory(delta.item, delta.count);
     }
   }
 }

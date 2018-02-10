@@ -10,11 +10,11 @@ export class StopGameCommand implements Command {
   /**
    * Create an instance of StopGameCommand.
    */
-  constructor() {
+  constructor(private force: boolean) {
   }
 
   execute(gameState: GameState): void {
-    gameState.stop();
+    gameState.stop(this.force);
   }
 }
 

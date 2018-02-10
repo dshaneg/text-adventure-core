@@ -22,20 +22,30 @@ export class GameEngine {
 
   handleInput(gameState: GameState, inputText: string): any {
     const command = this._parser.parse(inputText);
+    let message;
 
     if (command) {
       command.execute(gameState);
-
-      const availableDirections = gameState.queryAvailableDirections(this._mapNodeRepository.gameMap);
-      // return list of events from gamestate's new flushevents method
-      return {
-        locName: gameState.player.currentNode.name,
-        locDescription: gameState.player.currentNode.description,
-        moves: availableDirections
-      };
     }
     else {
-      // return bad parse error message
+      // this feels hacky. In the wrong place.
+      gameState.addEvent({
+        topic: 'parser.failed',
+        text: 'I didn\'t understand that.'
+      });
     }
+
+    const availableDirections = gameState.queryAvailableDirections(this._mapNodeRepository.gameMap);
+    const events = gameState.events;
+    gameState.flushEvents();
+
+    // return list of events from gamestate's new flushevents method
+    return {
+      command: inputText,
+      locName: gameState.player.currentNode.name,
+      locDescription: gameState.player.currentNode.description,
+      events: events,
+      moves: availableDirections
+    };
   }
 }

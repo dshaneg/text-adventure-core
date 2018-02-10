@@ -9,26 +9,56 @@ export class GameState {
   constructor(sessionToken: string) {
     const currentNode = new MapNode({ id: -1, name: 'the real world', description: [''], location: { x: 0, y: 0, z: 0 } });
 
-    this.sessionToken = sessionToken;
     this.player = new Player(currentNode);
+
+    this._sessionToken = sessionToken;
+    this._eventQueue = new Array<any>();
   }
 
   public get isStarted(): boolean {
     return this._started;
   }
 
+  private _eventQueue: Array<any>;
   private _started: boolean;
+  private _sessionToken: string;
 
   public player: Player;
 
-  public sessionToken: string;
-
-  start() {
-    this._started = true;
+  public addEvent(event: any) {
+    this._eventQueue.push(event);
   }
 
-  stop() {
-    this._started = false;
+  public get sessionToken(): string {
+    return this._sessionToken;
+  }
+
+  public get events(): Array<any> {
+    // I'd rather get a copy of the array, but this can slide for now.
+    return this._eventQueue;
+  }
+
+  flushEvents() {
+    this._eventQueue = new Array<any>();
+  }
+
+  start(gameDefinition: any) {
+    this._started = true;
+
+    this.addEvent({
+      topic: 'game.started',
+      banner: gameDefinition.banner,
+      text: gameDefinition.opening
+    });
+  }
+
+  stop(force: boolean) {
+    if (force) {
+      this._started = false;
+      this.addEvent({ topic: 'game.stopped', sessionToken: this._sessionToken });
+    } else {
+      this.addEvent({ topic: 'game.stop-requested', sessionToken: this._sessionToken });
+    }
   }
 
   tryMove(direction: string) {
@@ -49,6 +79,12 @@ export class GameState {
 
   queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
     return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
+  }
+
+  addInventory(item: any, count: number) {
+    this.player.inventory.add(item, count);
+
+    this.addEvent({ topic: 'player.inventory.added', item, count });
   }
 
   queryInventory() {

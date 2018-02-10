@@ -69,8 +69,8 @@ export class CommandFactory {
     return new StartGameCommand(this, repositorySet);
   }
 
-  createStopGameCommand() {
-    return new StopGameCommand();
+  createStopGameCommand(force: boolean) {
+    return new StopGameCommand(force);
   }
 
   createTeleportCommand(targetNodeId: number) {
