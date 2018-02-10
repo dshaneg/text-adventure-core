@@ -19,6 +19,6 @@ export class EquipItemCommand implements Command {
   private item: any;
 
   execute(gameState: GameState): void {
-    gameState.player.inventory.equip(this.item);
+    gameState.equip(this.item);
   }
 }

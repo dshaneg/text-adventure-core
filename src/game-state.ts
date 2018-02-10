@@ -77,6 +77,12 @@ export class GameState {
     }
   }
 
+  equip(item: any) {
+    this.player.inventory.equip(item);
+
+    this.addEvent({ topic: 'player.inventory.item-equipped', item });
+  }
+
   queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
     return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
   }
