@@ -35,20 +35,16 @@ export class GameState {
     this._started = false;
   }
 
-  tryMove(direction: string) {
+  tryMove(direction: string): boolean {
     const currentNode = this.player.currentNode;
     const successor = currentNode.getSuccessor(direction);
 
-    const directionName = getDirectionName(direction);
-
     if (successor) {
       this.player.currentNode = successor;
-    // } else {
-    //   eventChannel.publish(
-    //     'player.location.move-blocked',
-    //     { currentNode, direction: directionName }
-    //   );
+      return true;
     }
+
+    return false;
   }
 
   equip(item: any) {
@@ -65,24 +61,5 @@ export class GameState {
 
   queryInventory() {
     return this.player.inventory.getAll();
-  }
-}
-
-function getDirectionName(abbreviation: string) {
-  switch (abbreviation) {
-    case 'n':
-      return 'north';
-    case 's':
-      return 'south';
-    case 'e':
-      return 'east';
-    case 'w':
-      return 'west';
-    case 'u':
-      return 'up';
-    case 'd':
-      return 'down';
-    default:
-      return 'unknown';
   }
 }

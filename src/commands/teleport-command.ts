@@ -27,9 +27,17 @@ export class TeleportCommand implements Command {
       addEvent({
         topic: 'error',
         message: `Could not teleport. No node with id ${this.targetNodeId}.`
-    });
-
-    gameState.player.currentNode = targetNode;
+      });
+      return;
     }
+
+    const previousNode = gameState.player.currentNode;
+    gameState.player.currentNode = targetNode;
+
+    addEvent({
+      topic: 'player.location.teleported',
+      previousNode: { id: previousNode.id, name: previousNode.name, description: previousNode.description, location: previousNode.location },
+      currentNode: { id: targetNode.id, name: targetNode.name, description: targetNode.description, location: targetNode.location }
+    });
   }
 }
