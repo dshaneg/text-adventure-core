@@ -1,7 +1,5 @@
 'use strict';
 
-import { CommandFactory } from './commands/command-factory';
-
 import { GameState } from './game-state';
 import { Parser } from './parsers/parser';
 import { AddEventCall } from './commands/command';
@@ -21,6 +19,14 @@ export class GameEngine {
     return this.handleInput(gameState, 'start game');
   }
 
+  stopGame(gameState: GameState): any {
+    return this.handleInput(gameState, 'force stop game');
+  }
+
+  getAvailableDirections(gameState: GameState): Array<any> {
+    return gameState.queryAvailableDirections(this._mapNodeRepository.gameMap);
+  }
+
   handleInput(gameState: GameState, inputText: string): any {
     const eventQueue = new Array<any>();
     // couldn't pass eventQueue.push as the function to command.execute--v8 throws an error
@@ -34,7 +40,7 @@ export class GameEngine {
     else {
       addEvent({
         topic: 'parser.failed',
-        text: 'I didn\'t understand that.'
+        message: 'I didn\'t understand that. Type <<help>> if you\'re stuck.'
       });
     }
 

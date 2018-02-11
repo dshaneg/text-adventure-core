@@ -11,6 +11,7 @@ import { CommandFactory } from './commands/command-factory';
 
 import { GameManager } from './game-manager';
 import { GameEngine } from './game-engine';
+import { GameState } from './game-state';
 
 // command parsers
 import { MoveParser } from './parsers/move-parser';
@@ -24,7 +25,7 @@ import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
 
 export class TextAdventureCore {
-  static createGameManager(gameSessionRepository: GameSessionRepository) {
+  static createGameManager(gameSessionRepository: GameSessionRepository): GameManager {
     return new GameManager(gameSessionRepository);
   }
 
@@ -32,7 +33,7 @@ export class TextAdventureCore {
     gameDefinitionRepository: GameDefinitionRepository,
     mapNodeRepository: MapNodeRepository,
     itemRepository: ItemRepository,
-    debugMode: boolean = false) {
+    debugMode: boolean = false): GameEngine {
 
     const commandFactory = new CommandFactory(gameDefinitionRepository, mapNodeRepository, itemRepository);
 
@@ -42,7 +43,10 @@ export class TextAdventureCore {
   }
 
   static interfaces = {
-    GameSessionRepository
+    GameSessionRepository,
+    GameManager,
+    GameEngine,
+    GameState
   };
 
   static defaultImplementations = {

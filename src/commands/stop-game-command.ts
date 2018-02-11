@@ -16,7 +16,7 @@ export class StopGameCommand implements Command {
   execute(gameState: GameState, addEvent: AddEventCall): void {
     if (this.force) {
       gameState.stop();
-      addEvent({ topic: 'game.stopped', sessionToken: gameState.sessionToken });
+      addEvent({ topic: 'game.stopped', sessionToken: gameState.sessionToken, message: 'See you next time.' });
     } else {
       addEvent({ topic: 'game.stop-requested', sessionToken: gameState.sessionToken });
     }

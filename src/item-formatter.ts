@@ -4,11 +4,6 @@ import pluralize = require('pluralize');
 const numberConverter = require('number-to-words');
 
 export class ItemFormatter {
-  static formatDebugItem(item: any, count: number) {
-    const countText = count === 1 ? '' : ` x ${count}`;
-    return `${item.name}(${item.id})${countText}`;
-  }
-
   static formatListItem(item: any, count: number) {
     const countText = count === 1 ? '' : ` (${count})`;
     let itemName = item.name;

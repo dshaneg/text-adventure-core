@@ -41,6 +41,7 @@ export class MoveCommand implements Command {
       addEvent({
         topic: 'player.location.move-blocked',
         currentNode: { id: current.id, name: current.name, description: current.description, location: current.location },
+        message: `The way ${directionName} is not for you to travel.`,
         direction: directionName
       });
     }
