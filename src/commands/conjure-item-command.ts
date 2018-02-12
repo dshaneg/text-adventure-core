@@ -31,6 +31,7 @@ export class ConjureItemCommand implements Command {
 
     if (!item) {
       addEvent( { topic: 'error', message: `Could not conjure item ${this.itemId}. No such item exists.` });
+      return;
     }
 
     // in the future, I want to conjure items to a map location as well
