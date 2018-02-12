@@ -1,6 +1,6 @@
 {
   "name": "@dshaneg/text-adventure-core",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "an engine for a text-based adventure game",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
