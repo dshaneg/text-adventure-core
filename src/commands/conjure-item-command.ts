@@ -34,7 +34,13 @@ export class ConjureItemCommand implements Command {
     }
 
     // in the future, I want to conjure items to a map location as well
-    addEvent({ topic: 'item.conjured', item, count, target: 'inventory' });
+    addEvent({
+      topic: 'item.conjured',
+      message: 'The air begins to crackle with energy and suddenly something materializes in your hands...',
+      item,
+      count,
+      target: 'inventory'
+    });
 
     this.commandFactory.createAddInventoryCommand([{ item, count }]).execute(gameState, addEvent);
   }

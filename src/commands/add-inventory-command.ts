@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { ItemFormatter } from '../item-formatter';
 import { GameState } from '../game-state';
 
 /** Class representing a command instructing the game to add a list of item deltas to inventory.
@@ -36,7 +37,13 @@ export class AddInventoryCommand implements Command {
   execute(gameState: GameState, addEvent: AddEventCall): void {
     for (const delta of this.deltas) {
       gameState.addInventory(delta.item, delta.count);
-      addEvent({ topic: 'player.inventory.added', item: delta.item, count: delta.count });
+
+      addEvent({
+        topic: 'player.inventory.added',
+        message: `You add ${ItemFormatter.formatProseItem(delta.item, delta.count)} to your pack.`,
+        item: delta.item,
+        count: delta.count
+      });
     }
   }
 }

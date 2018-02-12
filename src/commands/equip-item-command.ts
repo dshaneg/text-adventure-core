@@ -21,6 +21,10 @@ export class EquipItemCommand implements Command {
   execute(gameState: GameState, addEvent: AddEventCall): void {
     gameState.equip(this.item);
 
-    addEvent({ topic: 'player.inventory.item-equipped', item: this.item });
+    addEvent({
+      topic: 'player.inventory.item-equipped',
+      message: `You equip the ${this.item.name}.`,
+      item: this.item
+    });
   }
 }
