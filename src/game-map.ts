@@ -6,12 +6,12 @@
 import { MapNode } from './map-node';
 
 export class GameMap {
-  constructor(nodeMap: Map<number, MapNode>, entryNodeId: number) {
-    this.nodeMap = nodeMap;
+  constructor(
+    private nodeMap: Map<number, MapNode>,
+    entryNodeId: number) {
     this._entryNode = this.nodeMap.get(entryNodeId);
   }
 
-  private nodeMap: Map<number, MapNode>;
 
   private _entryNode: MapNode;
   get entryNode(): MapNode { return this._entryNode; }

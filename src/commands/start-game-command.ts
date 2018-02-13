@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { Voice } from '../voice';
 import { GameState } from '../game-state';
 import { CommandFactory } from './command-factory';
 
@@ -18,15 +19,14 @@ export type RepositorySet = {
  * Class representing a command instructing the game to initialize and start.
  */
 export class StartGameCommand {
-  constructor(commandFactory: CommandFactory, repositorySet: RepositorySet) {
-    this.commandFactory = commandFactory;
+  constructor(
+    private commandFactory: CommandFactory,
+    repositorySet: RepositorySet) {
 
     this.itemRepository = repositorySet.itemRepository;
     this.gameDefinitionRepository = repositorySet.gameDefinitionRepository;
     this.mapNodeRepository = repositorySet.mapNodeRepository;
   }
-
-  private commandFactory: CommandFactory;
 
   private itemRepository: ItemRepository;
   private gameDefinitionRepository: GameDefinitionRepository;
@@ -37,23 +37,32 @@ export class StartGameCommand {
       return;
     }
 
+    const silentMode = true;
+
     // initialize starting inventory
-    this.commandFactory.createAddInventoryCommand(this.itemRepository.startSet).execute(gameState, addEvent);
+    this.commandFactory.createAddInventoryCommand(this.itemRepository.startSet, silentMode).execute(gameState, addEvent);
 
     for (const startItem of this.itemRepository.startSet) {
       if (startItem.equip) {
-        this.commandFactory.createEquipItemCommand(startItem.item).execute(gameState, addEvent);
+        this.commandFactory.createEquipItemCommand(startItem.item, silentMode).execute(gameState, addEvent);
       }
     }
 
-    gameState.start();
     addEvent({
-      topic: 'game.started',
-      banner: this.gameDefinitionRepository.gameDefinition.banner,
-      message: this.gameDefinitionRepository.gameDefinition.opening
+      topic: 'game.starting',
+      message: this.gameDefinitionRepository.gameDefinition.banner,
+      voice: Voice.herald
     });
 
-    this.commandFactory.createTeleportCommand(this.mapNodeRepository.gameMap.entryNode.id).execute(gameState, addEvent);
+    gameState.start();
+
+    addEvent({
+      topic: 'game.started',
+      message: this.gameDefinitionRepository.gameDefinition.opening,
+      voice: Voice.bard
+    });
+
+    this.commandFactory.createTeleportCommand(this.mapNodeRepository.gameMap.entryNode.id, true).execute(gameState, addEvent);
   }
 }
 

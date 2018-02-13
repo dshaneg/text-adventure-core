@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { Voice } from '../voice';
 import { ItemFormatter } from '../item-formatter';
 import { GameState } from '../game-state';
 
@@ -16,11 +17,8 @@ export class AddInventoryCommand implements Command {
    *
    * @memberOf AddInventoryCommand
    */
-  constructor(deltas: Array<{ item: any, count: number }>) {
-    this.deltas = deltas;
+  constructor(private deltas: Array<{ item: any, count: number }>, private silent: boolean = false) {
   }
-
-  private deltas: Array<{ item: any, count: number }>;
 
   /**
    * Adds an item delta (item and acount) to the command.
@@ -41,6 +39,7 @@ export class AddInventoryCommand implements Command {
       addEvent({
         topic: 'player.inventory.added',
         message: `You add ${ItemFormatter.formatProseItem(delta.item, delta.count)} to your pack.`,
+        voice: this.silent ? Voice.mute : Voice.bard,
         item: delta.item,
         count: delta.count
       });

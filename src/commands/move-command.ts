@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { Voice } from '../voice';
 import { GameState } from '../game-state';
 
 /**
@@ -15,11 +16,8 @@ export class MoveCommand implements Command {
    *
    * @memberOf ConjureItemCommand
    */
-  constructor(direction: string) {
-    this.direction = direction;
+  constructor(private direction: string) {
   }
-
-  private direction: string;
 
   execute(gameState: GameState, addEvent: AddEventCall): void {
     const previous = gameState.player.currentNode;
@@ -33,15 +31,18 @@ export class MoveCommand implements Command {
     if (moved) {
       addEvent({
         topic: 'player.location.moved',
-        previousNode: { id: previous.id, name: previous.name, description: previous.description, location: previous.location },
-        currentNode: { id: current.id, name: current.name, description: current.description, location: current.location },
+        message: current.description,
+        voice: Voice.bard,
+        previousNode: { id: previous.id, name: previous.name, location: previous.location },
+        currentNode: { id: current.id, name: current.name, location: current.location },
         direction: directionName
       });
     } else {
       addEvent({
         topic: 'player.location.move-blocked',
-        currentNode: { id: current.id, name: current.name, description: current.description, location: current.location },
         message: `The way ${directionName} is not for you to travel.`,
+        voice: Voice.gamemaster,
+        currentNode: { id: current.id, name: current.name, location: current.location },
         direction: directionName
       });
     }

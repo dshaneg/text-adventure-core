@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { Voice } from '../voice';
 import { GameState } from '../game-state';
 import { ItemFormatter } from '../item-formatter';
 
@@ -8,9 +9,6 @@ import { ItemFormatter } from '../item-formatter';
  * Class representing a command instructing the game to provide the contents of the player's inventory.
  */
 export class ListInventoryCommand implements Command {
-
-  constructor() {
-  }
 
   execute(gameState: GameState, addEvent: AddEventCall): void {
     const items = gameState.queryInventory();
@@ -31,6 +29,7 @@ export class ListInventoryCommand implements Command {
     addEvent({
       topic: 'player.inventory.list-requested',
       message,
+      voice: Voice.gamemaster,
       items
     });
   }

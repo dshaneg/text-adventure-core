@@ -24,6 +24,8 @@ import { StopGameParser } from './parsers/stop-game-parser';
 import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
 
+export { Voice } from './voice';
+
 export class TextAdventureCore {
   static createGameManager(gameSessionRepository: GameSessionRepository): GameManager {
     return new GameManager(gameSessionRepository);

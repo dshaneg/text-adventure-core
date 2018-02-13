@@ -1,19 +1,17 @@
 'use strict';
 
 import { GameState } from './game-state';
+import { Voice } from './voice';
 import { Parser } from './parsers/parser';
 import { AddEventCall } from './commands/command';
 import { MapNodeRepository } from './map-node-repository';
 
 // game command handlers
 export class GameEngine {
-  constructor(parser: Parser, mapNodeRepository: MapNodeRepository) {
-    this._parser = parser;
-    this._mapNodeRepository = mapNodeRepository;
+  constructor(
+    private parser: Parser,
+    private mapNodeRepository: MapNodeRepository) {
   }
-
-  private _parser: Parser;
-  private _mapNodeRepository: MapNodeRepository;
 
   startGame(gameState: GameState): any {
     return this.handleInput(gameState, 'start game');
@@ -24,7 +22,7 @@ export class GameEngine {
   }
 
   getAvailableDirections(gameState: GameState): Array<any> {
-    return gameState.queryAvailableDirections(this._mapNodeRepository.gameMap);
+    return gameState.queryAvailableDirections(this.mapNodeRepository.gameMap);
   }
 
   handleInput(gameState: GameState, inputText: string): any {
@@ -32,7 +30,7 @@ export class GameEngine {
     // couldn't pass eventQueue.push as the function to command.execute--v8 throws an error
     const addEvent: AddEventCall = (event: any): void => { eventQueue.push(event); };
 
-    const command = this._parser.parse(inputText);
+    const command = this.parser.parse(inputText);
 
     if (command) {
       command.execute(gameState, addEvent);
@@ -40,23 +38,11 @@ export class GameEngine {
     else {
       addEvent({
         topic: 'parser.failed',
-        message: 'I didn\'t understand that. Type <<help>> if you\'re stuck.'
+        message: 'Huh? I didn\'t understand that. Type <<help>> if you\'re stuck.',
+        voice: Voice.gamemaster
       });
     }
 
     return { command: inputText, events: eventQueue };
-
-    // const availableDirections = gameState.queryAvailableDirections(this._mapNodeRepository.gameMap);
-    // return list of events from gamestate's new flushevents method
-    // const currentNode = gameState.player.currentNode;
-
-    // return {
-    //   command: inputText,
-    //   locName: currentNode.name,
-    //   locDescription: currentNode.description,
-    //   locVisited: gameState.player.visited(currentNode),
-    //   events: events,
-    //   moves: availableDirections
-    // };
   }
 }
