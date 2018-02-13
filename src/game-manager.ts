@@ -4,10 +4,7 @@ import { GameSessionRepository } from './game-session-repository';
 import { GameState } from './game-state';
 
 export class GameManager {
-  private gameSessionRepository: GameSessionRepository;
-
-  constructor(gameSessionRepository: any) {
-    this.gameSessionRepository = gameSessionRepository;
+  constructor(private gameSessionRepository: any) {
   }
 
   createGame() {

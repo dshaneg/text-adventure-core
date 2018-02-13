@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { Voice } from '../voice';
 import { GameState } from '../game-state';
 import { GameDefinitionRepository } from '../game-definition-repository';
 
@@ -17,7 +18,8 @@ export class HelpCommand implements Command {
   execute(gameState: GameState, addEvent: AddEventCall): void {
     addEvent({
       topic: 'game.help-requested',
-      message: this.gameDefinitionRepository.gameDefinition.help
+      message: this.gameDefinitionRepository.gameDefinition.help,
+      voice: Voice.gamemaster
     });
   }
 }

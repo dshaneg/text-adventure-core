@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { Voice } from '../voice';
 import { GameState } from '../game-state';
 import { GameMap } from '../game-map';
 
@@ -12,13 +13,11 @@ export class TeleportCommand implements Command {
   /**
    * Create an instance of StartCommand.
    */
-  constructor(map: GameMap, targetNodeId: number) {
-    this.map = map;
-    this.targetNodeId = targetNodeId;
+  constructor(
+    private map: GameMap,
+    private targetNodeId: number,
+    private silent: boolean = false) {
   }
-
-  private map: GameMap;
-  private targetNodeId: number;
 
   execute(gameState: GameState, addEvent: AddEventCall): void {
     const targetNode = this.map.get(this.targetNodeId);
@@ -26,7 +25,8 @@ export class TeleportCommand implements Command {
     if (!targetNode) {
       addEvent({
         topic: 'error',
-        message: `Could not teleport. No node with id ${this.targetNodeId}.`
+        message: `Could not teleport. No node with id ${this.targetNodeId}.`,
+        voice: Voice.warden
       });
       return;
     }
@@ -35,9 +35,18 @@ export class TeleportCommand implements Command {
     gameState.player.currentNode = targetNode;
 
     addEvent({
-      topic: 'player.location.teleported',
-      previousNode: { id: previousNode.id, name: previousNode.name, description: previousNode.description, location: previousNode.location },
-      currentNode: { id: targetNode.id, name: targetNode.name, description: targetNode.description, location: targetNode.location }
+      topic: 'player.location.teleporting',
+      message: 'Your eyesight begins to swim and you feel a strong tug at the base of your stomach...',
+      voice: this.silent ? Voice.mute : Voice.bard
+    });
+
+    addEvent({
+      topic: 'player.location.moved',
+      message: targetNode.description,
+      voice: Voice.bard,
+      previousNode: { id: previousNode.id, name: previousNode.name, location: previousNode.location },
+      currentNode: { id: targetNode.id, name: targetNode.name, location: targetNode.location },
+      direction: 'teleport'
     });
   }
 }

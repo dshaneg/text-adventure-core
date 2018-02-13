@@ -1,6 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
+import { Voice } from '../voice';
 import { GameState } from '../game-state';
 
 const topic = 'player.inventory.equip-item';
@@ -12,18 +13,18 @@ export class EquipItemCommand implements Command {
   /**
    * Create an instance of EquipItemCommand.
    */
-  constructor(item: any) {
-    this.item = item;
+  constructor(
+    private item: any,
+    private silent: boolean = false) {
   }
 
-  private item: any;
-
-  execute(gameState: GameState, addEvent: AddEventCall): void {
+  execute(gameState: GameState, addEvent: AddEventCall, silent: boolean = false): void {
     gameState.equip(this.item);
 
     addEvent({
       topic: 'player.inventory.item-equipped',
       message: `You equip the ${this.item.name}.`,
+      voice: this.silent ? Voice.mute : Voice.bard,
       item: this.item
     });
   }

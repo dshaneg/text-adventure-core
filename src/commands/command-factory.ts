@@ -22,29 +22,21 @@ import { GameMap } from '../game-map';
 export class CommandFactory {
 
   constructor(
-    gameDefinitionRepository: GameDefinitionRepository,
-    mapNodeRepository: MapNodeRepository,
-    itemRepository: ItemRepository) {
-
-    this.gameDefinitionRepository = gameDefinitionRepository;
-    this.mapNodeRepository = mapNodeRepository;
-    this.itemRepository = itemRepository;
+    private gameDefinitionRepository: GameDefinitionRepository,
+    private mapNodeRepository: MapNodeRepository,
+    private itemRepository: ItemRepository) {
   }
 
-  private gameDefinitionRepository: GameDefinitionRepository;
-  private mapNodeRepository: MapNodeRepository;
-  private itemRepository: ItemRepository;
-
-  createAddInventoryCommand(deltas: Array<{ item: any, count: number }>) {
-    return new AddInventoryCommand(deltas);
+  createAddInventoryCommand(deltas: Array<{ item: any, count: number }>, silent: boolean = false) {
+    return new AddInventoryCommand(deltas, silent);
   }
 
   createConjureItemHandlerCommand(itemId: number, count: number) {
     return new ConjureItemCommand(this, this.itemRepository, itemId, count);
   }
 
-  createEquipItemCommand(item: any) {
-    return new EquipItemCommand(item);
+  createEquipItemCommand(item: any, silent: boolean = false) {
+    return new EquipItemCommand(item, silent);
   }
 
   createHelpCommand() {
@@ -73,7 +65,7 @@ export class CommandFactory {
     return new StopGameCommand(force);
   }
 
-  createTeleportCommand(targetNodeId: number) {
-    return new TeleportCommand(this.mapNodeRepository.gameMap, targetNodeId);
+  createTeleportCommand(targetNodeId: number, silent: boolean = false) {
+    return new TeleportCommand(this.mapNodeRepository.gameMap, targetNodeId, silent);
   }
 }
