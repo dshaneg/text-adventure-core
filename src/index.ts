@@ -25,6 +25,10 @@ import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
 
 export { Voice } from './voice';
+export { GameManager } from './game-manager';
+export { GameEngine } from './game-engine';
+export { GameState } from './game-state';
+export { GameSessionRepository } from './game-session-repository';
 
 export class TextAdventureCore {
   static createGameManager(gameSessionRepository: GameSessionRepository): GameManager {
@@ -43,13 +47,6 @@ export class TextAdventureCore {
 
     return new GameEngine(parser, mapNodeRepository);
   }
-
-  static interfaces = {
-    GameSessionRepository,
-    GameManager,
-    GameEngine,
-    GameState
-  };
 
   static defaultImplementations = {
     GameSessionRepositoryMem,
