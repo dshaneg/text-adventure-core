@@ -39,7 +39,7 @@ export class AddInventoryCommand implements Command {
       addEvent({
         topic: 'player.inventory.added',
         message: `You add ${ItemFormatter.formatProseItem(delta.item, delta.count)} to your pack.`,
-        voice: this.silent ? Voice.mute : Voice.bard,
+        voice: this.silent ? Voice.mute : Voice.gamemaster,
         item: delta.item,
         count: delta.count
       });

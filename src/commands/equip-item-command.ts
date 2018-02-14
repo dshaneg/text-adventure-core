@@ -24,7 +24,7 @@ export class EquipItemCommand implements Command {
     addEvent({
       topic: 'player.inventory.item-equipped',
       message: `You equip the ${this.item.name}.`,
-      voice: this.silent ? Voice.mute : Voice.bard,
+      voice: this.silent ? Voice.mute : Voice.gamemaster,
       item: this.item
     });
   }
