@@ -1,4 +1,4 @@
-import { TextAdventureCore as Core } from './index';
+import { TextAdventureCore as Core } from '../index';
 
 // repositories
 const gameDefinitionRepository = new Core.defaultImplementations.GameDefinitionRepository();
