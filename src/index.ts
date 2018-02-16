@@ -3,9 +3,14 @@
 import { GameSessionRepository } from './game-session-repository';
 import { GameSessionRepositoryMem } from './impl/game-session-repository-mem';
 
-import { GameDefinitionRepository } from './game-definition-repository';
+import { MapNodeRepository } from './map-node-repository';
 import { MapNodeRepositoryDefault } from './impl/map-node-repository-default';
+
+import { ItemRepository } from './item-repository';
 import { ItemRepositoryDefault } from './impl/item-repository-default';
+
+import { GameDefinitionRepository, GameDefinition } from './game-definition-repository';
+import { GameDefinitionRepositoryDefault } from './impl/game-definition-repository-default';
 
 import { CommandFactory } from './commands/command-factory';
 
@@ -24,17 +29,17 @@ import { StopGameParser } from './parsers/stop-game-parser';
 import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
 
-export { Voice } from './voice';
+// interface exports
 export { GameManager } from './game-manager';
+export { GameSessionRepository } from './game-session-repository';
+export { MapNodeRepository } from './map-node-repository';
+export { ItemRepository } from './item-repository';
+export { GameDefinitionRepository, GameDefinition } from './game-definition-repository';
+
+// class exports
+export { Voice } from './voice';
 export { GameEngine } from './game-engine';
 export { GameState } from './state/game-state';
-
-// interfaces
-export { GameSessionRepository } from './game-session-repository';
-import { MapNodeRepository } from './map-node-repository';
-export { MapNodeRepository } from './map-node-repository';
-import { ItemRepository } from './item-repository';
-export { ItemRepository } from './item-repository';
 
 export class TextAdventureCore {
   static createGameManager(gameSessionRepository: GameSessionRepository): GameManager {
@@ -55,10 +60,10 @@ export class TextAdventureCore {
   }
 
   static defaultImplementations = {
-    GameSessionRepositoryMem,
-    ItemRepositoryDefault,
-    GameDefinitionRepository,
-    MapNodeRepositoryDefault
+    GameSessionRepository: GameSessionRepositoryMem,
+    ItemRepository: ItemRepositoryDefault,
+    GameDefinitionRepository: GameDefinitionRepositoryDefault,
+    MapNodeRepository: MapNodeRepositoryDefault
   };
 }
 

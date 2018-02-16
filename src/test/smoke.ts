@@ -2,10 +2,10 @@ import { TextAdventureCore as Core } from '../index';
 
 // repositories
 const gameDefinitionRepository = new Core.defaultImplementations.GameDefinitionRepository();
-const mapNodeRepository = new Core.defaultImplementations.MapNodeRepositoryDefault();
-const itemRepository = new Core.defaultImplementations.ItemRepositoryDefault();
+const mapNodeRepository = new Core.defaultImplementations.MapNodeRepository();
+const itemRepository = new Core.defaultImplementations.ItemRepository();
 
-const gameSessionRepository = new Core.defaultImplementations.GameSessionRepositoryMem();
+const gameSessionRepository = new Core.defaultImplementations.GameSessionRepository();
 
 const gameState = Core.createGameManager(gameSessionRepository).createGame();
 const gameEngine = Core.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, true);

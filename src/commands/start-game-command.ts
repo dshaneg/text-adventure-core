@@ -6,7 +6,7 @@ import { GameState } from '../state/game-state';
 import { CommandFactory } from './command-factory';
 
 import { ItemRepository } from '../item-repository';
-import { GameDefinitionRepository } from '../game-definition-repository';
+import { GameDefinitionRepository, GameDefinition } from '../game-definition-repository';
 import { MapNodeRepository } from '../map-node-repository';
 
 export type RepositorySet = {
@@ -52,7 +52,7 @@ export class StartGameCommand {
 
     addEvent({
       topic: 'game.starting',
-      message: this.gameDefinitionRepository.gameDefinition.banner,
+      message: this.gameDefinitionRepository.getGameDefinition().banner,
       voice: Voice.herald
     });
 
@@ -60,7 +60,7 @@ export class StartGameCommand {
 
     addEvent({
       topic: 'game.started',
-      message: this.gameDefinitionRepository.gameDefinition.opening,
+      message: this.gameDefinitionRepository.getGameDefinition().opening,
       voice: Voice.bard
     });
 

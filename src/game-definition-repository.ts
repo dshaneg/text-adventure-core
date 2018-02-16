@@ -1,25 +1,7 @@
 'use strict';
 
-const gameDefinitionRaw = require('../game/game');
+export type GameDefinition = { banner: string, opening: string, help: string };
 
-export class GameDefinitionRepository {
-  private _gameDefinition: any;
-
-  get gameDefinition() {
-    if (!this._gameDefinition) {
-      this._gameDefinition = createGameDefinition(gameDefinitionRaw);
-    }
-    return this._gameDefinition;
-  }
+export interface GameDefinitionRepository {
+  getGameDefinition(): GameDefinition;
 }
-
-function createGameDefinition(definition: any) {
-  const def = {
-    banner: definition.banner.join('\n'),
-    opening: definition.opening.join('\n'),
-    help: definition.help.join('\n')
-  };
-
-  return def;
-}
-
