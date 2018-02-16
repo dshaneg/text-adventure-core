@@ -1,7 +1,7 @@
 'use strict';
 
 import { GameSessionRepository } from './game-session-repository';
-import { GameSessionRepositoryMem } from './game-session-repository-mem';
+import { GameSessionRepositoryMem } from './impl/game-session-repository-mem';
 
 import { GameDefinitionRepository } from './game-definition-repository';
 import { MapNodeRepository } from './map-node-repository';
