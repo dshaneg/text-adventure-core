@@ -1,6 +1,6 @@
 'use strict';
 
-import { GameMap } from './game-map';
+import { GameMap } from './domain/game-map';
 
 export interface MapNodeRepository {
   getMap(): GameMap;

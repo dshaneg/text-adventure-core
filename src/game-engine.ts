@@ -1,7 +1,7 @@
 'use strict';
 
 import { GameState } from './state/game-state';
-import { Voice } from './voice';
+import { Voice } from './domain/voice';
 import { Parser } from './parsers/parser';
 import { AddEventCall } from './commands/command';
 import { MapNodeRepository } from './map-node-repository';

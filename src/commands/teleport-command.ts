@@ -1,9 +1,9 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
-import { Voice } from '../voice';
+import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
-import { GameMap } from '../game-map';
+import { GameMap } from '../domain/game-map';
 
 /**
  * Class representing a command to send a player to a node that is not necessarily adjacent to the current node.

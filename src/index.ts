@@ -37,7 +37,7 @@ export { ItemRepository } from './item-repository';
 export { GameDefinitionRepository, GameDefinition } from './game-definition-repository';
 
 // class exports
-export { Voice } from './voice';
+export { Voice } from './domain/voice';
 export { GameEngine } from './game-engine';
 export { GameState } from './state/game-state';
 

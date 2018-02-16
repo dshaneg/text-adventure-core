@@ -1,7 +1,7 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
-import { Voice } from '../voice';
+import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 
 const topic = 'player.inventory.equip-item';

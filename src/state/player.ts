@@ -1,6 +1,6 @@
 'use strict';
 
-import { MapNode } from '../map-node';
+import { MapNode } from '../domain/map-node';
 import { Inventory } from './inventory';
 import { PlayerMapNode } from './player-map-node';
 

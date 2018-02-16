@@ -1,7 +1,7 @@
 'use strict';
 
-import { MapNode } from '../map-node';
-import { GameMap } from '../game-map';
+import { MapNode } from '../domain/map-node';
+import { GameMap } from '../domain/game-map';
 import { Player } from './player';
 import { EdgeState } from './player-map-node';
 

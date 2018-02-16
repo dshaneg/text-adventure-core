@@ -5,8 +5,8 @@
 
 const mapDefinition = require('../../game/map');
 import { MapNodeRepository } from '../map-node-repository';
-import { GameMap } from '../game-map';
-import { MapNode } from '../map-node';
+import { GameMap } from '../domain/game-map';
+import { MapNode } from '../domain/map-node';
 
 export class MapNodeRepositoryDefault implements MapNodeRepository {
 
