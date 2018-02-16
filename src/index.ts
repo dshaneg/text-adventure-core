@@ -5,7 +5,7 @@ import { GameSessionRepositoryMem } from './impl/game-session-repository-mem';
 
 import { GameDefinitionRepository } from './game-definition-repository';
 import { MapNodeRepositoryDefault } from './impl/map-node-repository-default';
-import { ItemRepository } from './item-repository';
+import { ItemRepositoryDefault } from './impl/item-repository-default';
 
 import { CommandFactory } from './commands/command-factory';
 
@@ -33,6 +33,8 @@ export { GameState } from './state/game-state';
 export { GameSessionRepository } from './game-session-repository';
 import { MapNodeRepository } from './map-node-repository';
 export { MapNodeRepository } from './map-node-repository';
+import { ItemRepository } from './item-repository';
+export { ItemRepository } from './item-repository';
 
 export class TextAdventureCore {
   static createGameManager(gameSessionRepository: GameSessionRepository): GameManager {
@@ -54,7 +56,7 @@ export class TextAdventureCore {
 
   static defaultImplementations = {
     GameSessionRepositoryMem,
-    ItemRepository,
+    ItemRepositoryDefault,
     GameDefinitionRepository,
     MapNodeRepositoryDefault
   };

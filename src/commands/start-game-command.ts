@@ -5,7 +5,7 @@ import { Voice } from '../voice';
 import { GameState } from '../state/game-state';
 import { CommandFactory } from './command-factory';
 
-import { ItemRepository, StartItemDef } from '../item-repository';
+import { ItemRepository } from '../item-repository';
 import { GameDefinitionRepository } from '../game-definition-repository';
 import { MapNodeRepository } from '../map-node-repository';
 
@@ -40,9 +40,11 @@ export class StartGameCommand {
     const silentMode = true;
 
     // initialize starting inventory
-    this.commandFactory.createAddInventoryCommand(this.itemRepository.startSet, silentMode).execute(gameState, addEvent);
+    const startSet = this.itemRepository.getStartSet();
 
-    for (const startItem of this.itemRepository.startSet) {
+    this.commandFactory.createAddInventoryCommand(startSet, silentMode).execute(gameState, addEvent);
+
+    for (const startItem of startSet) {
       if (startItem.equip) {
         this.commandFactory.createEquipItemCommand(startItem.item, silentMode).execute(gameState, addEvent);
       }
