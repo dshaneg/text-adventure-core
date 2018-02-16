@@ -15,7 +15,6 @@ export class GameDefinitionRepository {
 
 function createGameDefinition(definition: any) {
   const def = {
-    style: definition.style,
     banner: definition.banner.join('\n'),
     opening: definition.opening.join('\n'),
     help: definition.help.join('\n')
