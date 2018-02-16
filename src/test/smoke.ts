@@ -33,5 +33,8 @@ debug(response);
 
 function debug(response: any) {
   console.log('==============================================');
-  console.log(JSON.stringify(response, null, 2));
+  console.log(`input: ${response.command}`);
+  response.events.forEach((event: any) => {
+    console.log(JSON.stringify(event, null));
+  });
 }
