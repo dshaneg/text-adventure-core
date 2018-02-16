@@ -1,7 +1,7 @@
 'use strict';
 
-import { MapNode } from './map-node';
-import { GameMap } from './game-map';
+import { MapNode } from '../map-node';
+import { GameMap } from '../game-map';
 import { GameState } from './game-state';
 
 const directionValues = new Map([

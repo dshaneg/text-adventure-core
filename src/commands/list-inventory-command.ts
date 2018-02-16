@@ -2,7 +2,7 @@
 
 import { Command, AddEventCall } from './command';
 import { Voice } from '../voice';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 import { ItemFormatter } from '../item-formatter';
 
 /**

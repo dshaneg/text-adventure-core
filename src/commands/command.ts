@@ -1,6 +1,6 @@
 'use strict';
 
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 export type AddEventCall = (event: any) => void;
 

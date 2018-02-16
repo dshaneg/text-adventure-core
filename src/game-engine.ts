@@ -1,6 +1,6 @@
 'use strict';
 
-import { GameState } from './game-state';
+import { GameState } from './state/game-state';
 import { Voice } from './voice';
 import { Parser } from './parsers/parser';
 import { AddEventCall } from './commands/command';

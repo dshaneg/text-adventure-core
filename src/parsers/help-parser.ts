@@ -3,7 +3,7 @@
 import { Parser } from './parser';
 import { CommandFactory } from '../commands/command-factory';
 import { HelpCommand } from '../commands/help-command';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 const verbSynonyms = ['help', 'h'];
 

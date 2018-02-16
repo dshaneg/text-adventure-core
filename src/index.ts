@@ -11,7 +11,7 @@ import { CommandFactory } from './commands/command-factory';
 
 import { GameManager } from './game-manager';
 import { GameEngine } from './game-engine';
-import { GameState } from './game-state';
+import { GameState } from './state/game-state';
 
 // command parsers
 import { MoveParser } from './parsers/move-parser';
@@ -27,7 +27,7 @@ import { ConjureItemParser } from './parsers/conjure-item-parser';
 export { Voice } from './voice';
 export { GameManager } from './game-manager';
 export { GameEngine } from './game-engine';
-export { GameState } from './game-state';
+export { GameState } from './state/game-state';
 export { GameSessionRepository } from './game-session-repository';
 
 export class TextAdventureCore {

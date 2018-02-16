@@ -2,7 +2,7 @@
 
 import { Command } from '../commands/command';
 import { CommandFactory } from '../commands/command-factory';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 export abstract class Parser {
   constructor(protected commandFactory: CommandFactory) {

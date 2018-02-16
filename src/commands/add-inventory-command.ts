@@ -3,7 +3,7 @@
 import { Command, AddEventCall } from './command';
 import { Voice } from '../voice';
 import { ItemFormatter } from '../item-formatter';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 /** Class representing a command instructing the game to add a list of item deltas to inventory.
  * Item deltas consist of an item and a count.

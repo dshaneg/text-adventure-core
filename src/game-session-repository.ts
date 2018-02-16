@@ -1,4 +1,4 @@
-import { GameState } from './game-state';
+import { GameState } from './state/game-state';
 import uuid = require('uuid');
 
 export abstract class GameSessionRepository {
