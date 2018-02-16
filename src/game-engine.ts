@@ -22,7 +22,7 @@ export class GameEngine {
   }
 
   getAvailableDirections(gameState: GameState): Array<any> {
-    return gameState.queryAvailableDirections(this.mapNodeRepository.gameMap);
+    return gameState.queryAvailableDirections(this.mapNodeRepository.getMap());
   }
 
   handleInput(gameState: GameState, inputText: string): any {

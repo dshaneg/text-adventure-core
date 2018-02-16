@@ -62,7 +62,7 @@ export class StartGameCommand {
       voice: Voice.bard
     });
 
-    this.commandFactory.createTeleportCommand(this.mapNodeRepository.gameMap.entryNode.id, true).execute(gameState, addEvent);
+    this.commandFactory.createTeleportCommand(this.mapNodeRepository.getMap().entryNode.id, true).execute(gameState, addEvent);
   }
 }
 

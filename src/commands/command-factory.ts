@@ -66,6 +66,6 @@ export class CommandFactory {
   }
 
   createTeleportCommand(targetNodeId: number, silent: boolean = false) {
-    return new TeleportCommand(this.mapNodeRepository.gameMap, targetNodeId, silent);
+    return new TeleportCommand(this.mapNodeRepository.getMap(), targetNodeId, silent);
   }
 }
