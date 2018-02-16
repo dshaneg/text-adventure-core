@@ -1,7 +1,7 @@
 'use strict';
 
-import { GameSessionRepository } from './game-session-repository';
-import { GameState } from './game-state';
+import { GameSessionRepository } from '../game-session-repository';
+import { GameState } from '../state/game-state';
 
 export class GameSessionRepositoryMem extends GameSessionRepository {
   constructor() {

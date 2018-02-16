@@ -3,7 +3,7 @@
 import { Parser } from './parser';
 import { CommandFactory } from '../commands/command-factory';
 import { StopGameCommand } from '../commands/stop-game-command';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 const verbSynonyms = ['quit', 'q', 'exit', 'bye', 'leave'];
 

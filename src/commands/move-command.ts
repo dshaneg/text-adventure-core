@@ -1,8 +1,8 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
-import { Voice } from '../voice';
-import { GameState } from '../game-state';
+import { Voice } from '../domain/voice';
+import { GameState } from '../state/game-state';
 
 /**
  * Class representing a command instructing the game conjure an item from the nether.

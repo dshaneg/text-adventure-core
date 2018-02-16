@@ -1,7 +1,7 @@
 'use strict';
 
 import { GameSessionRepository } from './game-session-repository';
-import { GameState } from './game-state';
+import { GameState } from './state/game-state';
 
 export class GameManager {
   constructor(private gameSessionRepository: any) {

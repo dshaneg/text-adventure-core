@@ -3,7 +3,7 @@
 import { Parser } from './parser';
 import { CommandFactory } from '../commands/command-factory';
 import { ListInventoryCommand } from '../commands/list-inventory-command';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 const verbSynonyms = ['inventory', 'inv', 'i'];
 

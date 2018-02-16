@@ -1,11 +1,11 @@
-import { TextAdventureCore as Core } from './index';
+import { TextAdventureCore as Core } from '../index';
 
 // repositories
 const gameDefinitionRepository = new Core.defaultImplementations.GameDefinitionRepository();
 const mapNodeRepository = new Core.defaultImplementations.MapNodeRepository();
 const itemRepository = new Core.defaultImplementations.ItemRepository();
 
-const gameSessionRepository = new Core.defaultImplementations.GameSessionRepositoryMem();
+const gameSessionRepository = new Core.defaultImplementations.GameSessionRepository();
 
 const gameState = Core.createGameManager(gameSessionRepository).createGame();
 const gameEngine = Core.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, true);
@@ -33,5 +33,8 @@ debug(response);
 
 function debug(response: any) {
   console.log('==============================================');
-  console.log(JSON.stringify(response, null, 2));
+  console.log(`input: ${response.command}`);
+  response.events.forEach((event: any) => {
+    console.log(JSON.stringify(event, null));
+  });
 }

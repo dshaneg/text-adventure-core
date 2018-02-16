@@ -1,8 +1,8 @@
 'use strict';
 
 import { Command, AddEventCall } from './command';
-import { Voice } from '../voice';
-import { GameState } from '../game-state';
+import { Voice } from '../domain/voice';
+import { GameState } from '../state/game-state';
 import { CommandFactory } from './command-factory';
 
 import { ItemRepository } from '../item-repository';

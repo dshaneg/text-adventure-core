@@ -1,7 +1,7 @@
 'use strict';
 
-import { GameState } from './game-state';
-import { Voice } from './voice';
+import { GameState } from './state/game-state';
+import { Voice } from './domain/voice';
 import { Parser } from './parsers/parser';
 import { AddEventCall } from './commands/command';
 import { MapNodeRepository } from './map-node-repository';
@@ -22,7 +22,7 @@ export class GameEngine {
   }
 
   getAvailableDirections(gameState: GameState): Array<any> {
-    return gameState.queryAvailableDirections(this.mapNodeRepository.gameMap);
+    return gameState.queryAvailableDirections(this.mapNodeRepository.getMap());
   }
 
   handleInput(gameState: GameState, inputText: string): any {

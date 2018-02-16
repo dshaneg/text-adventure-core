@@ -1,17 +1,22 @@
 'use strict';
 
 import { GameSessionRepository } from './game-session-repository';
-import { GameSessionRepositoryMem } from './game-session-repository-mem';
+import { GameSessionRepositoryMem } from './impl/game-session-repository-mem';
 
-import { GameDefinitionRepository } from './game-definition-repository';
 import { MapNodeRepository } from './map-node-repository';
+import { MapNodeRepositoryDefault } from './impl/map-node-repository-default';
+
 import { ItemRepository } from './item-repository';
+import { ItemRepositoryDefault } from './impl/item-repository-default';
+
+import { GameDefinitionRepository, GameDefinition } from './game-definition-repository';
+import { GameDefinitionRepositoryDefault } from './impl/game-definition-repository-default';
 
 import { CommandFactory } from './commands/command-factory';
 
 import { GameManager } from './game-manager';
 import { GameEngine } from './game-engine';
-import { GameState } from './game-state';
+import { GameState } from './state/game-state';
 
 // command parsers
 import { MoveParser } from './parsers/move-parser';
@@ -24,11 +29,17 @@ import { StopGameParser } from './parsers/stop-game-parser';
 import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
 
-export { Voice } from './voice';
+// interface exports
 export { GameManager } from './game-manager';
-export { GameEngine } from './game-engine';
-export { GameState } from './game-state';
 export { GameSessionRepository } from './game-session-repository';
+export { MapNodeRepository } from './map-node-repository';
+export { ItemRepository } from './item-repository';
+export { GameDefinitionRepository, GameDefinition } from './game-definition-repository';
+
+// class exports
+export { Voice } from './domain/voice';
+export { GameEngine } from './game-engine';
+export { GameState } from './state/game-state';
 
 export class TextAdventureCore {
   static createGameManager(gameSessionRepository: GameSessionRepository): GameManager {
@@ -49,10 +60,10 @@ export class TextAdventureCore {
   }
 
   static defaultImplementations = {
-    GameSessionRepositoryMem,
-    ItemRepository,
-    GameDefinitionRepository,
-    MapNodeRepository
+    GameSessionRepository: GameSessionRepositoryMem,
+    ItemRepository: ItemRepositoryDefault,
+    GameDefinitionRepository: GameDefinitionRepositoryDefault,
+    MapNodeRepository: MapNodeRepositoryDefault
   };
 }
 

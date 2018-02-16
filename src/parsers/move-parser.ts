@@ -3,7 +3,7 @@
 import { Parser } from './parser';
 import { CommandFactory } from '../commands/command-factory';
 import { MoveCommand } from '../commands/move-command';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 const verbSynonyms = ['move', 'go', 'travel', 'walk', 'run', 'shamble', 'shuffle'];
 const directionSynonyms = ['n', 's', 'e', 'w', 'u', 'd', 'north', 'south', 'east', 'west', 'up', 'down', 'dn'];

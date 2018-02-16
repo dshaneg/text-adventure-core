@@ -12,7 +12,6 @@ export class GameMap {
     this._entryNode = this.nodeMap.get(entryNodeId);
   }
 
-
   private _entryNode: MapNode;
   get entryNode(): MapNode { return this._entryNode; }
 

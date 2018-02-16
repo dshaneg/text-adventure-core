@@ -3,7 +3,7 @@
 import { Parser } from './parser';
 import { CommandFactory } from '../commands/command-factory';
 import { ConjureItemCommand } from '../commands/conjure-item-command';
-import { GameState } from '../game-state';
+import { GameState } from '../state/game-state';
 
 const verbSynonyms = ['conjureitem', 'conjure_item', 'ci'];
 

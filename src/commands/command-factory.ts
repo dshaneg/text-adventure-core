@@ -14,7 +14,7 @@ import { StopGameCommand } from './stop-game-command';
 import { ItemRepository } from '../item-repository';
 import { GameDefinitionRepository } from '../game-definition-repository';
 import { MapNodeRepository } from '../map-node-repository';
-import { GameMap } from '../game-map';
+import { GameMap } from '../domain/game-map';
 
 /**
  * Class representing a command instructing the game conjure an item from the nether.
@@ -66,6 +66,6 @@ export class CommandFactory {
   }
 
   createTeleportCommand(targetNodeId: number, silent: boolean = false) {
-    return new TeleportCommand(this.mapNodeRepository.gameMap, targetNodeId, silent);
+    return new TeleportCommand(this.mapNodeRepository.getMap(), targetNodeId, silent);
   }
 }
