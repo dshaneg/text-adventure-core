@@ -18,6 +18,10 @@ export class TeleportParser extends Parser {
   constructor(private commandFactory: CommandFactory) { super(); }
 
   parseInput(inputText: string): TeleportCommand {
+    if (!inputText) {
+      return null;
+    }
+
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 
     if (words && words.length === 2 && verbSynonyms.indexOf(words[0]) !== -1) {
