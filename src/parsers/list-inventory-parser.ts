@@ -11,6 +11,10 @@ export class ListInventoryParser extends Parser {
   constructor(private commandFactory: CommandFactory) { super(); }
 
   parseInput(inputText: string): ListInventoryCommand {
+    if (!inputText) {
+      return null;
+    }
+
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 
     if (words && words.length === 1 && verbSynonyms.indexOf(words[0]) !== -1) {
