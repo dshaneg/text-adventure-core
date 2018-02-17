@@ -9,7 +9,7 @@ import { CommandFactory } from '../../commands/command-factory';
 
 import { StopGameParser } from '../../parsers/stop-game-parser';
 
-describe('StartGameParser', () => {
+describe('StopGameParser', () => {
   describe('parse', () => {
     const CommandFactoryMock = mockito.mock(CommandFactory);
 

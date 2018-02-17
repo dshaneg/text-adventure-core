@@ -55,7 +55,7 @@ describe('ConjureItemParser', () => {
       mockito.verify(CommandFactoryMock.createConjureItemCommand(1002, 42)).once();
     });
 
-    it('Should return a command when input is \'ci 1002 42 extrawords\'.', () => {
+    it('Should return null when input is \'ci 1002 42 extrawords\'.', () => {
       const command = parser.parse('ci 1002 42 extrawords');
 
       expect(command).to.be.null;
