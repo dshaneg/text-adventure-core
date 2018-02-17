@@ -45,7 +45,7 @@ debug(response);
 response = gameEngine.handleInput(gameState, 'exit');
 debug(response);
 
-response = gameEngine.handleInput(gameState, 'force stop game');
+response = gameEngine.stopGame(gameState);
 debug(response);
 
 function debug(response: any) {
