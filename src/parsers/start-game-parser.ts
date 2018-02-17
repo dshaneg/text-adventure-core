@@ -9,6 +9,10 @@ export class StartGameParser extends Parser {
   constructor(private commandFactory: CommandFactory) { super(); }
 
   parseInput(inputText: string): StartGameCommand {
+    if (!inputText) {
+      return null;
+    }
+
     if (inputText === 'start game') {
       return this.commandFactory.createStartGameCommand();
     }
