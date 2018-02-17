@@ -8,6 +8,8 @@ import { GameState } from '../state/game-state';
 const verbSynonyms = ['help', 'h'];
 
 export class HelpParser extends Parser {
+  constructor(private commandFactory: CommandFactory) { super(); }
+
   parseInput(inputText: string): HelpCommand {
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 

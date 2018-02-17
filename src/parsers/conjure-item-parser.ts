@@ -15,7 +15,7 @@ const verbSynonyms = ['conjureitem', 'conjure_item', 'ci'];
  * @class ConjureItemParser
  */
 export class ConjureItemParser extends Parser {
-  constructor(commandFactory: CommandFactory) { super(commandFactory); }
+  constructor(private commandFactory: CommandFactory) { super(); }
 
   parseInput(inputText: string): ConjureItemCommand {
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);

@@ -15,6 +15,8 @@ const verbSynonyms = ['teleport', 'port', 'portal'];
  * @class TeleportParser
  */
 export class TeleportParser extends Parser {
+  constructor(private commandFactory: CommandFactory) { super(); }
+
   parseInput(inputText: string): TeleportCommand {
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 

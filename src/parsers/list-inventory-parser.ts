@@ -8,6 +8,8 @@ import { GameState } from '../state/game-state';
 const verbSynonyms = ['inventory', 'inv', 'i'];
 
 export class ListInventoryParser extends Parser {
+  constructor(private commandFactory: CommandFactory) { super(); }
+
   parseInput(inputText: string): ListInventoryCommand {
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 

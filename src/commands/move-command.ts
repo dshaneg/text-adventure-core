@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 
@@ -19,7 +20,7 @@ export class MoveCommand implements Command {
   constructor(private direction: string) {
   }
 
-  execute(gameState: GameState, addEvent: AddEventCall): void {
+  execute(gameState: GameState, publisher: EventPublisher): void {
     const previous = gameState.player.currentNode;
 
     const moved = gameState.tryMove(this.direction);
@@ -29,7 +30,7 @@ export class MoveCommand implements Command {
     const current = gameState.player.currentNode;
 
     if (moved) {
-      addEvent({
+      publisher.publish({
         topic: 'player.location.moved',
         message: current.description,
         voice: Voice.bard,
@@ -38,7 +39,7 @@ export class MoveCommand implements Command {
         direction: directionName
       });
     } else {
-      addEvent({
+      publisher.publish({
         topic: 'player.location.move-blocked',
         message: `The way ${directionName} is not for you to travel.`,
         voice: Voice.gamemaster,

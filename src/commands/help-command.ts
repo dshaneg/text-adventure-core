@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 import { GameDefinitionRepository, GameDefinition } from '../game-definition-repository';
@@ -15,8 +16,8 @@ export class HelpCommand implements Command {
   constructor(private gameDefinitionRepository: GameDefinitionRepository) {
   }
 
-  execute(gameState: GameState, addEvent: AddEventCall): void {
-    addEvent({
+  execute(gameState: GameState, publisher: EventPublisher): void {
+    publisher.publish({
       topic: 'game.help-requested',
       message: this.gameDefinitionRepository.getGameDefinition().help,
       voice: Voice.gamemaster

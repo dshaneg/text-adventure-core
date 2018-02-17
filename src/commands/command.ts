@@ -1,9 +1,8 @@
 'use strict';
 
 import { GameState } from '../state/game-state';
-
-export type AddEventCall = (event: any) => void;
+import { EventPublisher } from '../domain/event-publisher';
 
 export interface Command {
-  execute(gameState: GameState, addEvent: AddEventCall): void;
+  execute(gameState: GameState, publisher: EventPublisher): void;
 }

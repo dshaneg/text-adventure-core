@@ -9,6 +9,8 @@ const verbSynonyms = ['move', 'go', 'travel', 'walk', 'run', 'shamble', 'shuffle
 const directionSynonyms = ['n', 's', 'e', 'w', 'u', 'd', 'north', 'south', 'east', 'west', 'up', 'down', 'dn'];
 
 export class MoveParser extends Parser {
+  constructor(private commandFactory: CommandFactory) { super(); }
+
   parseInput(inputText: string): MoveCommand {
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 

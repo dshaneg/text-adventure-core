@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { ItemFormatter } from './item-formatter';
 import { GameState } from '../state/game-state';
@@ -32,11 +33,11 @@ export class AddInventoryCommand implements Command {
     this.deltas.push({ item, count });
   }
 
-  execute(gameState: GameState, addEvent: AddEventCall): void {
+  execute(gameState: GameState, publisher: EventPublisher): void {
     for (const delta of this.deltas) {
       gameState.addInventory(delta.item, delta.count);
 
-      addEvent({
+      publisher.publish({
         topic: 'player.inventory.added',
         message: `You add ${ItemFormatter.formatProseItem(delta.item, delta.count)} to your pack.`,
         voice: this.silent ? Voice.mute : Voice.gamemaster,
