@@ -31,7 +31,7 @@ export class CommandFactory {
     return new AddInventoryCommand(deltas, silent);
   }
 
-  createConjureItemHandlerCommand(itemId: number, count: number) {
+  createConjureItemCommand(itemId: number, count: number) {
     return new ConjureItemCommand(this, this.itemRepository, itemId, count);
   }
 
@@ -53,9 +53,9 @@ export class CommandFactory {
 
   createStartGameCommand() {
     const repositorySet: RepositorySet = {
-        itemRepository: this.itemRepository,
-        gameDefinitionRepository: this.gameDefinitionRepository,
-        mapNodeRepository: this.mapNodeRepository
+      itemRepository: this.itemRepository,
+      gameDefinitionRepository: this.gameDefinitionRepository,
+      mapNodeRepository: this.mapNodeRepository
     };
 
     return new StartGameCommand(this, repositorySet);

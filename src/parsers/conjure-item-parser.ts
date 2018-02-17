@@ -5,7 +5,7 @@ import { CommandFactory } from '../commands/command-factory';
 import { ConjureItemCommand } from '../commands/conjure-item-command';
 import { GameState } from '../state/game-state';
 
-const verbSynonyms = ['conjureitem', 'conjure_item', 'ci'];
+const verbSynonyms = ['conjureitem', 'conjure', 'ci'];
 
 /**
  * Note: Developer Command a.k.a. cheat.
@@ -18,6 +18,10 @@ export class ConjureItemParser extends Parser {
   constructor(private commandFactory: CommandFactory) { super(); }
 
   parseInput(inputText: string): ConjureItemCommand {
+    if (!inputText) {
+      return null;
+    }
+
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 
     if (words && (words.length === 2 || words.length === 3) && verbSynonyms.indexOf(words[0]) !== -1) {
@@ -27,7 +31,7 @@ export class ConjureItemParser extends Parser {
         count = Number(words[2]);
       }
 
-      return this.commandFactory.createConjureItemHandlerCommand(itemId, count);
+      return this.commandFactory.createConjureItemCommand(itemId, count);
     }
 
     return null;
