@@ -7,6 +7,15 @@
     "**/.git": true,
     "lib": true
   },
+  "mocha.options": {
+    "compilers": {
+      "ts": "ts-node/register"
+    }
+  },
+  "mocha.requires": [
+    "ts-node/register"
+  ],
+  "mocha.files.glob": "src/test/**/*.spec.ts",
   "typescript.referencesCodeLens.enabled": true,
   "vsicons.presets.angular": false
 }

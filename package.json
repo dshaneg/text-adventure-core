@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "mocha src/test/**/*test.ts --recursive --compilers ts:ts-node/register --bail",
+    "test": "mocha src/test/**/*.spec.ts --recursive --compilers ts:ts-node/register --bail",
     "smoke": "ts-node src/test/smoke.ts",
     "cover": "nyc npm test",
     "lint": "tslint src/**/*.ts",
@@ -67,8 +67,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
     "nyc": "^11.4.1",
-    "sinon": "^1.17.5",
-    "sinon-as-promised": "^4.0.2",
+    "ts-mockito": "^2.2.9",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "typescript": "^2.6.2"
