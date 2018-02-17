@@ -18,28 +18,45 @@ describe('HelpParser', () => {
       .thenReturn(new HelpCommand(gameDefinitionRepository));
     const commandFactory = mockito.instance(CommandFactoryMock);
 
-    const moveParser = new HelpParser(commandFactory);
+    const parser = new HelpParser(commandFactory);
 
     beforeEach(() => {
       mockito.resetCalls(CommandFactoryMock);
     });
 
     it('Should return a command when input is \'help\'.', () => {
-      const command = moveParser.parse('help');
+      const command = parser.parse('help');
 
       expect(command).to.not.be.null;
+      mockito.verify(CommandFactoryMock.createHelpCommand()).once();
     });
 
     it('Should return a command when input is \'h\'.', () => {
-      const command = moveParser.parse('h');
+      const command = parser.parse('h');
 
       expect(command).to.not.be.null;
+      mockito.verify(CommandFactoryMock.createHelpCommand()).once();
     });
 
     it('Should return null when input is \'dummy\'.', () => {
-      const command = moveParser.parse('dummy');
+      const command = parser.parse('dummy');
 
       expect(command).to.be.null;
+      mockito.verify(CommandFactoryMock.createHelpCommand()).never();
+    });
+
+    it('Should return null when input is empty.', () => {
+      const command = parser.parse('');
+
+      expect(command).to.be.null;
+      mockito.verify(CommandFactoryMock.createHelpCommand()).never();
+    });
+
+    it('Should return null when input is null.', () => {
+      const command = parser.parse(null);
+
+      expect(command).to.be.null;
+      mockito.verify(CommandFactoryMock.createHelpCommand()).never();
     });
   });
 });

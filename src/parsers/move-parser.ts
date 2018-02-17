@@ -12,6 +12,10 @@ export class MoveParser extends Parser {
   constructor(private commandFactory: CommandFactory) { super(); }
 
   parseInput(inputText: string): MoveCommand {
+    if (!inputText) {
+      return null;
+    }
+
     const words = inputText.toLowerCase().match(/\b(\w+)\b/g);
 
     if (words && words.length === 1 && directionSynonyms.indexOf(words[0]) !== -1) {
