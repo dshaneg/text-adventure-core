@@ -1,4 +1,4 @@
-# text adventure
+# text adventure core
 
 [![CircleCI](https://circleci.com/gh/dshaneg/text-adventure-core.svg?style=svg)](https://circleci.com/gh/dshaneg/text-adventure-core)
 
@@ -32,105 +32,67 @@ real game devs will chuckle about. That said, I'm finding that I'm enjoying buil
 crappy game more than I enjoy playing triple-A titles. The goal here is to learn,
 and the best way to learn is by trying and failing and trying again.
 
+## try it out
+
+If you just wanna try out what's working so far, head over to [dockerhub](https://hub.docker.com/r/dshaneg/text-adventure/), or just run the image with
+
+```sh
+docker run --rm -it dshaneg/text-adventure
+```
+
+That project uses this package.
+
 ## setup
 
-To get started, just hit the command shell with...
+To get started, hit the command shell with...
 
 ```shell
-npm install
+yarn
 ```
 
 ...to get things set up and then...
 
 ```shell
-node lib/index
+yarn tsc
 ```
 
-...to run the game. I've added a debugging listener that will spit out all of the events it sees
-to the console. To turn it on use the debug flag.
+...to transpile to javascript, and finally
 
 ```shell
-node lib/index --debug
+yarn smoke (doesn't require the transpile step)
 ```
 
-## developer (cheat) mode
-
-In the course of developing features, I found it useful to add cheats to the game that let the developer
-set up a situation to be tested while the game is running. To enable dev mode when starting the game,
-use the dev flag.
-
-```sh
-node lib/index --dev
-```
-
-If the flag is on, the game will respond to additional commands:
-
-```sh
-conjureitem {item-id} // adds the item to your inventory. the shortcut is "ci"
-teleport {map-node-id} // sets your current location to the given map node
-```
+...to run the smoke test, which just runs through some commands and prints the resulting events to standard out.
 
 ## development environment
 
-I'm using Visual Studio Code as my editor, so you'll notice some VSC-specific files sprinkled in.
-Also, I'm using a fair amount of ES6 syntax, so check your node version if you run into problems.
+I'm using Visual Studio Code as my editor, so you'll notice some VSC-specific files sprinkled in. Also, I'm using a fair amount of ES6 syntax, so check your node version if you run into problems.
+
+I've also converted the application to TypeScript. Like I said earlier, this application is for me to learn on.
+
+I've recently added this project to [circleci](https://circleci.com/gh/dshaneg/text-adventure-core), so I also have a docker container that can be used as the development/build environment. If you're on a windows box, you can start it up using
+
+```ps1
+bin/dev
+```
+
+From there, you can use the makefile to do all the things. `build` is the default rule.
 
 ## design
+
+### attempt 1
 
 The original idea was to make the game engine an EventEmitter and the client(text-engine) would respond to events and submit commands via parsers.
 Command handlers would respond to commands, updating the game state and raising events using the game engine.
 
-The current thought is that I'll use the Postal npm package, which provides an in-memory message bus. Now I can decouple all the things. The game state
-objects, as well as the client(text-engine) respond to events published by the command handlers. Everyone knows about the message bus but nothing else.
+### attempt 2
 
-The contracts of the application now come down to commands, queries, and events, which are each published
-in a different postal channel.
+The next thought was that I'd use the Postal npm package, which provides an in-memory message bus. Now I can decouple all the things. The game state objects, as well as the client(text-engine) respond to events published by the command handlers. Everyone knows about the message bus but nothing else.
 
-### game engine channels
+The contracts of the application came down to commands, queries, and events, which were each published in a different postal channel.
 
-Commands
+### current
 
-* game.create
-* game.start
-* game.stop
-* player.location.move
-* player.location.teleport
-* player.inventory.add
-* player.inventory.equip-item
-* player.inventory.list
-* item.conjure
-* help
+Then I had the bright idea that I want to serve this thing from a web api, which meant that the beautiful message bus wan't gonna cut it, and I needed to separate the game engine from the UI. The lines are a little blurry since the game is all text, but the third iteration of the architecture has the core game logic in this npm package and it requires a driver/UI layer to actually play the game.
 
-Queries
-
-* player.location
-* player.inventory.current
-* player.inventory.equipped
-
-Events
-
-* game.created
-* game.started
-* game.stop-requested
-* game.stopped
-* game.help-requested
-* player.location.moved
-* player.location.move-blocked
-* player.location.teleported
-* player.inventory.added
-* player.inventory.item-equipped
-* player.inventory.list-requested
-* item.conjured
-* error
-
-### console client channels
-
-Commands
-
-* style.list
-* style.apply
-
-Events
-
-* style.applied
-* style.list-requested
+The game engine mostly just accepts text input and spits out events. Many things can (and must) be injected by the driver application, though this package provides default implementations for everything that is needed so far. See the [smoke test](test/smoke.ts) for an example of how to compose the driver application, or see the [command line client](https://hub.docker.com/r/dshaneg/text-adventure/) for a fuller example.
