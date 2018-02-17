@@ -5,9 +5,6 @@ import { CommandFactory } from '../commands/command-factory';
 import { GameState } from '../state/game-state';
 
 export abstract class Parser {
-  constructor(protected commandFactory: CommandFactory) {
-  }
-
   setNext(parser: Parser) {
     this.next = parser;
     return parser;

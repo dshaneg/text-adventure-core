@@ -13,12 +13,14 @@ import { GameDefinitionRepository, GameDefinition } from './game-definition-repo
 import { GameDefinitionRepositoryDefault } from './impl/game-definition-repository-default';
 
 import { CommandFactory } from './commands/command-factory';
+import { Command } from './commands/command';
 
 import { GameManager } from './game-manager';
 import { GameEngine } from './game-engine';
 import { GameState } from './state/game-state';
 
 // command parsers
+import { Parser } from './parsers/parser';
 import { MoveParser } from './parsers/move-parser';
 import { ListInventoryParser } from './parsers/list-inventory-parser';
 import { HelpParser } from './parsers/help-parser';
@@ -30,6 +32,9 @@ import { TeleportParser } from './parsers/teleport-parser';
 import { ConjureItemParser } from './parsers/conjure-item-parser';
 
 // interface exports
+export { Parser } from './parsers/parser';
+export { Command } from './commands/command';
+export { EventPublisher } from './domain/event-publisher';
 export { GameManager } from './game-manager';
 export { GameSessionRepository } from './game-session-repository';
 export { MapNodeRepository } from './map-node-repository';
@@ -50,11 +55,12 @@ export class TextAdventureCore {
     gameDefinitionRepository: GameDefinitionRepository,
     mapNodeRepository: MapNodeRepository,
     itemRepository: ItemRepository,
+    clientParserChain: Parser,
     debugMode: boolean = false): GameEngine {
 
     const commandFactory = new CommandFactory(gameDefinitionRepository, mapNodeRepository, itemRepository);
 
-    const parser = buildParserChain(commandFactory, debugMode);
+    const parser = buildParserChain(commandFactory, clientParserChain, debugMode);
 
     return new GameEngine(parser, mapNodeRepository);
   }
@@ -67,18 +73,22 @@ export class TextAdventureCore {
   };
 }
 
-function buildParserChain(commandFactory: CommandFactory, debugMode: boolean = false) {
+function buildParserChain(commandFactory: CommandFactory, clientParserChain: Parser, debugMode: boolean = false) {
   const head = new MoveParser(commandFactory);
-  const tail = head
+  let tail = head
     .setNext(new ListInventoryParser(commandFactory))
     .setNext(new HelpParser(commandFactory))
     .setNext(new StartGameParser(commandFactory))
     .setNext(new StopGameParser(commandFactory));
 
   if (debugMode) {
-    tail
+    tail = tail
       .setNext(new TeleportParser(commandFactory))
       .setNext(new ConjureItemParser(commandFactory));
+  }
+
+  if (clientParserChain) {
+    tail = tail.setNext(clientParserChain);
   }
 
   return head;

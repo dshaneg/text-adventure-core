@@ -1,19 +1,36 @@
-import { TextAdventureCore as Core } from '../index';
+import { TextAdventureCore, Parser, Command, EventPublisher, GameState, Voice } from '../index';
 
 // repositories
-const gameDefinitionRepository = new Core.defaultImplementations.GameDefinitionRepository();
-const mapNodeRepository = new Core.defaultImplementations.MapNodeRepository();
-const itemRepository = new Core.defaultImplementations.ItemRepository();
+const gameDefinitionRepository = new TextAdventureCore.defaultImplementations.GameDefinitionRepository();
+const mapNodeRepository = new TextAdventureCore.defaultImplementations.MapNodeRepository();
+const itemRepository = new TextAdventureCore.defaultImplementations.ItemRepository();
 
-const gameSessionRepository = new Core.defaultImplementations.GameSessionRepository();
+const gameSessionRepository = new TextAdventureCore.defaultImplementations.GameSessionRepository();
 
-const gameState = Core.createGameManager(gameSessionRepository).createGame();
-const gameEngine = Core.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, true);
+class HelloCommand implements Command {
+  execute(gameState: GameState, publisher: EventPublisher): void {
+    publisher.publish({ topic: 'client', message: 'hello', voice: Voice.gamemaster });
+  }
+}
+
+class HelloParser extends Parser {
+  parseInput(input: string): Command {
+    if (input === 'hello') {
+      return new HelloCommand();
+    }
+  }
+}
+
+const gameState = TextAdventureCore.createGameManager(gameSessionRepository).createGame();
+const gameEngine = TextAdventureCore.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, new HelloParser(), true);
 
 let response = gameEngine.startGame(gameState);
 debug(response);
 
 response = gameEngine.handleInput(gameState, 'go south');
+debug(response);
+
+response = gameEngine.handleInput(gameState, 'hello');
 debug(response);
 
 response = gameEngine.handleInput(gameState, 'conjureitem 1002');
@@ -28,7 +45,7 @@ debug(response);
 response = gameEngine.handleInput(gameState, 'exit');
 debug(response);
 
-response = gameEngine.handleInput(gameState, 'force stop game');
+response = gameEngine.stopGame(gameState);
 debug(response);
 
 function debug(response: any) {

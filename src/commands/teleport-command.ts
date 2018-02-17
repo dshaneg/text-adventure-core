@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 import { GameMap } from '../domain/game-map';
@@ -19,11 +20,11 @@ export class TeleportCommand implements Command {
     private silent: boolean = false) {
   }
 
-  execute(gameState: GameState, addEvent: AddEventCall): void {
+  execute(gameState: GameState, publisher: EventPublisher): void {
     const targetNode = this.map.get(this.targetNodeId);
 
     if (!targetNode) {
-      addEvent({
+      publisher.publish({
         topic: 'error',
         message: `Could not teleport. No node with id ${this.targetNodeId}.`,
         voice: Voice.warden
@@ -34,13 +35,13 @@ export class TeleportCommand implements Command {
     const previousNode = gameState.player.currentNode;
     gameState.player.currentNode = targetNode;
 
-    addEvent({
+    publisher.publish({
       topic: 'player.location.teleporting',
       message: 'Your eyesight begins to swim and you feel a strong tug at the base of your stomach...',
       voice: this.silent ? Voice.mute : Voice.bard
     });
 
-    addEvent({
+    publisher.publish({
       topic: 'player.location.moved',
       message: targetNode.description,
       voice: Voice.bard,

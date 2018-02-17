@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 import { ItemFormatter } from './item-formatter';
@@ -10,7 +11,7 @@ import { ItemFormatter } from './item-formatter';
  */
 export class ListInventoryCommand implements Command {
 
-  execute(gameState: GameState, addEvent: AddEventCall): void {
+  execute(gameState: GameState, publisher: EventPublisher): void {
     const items = gameState.queryInventory();
 
     let message: string;
@@ -26,7 +27,7 @@ export class ListInventoryCommand implements Command {
       message = lines.join('\n');
     }
 
-    addEvent({
+    publisher.publish({
       topic: 'player.inventory.list-requested',
       message,
       voice: Voice.gamemaster,

@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 
@@ -14,17 +15,17 @@ export class StopGameCommand implements Command {
   constructor(private force: boolean) {
   }
 
-  execute(gameState: GameState, addEvent: AddEventCall): void {
+  execute(gameState: GameState, publisher: EventPublisher): void {
     if (this.force) {
       gameState.stop();
-      addEvent({
+      publisher.publish({
         topic: 'game.stopped',
         message: 'See you next time.',
         voice: Voice.gamemaster,
         sessionToken: gameState.sessionToken,
       });
     } else {
-      addEvent({
+      publisher.publish({
         topic: 'game.stop-requested',
         sessionToken: gameState.sessionToken
       });

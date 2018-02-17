@@ -3,7 +3,7 @@
 import { GameState } from './state/game-state';
 import { Voice } from './domain/voice';
 import { Parser } from './parsers/parser';
-import { AddEventCall } from './commands/command';
+import { EventPublisher } from './domain/event-publisher';
 import { MapNodeRepository } from './map-node-repository';
 
 // game command handlers
@@ -25,24 +25,30 @@ export class GameEngine {
     return gameState.queryAvailableDirections(this.mapNodeRepository.getMap());
   }
 
-  handleInput(gameState: GameState, inputText: string): any {
-    const eventQueue = new Array<any>();
-    // couldn't pass eventQueue.push as the function to command.execute--v8 throws an error
-    const addEvent: AddEventCall = (event: any): void => { eventQueue.push(event); };
+  handleInput(gameState: GameState, inputText: string) {
+    const eventQueue = new EventQueue();
 
     const command = this.parser.parse(inputText);
 
     if (command) {
-      command.execute(gameState, addEvent);
+      command.execute(gameState, eventQueue);
     }
     else {
-      addEvent({
+      eventQueue.publish({
         topic: 'parser.failed',
         message: 'Huh? I didn\'t understand that. Type <<help>> if you\'re stuck.',
         voice: Voice.gamemaster
       });
     }
 
-    return { command: inputText, events: eventQueue };
+    return { command: inputText, events: eventQueue.events };
+  }
+}
+
+class EventQueue implements EventPublisher {
+  public events = new Array<any>();
+
+  publish(event: any): void {
+    this.events.push(event);
   }
 }

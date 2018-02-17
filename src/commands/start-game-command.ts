@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 import { CommandFactory } from './command-factory';
@@ -32,7 +33,7 @@ export class StartGameCommand {
   private gameDefinitionRepository: GameDefinitionRepository;
   private mapNodeRepository: MapNodeRepository;
 
-  execute(gameState: GameState, addEvent: AddEventCall): void {
+  execute(gameState: GameState, publisher: EventPublisher): void {
     if (gameState.isStarted) {
       return;
     }
@@ -42,15 +43,15 @@ export class StartGameCommand {
     // initialize starting inventory
     const startSet = this.itemRepository.getStartSet();
 
-    this.commandFactory.createAddInventoryCommand(startSet, silentMode).execute(gameState, addEvent);
+    this.commandFactory.createAddInventoryCommand(startSet, silentMode).execute(gameState, publisher);
 
     for (const startItem of startSet) {
       if (startItem.equip) {
-        this.commandFactory.createEquipItemCommand(startItem.item, silentMode).execute(gameState, addEvent);
+        this.commandFactory.createEquipItemCommand(startItem.item, silentMode).execute(gameState, publisher);
       }
     }
 
-    addEvent({
+    publisher.publish({
       topic: 'game.starting',
       message: this.gameDefinitionRepository.getGameDefinition().banner,
       voice: Voice.herald
@@ -58,13 +59,13 @@ export class StartGameCommand {
 
     gameState.start();
 
-    addEvent({
+    publisher.publish({
       topic: 'game.started',
       message: this.gameDefinitionRepository.getGameDefinition().opening,
       voice: Voice.bard
     });
 
-    this.commandFactory.createTeleportCommand(this.mapNodeRepository.getMap().entryNode.id, true).execute(gameState, addEvent);
+    this.commandFactory.createTeleportCommand(this.mapNodeRepository.getMap().entryNode.id, true).execute(gameState, publisher);
   }
 }
 

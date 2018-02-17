@@ -1,6 +1,7 @@
 'use strict';
 
-import { Command, AddEventCall } from './command';
+import { Command } from './command';
+import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
 
@@ -18,10 +19,10 @@ export class EquipItemCommand implements Command {
     private silent: boolean = false) {
   }
 
-  execute(gameState: GameState, addEvent: AddEventCall, silent: boolean = false): void {
+  execute(gameState: GameState, publisher: EventPublisher, silent: boolean = false): void {
     gameState.equip(this.item);
 
-    addEvent({
+    publisher.publish({
       topic: 'player.inventory.item-equipped',
       message: `You equip the ${this.item.name}.`,
       voice: this.silent ? Voice.mute : Voice.gamemaster,
