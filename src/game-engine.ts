@@ -3,8 +3,8 @@
 import { GameState } from './state/game-state';
 import { Voice } from './domain/voice';
 import { Parser } from './parsers/parser';
-import { EventPublisher } from './domain/event-publisher';
 import { MapNodeRepository } from './map-node-repository';
+import { EventQueue } from './event-queue';
 
 // game command handlers
 export class GameEngine {
@@ -42,13 +42,5 @@ export class GameEngine {
     }
 
     return { command: inputText, events: eventQueue.events };
-  }
-}
-
-class EventQueue implements EventPublisher {
-  public events = new Array<any>();
-
-  publish(event: any): void {
-    this.events.push(event);
   }
 }
