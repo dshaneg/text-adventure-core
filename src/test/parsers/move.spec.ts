@@ -10,7 +10,7 @@ import { CommandFactory } from '../../commands/command-factory';
 import { MoveParser } from '../../parsers/move-parser';
 
 describe('MoveParser', () => {
-  describe('parseInput', () => {
+  describe('parse', () => {
     const CommandFactoryMock = mockito.mock(CommandFactory);
     mockito.when(CommandFactoryMock.createMoveCommand(mockito.anyString()))
       .thenReturn(new MoveCommand('n'));

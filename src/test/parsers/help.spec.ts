@@ -11,7 +11,7 @@ import { GameDefinitionRepositoryDefault } from '../../impl/game-definition-repo
 import { HelpParser } from '../../parsers/help-parser';
 
 describe('HelpParser', () => {
-  describe('parseInput', () => {
+  describe('parse', () => {
     const gameDefinitionRepository = new GameDefinitionRepositoryDefault();
     const CommandFactoryMock = mockito.mock(CommandFactory);
     mockito.when(CommandFactoryMock.createHelpCommand())

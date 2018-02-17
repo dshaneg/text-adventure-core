@@ -11,7 +11,7 @@ import { ItemRepositoryDefault } from '../../impl/item-repository-default';
 import { ConjureItemParser } from '../../parsers/conjure-item-parser';
 
 describe('ConjureItemParser', () => {
-  describe('parseInput', () => {
+  describe('parse', () => {
     const ItemRepositoryMock = mockito.mock(ItemRepositoryDefault);
     const itemRepository = mockito.instance(ItemRepositoryMock);
 
