@@ -19,6 +19,9 @@ export class AddInventoryCommand implements Command {
    * @memberOf AddInventoryCommand
    */
   constructor(private deltas: Array<{ item: any, count: number }>, private silent: boolean = false) {
+    deltas.forEach(delta => {
+      this.validateItem(delta.item);
+    });
   }
 
   /**
@@ -29,8 +32,16 @@ export class AddInventoryCommand implements Command {
    *
    * @memberOf AddInventoryCommand
    */
-  addDelta(item: any, count: number) {
+  addDelta(item: any, count: number): void {
+    this.validateItem(item);
+
     this.deltas.push({ item, count });
+  }
+
+  private validateItem(item: any): void {
+    if (!item.id || !item.name) {
+      throw new Error(`Bad item definition: ${JSON.stringify(item)}. Needs at least id and name.`);
+    }
   }
 
   execute(gameState: GameState, publisher: EventPublisher): void {
