@@ -5,7 +5,7 @@ import 'mocha';
 
 import { DirectionIndex } from '../../domain/direction-index';
 
-describe.only('DirectionIndex', () => {
+describe('DirectionIndex', () => {
   describe('getDirectionName', () => {
     it('Should return \'north\' when given \'n\'.', () => {
       expect(DirectionIndex.getDirectionName('n')).to.equal('north');
