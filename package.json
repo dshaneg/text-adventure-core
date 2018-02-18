@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha src/test/**/*.spec.ts --recursive --compilers ts:ts-node/register --reporter mocha-circleci-reporter",
     "smoke": "ts-node src/test/smoke.ts",
-    "cover": "nyc --report-dir=dist/coverage yarn test",
+    "cover": "nyc yarn test",
     "lint": "tslint src/**/*.ts",
     "tsc": "tsc"
   },
@@ -32,6 +32,7 @@
       "json",
       "html"
     ],
+    "report-dir": "./target/coverage",
     "all": true
   },
   "publishConfig": {

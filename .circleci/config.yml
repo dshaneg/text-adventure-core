@@ -25,12 +25,12 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: mkdir -p target/test-results/mocha
+      - run: mkdir -p target/test-results/unit-tests
 
       - run:
           command: make build
           environment:
-            MOCHA_FILE: target/test-results/mocha/test-results.xml
+            MOCHA_FILE: target/test-results/unit-tests/test-results.xml
 
       - store_test_results:
           path: target/test-results

@@ -16,7 +16,9 @@ deps:
 
 clean:
 	rm -rf target
-	rm -rf yarn*.log
+	rm -rf .nyc_output
+	rm -f yarn*.log
+	rm -f test-results.xml
 
 deep-clean: clean
 	rm -rf node_modules
