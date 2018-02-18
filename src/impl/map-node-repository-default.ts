@@ -21,8 +21,7 @@ export class MapNodeRepositoryDefault implements MapNodeRepository {
   }
 
   private createMap(definition: any): GameMap {
-    const map = new Map();
-    // private map: Map<number, MapNode>;
+    const map = new Map<number, MapNode>();
 
     for (const node of definition.nodes) {
       map.set(node.id, new MapNode(node));
