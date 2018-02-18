@@ -4,6 +4,7 @@ import { Command } from './command';
 import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { GameState } from '../state/game-state';
+import { DirectionIndex } from '../domain/direction-index';
 
 /**
  * Class representing a command instructing the game conjure an item from the nether.
@@ -25,7 +26,7 @@ export class MoveCommand implements Command {
 
     const moved = gameState.tryMove(this.direction);
 
-    const directionName = getDirectionName(this.direction);
+    const directionName = DirectionIndex.getDirectionName(this.direction);
 
     const current = gameState.queryCurrentNode();
 
@@ -47,24 +48,5 @@ export class MoveCommand implements Command {
         direction: directionName
       });
     }
-  }
-}
-
-function getDirectionName(abbreviation: string) {
-  switch (abbreviation) {
-    case 'n':
-      return 'north';
-    case 's':
-      return 'south';
-    case 'e':
-      return 'east';
-    case 'w':
-      return 'west';
-    case 'u':
-      return 'up';
-    case 'd':
-      return 'down';
-    default:
-      return 'unknown';
   }
 }
