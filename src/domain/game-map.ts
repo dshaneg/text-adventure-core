@@ -9,10 +9,12 @@ export class GameMap {
   constructor(
     private nodeMap: Map<number, MapNode>,
     entryNodeId: number) {
-    this._entryNode = this.nodeMap.get(entryNodeId);
+
+    this._entryNode = nodeMap.get(entryNodeId);
   }
 
   private _entryNode: MapNode;
+
   get entryNode(): MapNode { return this._entryNode; }
 
   get(nodeId: number) {
