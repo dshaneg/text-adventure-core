@@ -30,7 +30,8 @@
     ],
     "reporter": [
       "json",
-      "html"
+      "html",
+      "text-summary"
     ],
     "report-dir": "./target/coverage",
     "all": true
