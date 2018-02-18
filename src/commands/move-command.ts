@@ -21,13 +21,13 @@ export class MoveCommand implements Command {
   }
 
   execute(gameState: GameState, publisher: EventPublisher): void {
-    const previous = gameState.player.currentNode;
+    const previous = gameState.queryCurrentNode();
 
     const moved = gameState.tryMove(this.direction);
 
     const directionName = getDirectionName(this.direction);
 
-    const current = gameState.player.currentNode;
+    const current = gameState.queryCurrentNode();
 
     if (moved) {
       publisher.publish({

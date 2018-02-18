@@ -62,4 +62,8 @@ export class GameState {
   queryInventory() {
     return this.player.inventory.getAll();
   }
+
+  queryCurrentNode() {
+    return this.player.currentNode;
+  }
 }
