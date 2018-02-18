@@ -21,13 +21,11 @@ export class StopGameCommand implements Command {
       publisher.publish({
         topic: 'game.stopped',
         message: 'See you next time.',
-        voice: Voice.gamemaster,
-        sessionToken: gameState.sessionToken,
+        voice: Voice.gamemaster
       });
     } else {
       publisher.publish({
-        topic: 'game.stop-requested',
-        sessionToken: gameState.sessionToken
+        topic: 'game.stop-requested'
       });
     }
   }

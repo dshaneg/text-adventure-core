@@ -41,6 +41,6 @@ export class GameEngine {
       });
     }
 
-    return { command: inputText, events: eventQueue.events };
+    return { command: inputText, session: gameState.sessionToken, events: eventQueue.events };
   }
 }
