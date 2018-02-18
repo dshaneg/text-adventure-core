@@ -22,7 +22,7 @@ const configs = [{
   location: { x: 0, y: 1, z: 0 }
 }];
 
-describe.only('MapNode', () => {
+describe('MapNode', () => {
   describe('addEdge', () => {
     it('Should add an edge to edges array when calling addEdge.', () => {
       const a = new MapNode(configs[0]);
