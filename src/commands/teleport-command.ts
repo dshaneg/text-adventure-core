@@ -32,8 +32,8 @@ export class TeleportCommand implements Command {
       return;
     }
 
-    const previousNode = gameState.player.currentNode;
-    gameState.player.currentNode = targetNode;
+    const previousNode = gameState.queryCurrentNode();
+    gameState.teleport(targetNode);
 
     publisher.publish({
       topic: 'player.location.teleporting',

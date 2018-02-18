@@ -47,6 +47,10 @@ export class GameState {
     return false;
   }
 
+  teleport(targetNode: MapNode) {
+    this.player.currentNode = targetNode;
+  }
+
   equip(item: any) {
     this.player.inventory.equip(item);
   }
