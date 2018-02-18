@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "mocha src/test/**/*.spec.ts --recursive --compilers ts:ts-node/register --reporter mocha-circleci-reporter",
-    "smoke": "ts-node src/test/smoke.ts",
+    "smoke": "mocha src/test/smoke.ts --compilers ts:ts-node/register --reporter mocha-circleci-reporter",
     "cover": "nyc yarn test",
     "lint": "tslint src/**/*.ts",
     "tsc": "tsc"

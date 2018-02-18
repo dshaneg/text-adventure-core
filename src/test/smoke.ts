@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import 'mocha';
+
 import { TextAdventureCore, Parser, Command, EventPublisher, GameState, Voice } from '../index';
 
 // repositories
@@ -21,32 +24,60 @@ class HelloParser extends Parser {
   }
 }
 
-const gameState = TextAdventureCore.createGameManager(gameSessionRepository).createGame();
-const gameEngine = TextAdventureCore.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, new HelloParser(), true);
+describe('Smoke Tests', () => {
 
-let response = gameEngine.startGame(gameState);
-debug(response);
+  const gameState = TextAdventureCore.createGameManager(gameSessionRepository).createGame();
+  const gameEngine = TextAdventureCore.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, new HelloParser(), true);
 
-response = gameEngine.handleInput(gameState, 'go south');
-debug(response);
+  it('start the game', () => {
+    const response = gameEngine.startGame(gameState);
+    debug(response);
+    expect(response.events).to.have.lengthOf(9);
+  });
 
-response = gameEngine.handleInput(gameState, 'hello');
-debug(response);
+  it('go south', () => {
+    const response = gameEngine.handleInput(gameState, 'go south');
+    debug(response);
+    expect(response.events).to.have.lengthOf(1);
+  });
 
-response = gameEngine.handleInput(gameState, 'conjureitem 1002');
-debug(response);
+  it('client event', () => {
+    const response = gameEngine.handleInput(gameState, 'hello');
+    debug(response);
+    expect(response.events).to.have.lengthOf(1);
+  });
 
-response = gameEngine.handleInput(gameState, 'help');
-debug(response);
+  it('conjure up Excaliboar', () => {
+    const response = gameEngine.handleInput(gameState, 'conjureitem 1002');
+    debug(response);
+    expect(response.events).to.have.lengthOf(2);
+  });
 
-response = gameEngine.handleInput(gameState, 'inventory');
-debug(response);
+  it('get help', () => {
+    const response = gameEngine.handleInput(gameState, 'help');
+    debug(response);
 
-response = gameEngine.handleInput(gameState, 'exit');
-debug(response);
+    expect(response.events).to.have.lengthOf(1);
+  });
 
-response = gameEngine.stopGame(gameState);
-debug(response);
+  it('get inventory', () => {
+    const response = gameEngine.handleInput(gameState, 'inventory');
+    debug(response);
+    expect(response.events).to.have.lengthOf(1);
+  });
+
+  it('exit', () => {
+    const response = gameEngine.handleInput(gameState, 'exit');
+    debug(response);
+    expect(response.events).to.have.lengthOf(1);
+  });
+
+  it('force stop', () => {
+    const response = gameEngine.stopGame(gameState);
+    debug(response);
+    expect(response.events).to.have.lengthOf(1);
+  });
+});
 
 function debug(response: any) {
   console.log('==============================================');
