@@ -1,7 +1,16 @@
 
 export class DirectionIndex {
   static getDirectionName(abbreviation: string) {
-    switch (abbreviation) {
+    let testAbbrev = abbreviation;
+
+    if (testAbbrev) {
+      testAbbrev = testAbbrev.toLowerCase();
+      if (testAbbrev.length > 1) {
+        testAbbrev = testAbbrev[0];
+      }
+    }
+
+    switch (testAbbrev) {
       case 'n':
         return 'north';
       case 's':
