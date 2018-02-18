@@ -11,7 +11,7 @@ import { Voice } from '../../domain/voice';
 
 import { StopGameCommand } from '../../commands/stop-game-command';
 
-describe.only('StopGameCommand', () => {
+describe('StopGameCommand', () => {
   describe('execute', () => {
     // mock GameState
     const GameStateMock = mockito.mock(GameState);
