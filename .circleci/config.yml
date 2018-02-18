@@ -25,7 +25,15 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: make build
+      - run: mkdir -p target/test-results/mocha
+
+      - run:
+          command: make build
+          environment:
+            MOCHA_FILE: target/test-results/mocha/test-results.xml
+
+      - store_test_results:
+          path: test-results
 
       - persist_to_workspace:
           root: .
@@ -35,7 +43,7 @@ jobs:
             - bin
 
       - store_artifacts:
-          path: target/dist
+          path: target
 
   publish:
     docker:

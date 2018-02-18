@@ -12,7 +12,7 @@ marquee "Lint Step"
 yarn lint
 
 marquee "Unit Test Step"
-yarn test
+yarn cover
 
 marquee "Package Step"
 yarn pack
