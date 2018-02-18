@@ -50,7 +50,7 @@ describe('HelpCommand', () => {
         mockito.verify(EventPublisherMock.publish(mockito.anything())).once();
       });
 
-      it('Should call publisher game.help-requested event.', () => {
+      it('Should publish game.help-requested event.', () => {
         command.execute(gameState, publisher);
 
         const [event] = mockito.capture(EventPublisherMock.publish).first();
