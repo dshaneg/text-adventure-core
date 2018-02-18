@@ -34,7 +34,7 @@ describe('StartGameCommand', () => {
     // mock the Item Repository
     const ItemRepositoryMock = mockito.mock(ItemRepositoryDefault);
     const startSet = [
-      { item: { id: 1, name: 'fork' }, count: 1, equip: false },
+      { item: { id: 1, name: 'fork' }, count: 1, equip: true },
       { item: { id: 2, name: 'spoon' }, count: 1, equip: true },
       { item: { id: 3, name: 'butter knife' }, count: 1, equip: true }
     ];
