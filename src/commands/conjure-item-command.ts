@@ -17,12 +17,12 @@ export class ConjureItemCommand implements Command {
     private commandFactory: CommandFactory,
     private itemRepository: ItemRepository,
     private itemId: number,
-    private count: number) {
+    private count: number = 1) {
   }
 
   execute(gameState: GameState, publisher: EventPublisher): void {
     const item = this.itemRepository.get(this.itemId);
-    const count = this.count || 1;
+    const count = this.count;
 
     if (!item) {
       publisher.publish({

@@ -91,6 +91,45 @@ describe('ConjureItemCommand', () => {
       });
     });
 
+    describe('Default count', () => {
+      const item = { id: 1, name: 'butter knife' };
+      const delta = { item, count: 1 };
+      const deltas = [delta];
+      let command: ConjureItemCommand;
+
+      beforeEach(() => {
+        mockito
+          .when(ItemRepositoryMock.get(mockito.anyNumber()))
+          .thenReturn(item);
+        const itemRepository = mockito.instance(ItemRepositoryMock);
+
+        const addInventoryCommand = mockito.instance(AddInventoryCommandMock);
+        mockito
+          .when(CommandFactoryMock.createAddInventoryCommand(mockito.anything()))
+          .thenReturn(addInventoryCommand);
+        const commandFactory = mockito.instance(CommandFactoryMock);
+
+        // make the call without specifying the count
+        command = new ConjureItemCommand(commandFactory, itemRepository, delta.item.id);
+      });
+
+      it('Should publish item.conjured event with count of 1.', () => {
+        command.execute(gameState, publisher);
+
+        const [event] = mockito.capture(EventPublisherMock.publish).first();
+        expect(event.topic).to.equal('item.conjured');
+        expect(event.count).to.equal(1);
+      });
+
+      it('Should create AddInventoryCommand with count of 1.', () => {
+        command.execute(gameState, publisher);
+
+        mockito.verify(CommandFactoryMock.createAddInventoryCommand(mockito.anything())).once();
+        const [passedDelta] = mockito.capture(CommandFactoryMock.createAddInventoryCommand).first();
+        expect(passedDelta[0].count).to.equal(1);
+      });
+    });
+
     describe('Item id not found', () => {
       const item = { id: 1, name: 'butter knife' };
       const delta = { item, count: 1 };
