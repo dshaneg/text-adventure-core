@@ -203,7 +203,6 @@ describe('GameState', () => {
       gameMap = new GameMap(nodeMap, entryNode.id);
 
       //  [startnode] have to teleport in to the map
-      //
       //  [entrynode]
       //    v    ^
       //  [targetnode]
@@ -213,7 +212,9 @@ describe('GameState', () => {
     });
 
     it('should list a single direction when only one is available', () => {
+      // have to teleport in from the real world since there are no edges
       state.teleport(entryNode);
+      state.tryMove('s');
 
       expect(state.queryAvailableDirections(gameMap)).to.have.lengthOf(1);
     });
