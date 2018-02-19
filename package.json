@@ -8,6 +8,7 @@
     "test": "mocha src/test/**/*.spec.ts --recursive --compilers ts:ts-node/register --reporter mocha-circleci-reporter",
     "smoke": "mocha src/test/smoke.ts --compilers ts:ts-node/register --reporter mocha-circleci-reporter",
     "cover": "nyc yarn test",
+    "coveralls": "cat ./target/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "tslint src/**/*.ts",
     "tsc": "tsc"
   },
@@ -29,8 +30,7 @@
       "ts-node/register"
     ],
     "reporter": [
-      "json",
-      "html",
+      "lcov",
       "text-summary"
     ],
     "report-dir": "./target/coverage",
@@ -69,6 +69,7 @@
     "@types/postal": "^1.0.28",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
+    "coveralls": "^3.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
     "mocha-circleci-reporter": "^0.0.2",

@@ -2,7 +2,7 @@
 		set-executable deps \
 		clean deep-clean
 
-build: set-executable
+build: set-executable create-target
 	bin/build.sh
 
 publish: set-executable
@@ -13,6 +13,11 @@ set-executable:
 
 deps:
 	yarn install
+
+create-target:
+	mkdir -p target/test-results/unit-tests
+	mkdir -p target/test-results/smoke-tests
+	mkdir -p target/dist
 
 clean:
 	rm -rf target
