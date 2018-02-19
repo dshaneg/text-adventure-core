@@ -38,7 +38,10 @@ jobs:
       - store_test_results:
           path: target/test-results
 
-      - run: yarn coveralls
+      - run:
+          command: yarn coveralls
+          environment:
+            COVERALLS_SERVICE_JOB_ID: $CIRCLE_BUILD_NUM
 
       - persist_to_workspace:
           root: .
