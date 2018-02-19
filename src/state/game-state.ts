@@ -10,7 +10,7 @@ export class GameState {
     const currentNode = new MapNode({ id: -1, name: 'the real world', description: [''], location: { x: 0, y: 0, z: 0 } });
 
     this.player = new Player(currentNode);
-
+    this._started = false;
     this._sessionToken = sessionToken;
   }
 
@@ -48,26 +48,34 @@ export class GameState {
   }
 
   teleport(targetNode: MapNode) {
+    if (!targetNode) {
+      throw new Error('Can\'t teleport to a nonexistent node!');
+    }
+
     this.player.currentNode = targetNode;
+  }
+
+  addInventory(item: any, count: number = 1) {
+    this.player.inventory.add(item, count);
   }
 
   equip(item: any) {
     this.player.inventory.equip(item);
   }
 
-  queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
-    return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
-  }
-
-  addInventory(item: any, count: number) {
-    this.player.inventory.add(item, count);
-  }
-
   queryInventory() {
     return this.player.inventory.getAll();
   }
 
+  queryEquippedItems() {
+    return this.player.inventory.getEquipped();
+  }
+
   queryCurrentNode() {
     return this.player.currentNode;
+  }
+
+  queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
+    return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
   }
 }

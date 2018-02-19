@@ -25,7 +25,7 @@ describe('TeleportCommand', () => {
     };
     const entryNode: MapNode = new MapNode(entryNodeConfig);
     const targetNodeConfig = {
-      id: 1,
+      id: 2,
       name: 'target',
       description: ['target node'],
       location: { x: 1, y: 1, z: 1 }
