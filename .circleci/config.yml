@@ -40,8 +40,6 @@ jobs:
 
       - run: yarn coveralls
 
-      - run: make package
-
       - persist_to_workspace:
           root: .
           paths:
