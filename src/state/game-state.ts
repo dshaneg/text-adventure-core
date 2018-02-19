@@ -2,14 +2,12 @@
 
 import { MapNode } from '../domain/map-node';
 import { GameMap } from '../domain/game-map';
-import { Player } from './player';
+import { Player, createRealityNode } from './player';
 import { EdgeState } from './player-map-node';
 
 export class GameState {
   constructor(sessionToken: string) {
-    const currentNode = new MapNode({ id: -1, name: 'the real world', description: [''], location: { x: 0, y: 0, z: 0 } });
-
-    this.player = new Player(currentNode);
+    this.player = new Player(createRealityNode());
     this._started = false;
     this._sessionToken = sessionToken;
   }

@@ -4,6 +4,15 @@ import { MapNode } from '../domain/map-node';
 import { Inventory } from './inventory';
 import { PlayerMapNode } from './player-map-node';
 
+export function createRealityNode(): MapNode {
+  return new MapNode({
+    id: -1,
+    name: 'the real world',
+    description: [''],
+    location: { x: 0, y: 0, z: 0 }
+  });
+}
+
 export class Player {
   constructor(currentNode: MapNode) {
     this.inventory = new Inventory();

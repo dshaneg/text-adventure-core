@@ -113,61 +113,24 @@ describe('GameState', () => {
 
   describe('addInventory', () => {
     const spoon = { id: 1000, name: 'spoon' };
-    const fork = { id: 1001, name: 'fork' };
 
+    // full inventory tests are done on the inventory object
     it('should add requested item item to inventory', () => {
       state.addInventory(spoon);
 
       expect(state.queryInventory()[0].item).to.deep.equal(spoon);
-    });
-
-    it('should add single instance of item to inventory', () => {
-      state.addInventory(spoon);
-
-      expect(state.queryInventory()).has.lengthOf(1);
-    });
-
-    it('added item should have count = 1 when count not specified', () => {
-      state.addInventory(spoon);
-
-      expect(state.queryInventory()[0].count).to.equal(1);
-    });
-
-    it('should add single instance of item to inventory when adding count > 1', () => {
-      state.addInventory(spoon, 5);
-
-      expect(state.queryInventory()).has.lengthOf(1);
-    });
-
-    it('added item should have specified count when count is specified', () => {
-      state.addInventory(spoon, 5);
-
-      expect(state.queryInventory()[0].count).to.equal(5);
-    });
-
-    it('should handle more than one item in inventory', () => {
-      state.addInventory(spoon, 5);
-      state.addInventory(fork, 5);
-
-      expect(state.queryInventory()).to.have.lengthOf(2);
     });
   });
 
   describe('equip', () => {
     const spoon = { id: 1000, name: 'spoon' };
     const fork = { id: 1001, name: 'fork' };
+    // full inventory tests are done on the inventory object
 
     it('should add item to equipped items', () => {
       state.equip(spoon);
 
       expect(state.queryEquippedItems()).to.contain(spoon);
-    });
-
-    it('should be able to equip multiple items', () => {
-      state.equip(spoon);
-      state.equip(fork);
-
-      expect(state.queryEquippedItems()).to.have.lengthOf(2);
     });
   });
 
