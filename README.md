@@ -1,6 +1,7 @@
 # text adventure core
 
 [![CircleCI](https://circleci.com/gh/dshaneg/text-adventure-core.svg?style=svg)](https://circleci.com/gh/dshaneg/text-adventure-core)
+[![Coverage Status](https://coveralls.io/repos/github/dshaneg/text-adventure-core/badge.svg?branch=master)](https://coveralls.io/github/dshaneg/text-adventure-core?branch=master)
 
      _____         _
     |_   _|____  _| |_
