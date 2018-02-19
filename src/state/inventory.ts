@@ -20,13 +20,19 @@ export class Inventory {
     itemStack.count += count;
   }
 
-  remove(itemId: number) {
-    const itemStack = this.map.get(itemId);
+  // i'm not sure i trust these methods. need some tests.
 
-    if (itemStack && itemStack.count > 0) {
-      itemStack.count -= 1;
-    }
+  equip(item: any) {
+    this.equippedSet.add(item);
   }
+
+  // remove(itemId: number) {
+  //   const itemStack = this.map.get(itemId);
+
+  //   if (itemStack && itemStack.count > 0) {
+  //     itemStack.count -= 1;
+  //   }
+  // }
 
   getStack(itemId: number) {
     return this.map.get(itemId);
@@ -39,12 +45,6 @@ export class Inventory {
   getAll() {
     const items = Array.from(this.map.values());
     return items;
-  }
-
-  // i'm not sure i trust these methods. need some tests.
-
-  equip(item: any) {
-    this.equippedSet.add(item);
   }
 }
 
