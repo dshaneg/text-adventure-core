@@ -37,7 +37,7 @@ export class PlayerMapNode {
       const discoveredSet = new Set([this.id]);
 
       const playerHeadNode = gameState.player.getPlayerMapNode(edge.headNode);
-      const visited = (playerHeadNode != null) && playerHeadNode.visited;
+      const visited = !playerHeadNode ? 0 : playerHeadNode.visited;
       const traversed = (playerHeadNode != null) && playerHeadNode.checkTraversed(gameState, gameMap, discoveredSet);
 
       directions.push({ direction: edge.direction, visited: visited, traversed: traversed });
@@ -48,6 +48,8 @@ export class PlayerMapNode {
 
   private checkTraversed(gameState: GameState, gameMap: GameMap, discoveredSet: Set<number>) {
     // be careful: this is not an acyclic graph
+    // currently the code can't get into a state where this check is needed,
+    // but leaving this check for safety.
     if (!this.visited) {
       return false;
     }
