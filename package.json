@@ -25,7 +25,7 @@
       "src/item-repository.ts",
       "src/game-definition-repository.ts",
       "src/commands/command.ts",
-      "src/domain/EventPublisher.ts"
+      "src/domain/event-publisher.ts"
     ],
     "extension": [
       ".ts",
