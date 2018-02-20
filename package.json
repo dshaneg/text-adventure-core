@@ -20,7 +20,12 @@
     "exclude": [
       "typings",
       "**/*.d.ts",
-      "src/test/**/*.ts"
+      "src/test/**/*.ts",
+      "src/map-node-repository.ts",
+      "src/item-repository.ts",
+      "src/game-definition-repository.ts",
+      "src/commands/command.ts",
+      "src/domain/EventPublisher.ts"
     ],
     "extension": [
       ".ts",
