@@ -58,12 +58,6 @@ describe('AddInventoryCommand', () => {
         command = new AddInventoryCommand(deltas);
       });
 
-      it('Should call gs.addinventory once.', () => {
-        command.execute(gameState, publisher);
-
-        mockito.verify(GameStateMock.addInventory(item, 1)).once();
-      });
-
       it('Should call publisher.publish once.', () => {
         command.execute(gameState, publisher);
 
@@ -88,12 +82,6 @@ describe('AddInventoryCommand', () => {
         command = new AddInventoryCommand(deltas, true);
       });
 
-      it('Should call gs.addinventory once.', () => {
-        command.execute(gameState, publisher);
-
-        mockito.verify(GameStateMock.addInventory(item, 1)).once();
-      });
-
       it('Should call publisher.publish once with mute voice.', () => {
         command.execute(gameState, publisher);
 
@@ -114,13 +102,6 @@ describe('AddInventoryCommand', () => {
 
       beforeEach(() => {
         command = new AddInventoryCommand(deltas);
-      });
-
-      it('Should call gs.addinventory twice.', () => {
-        command.execute(gameState, publisher);
-
-        mockito.verify(GameStateMock.addInventory(item1, 5)).once();
-        mockito.verify(GameStateMock.addInventory(item2, 5)).once();
       });
 
       it('Should call publisher.publish twice.', () => {
@@ -154,12 +135,6 @@ describe('AddInventoryCommand', () => {
         command = new AddInventoryCommand(deltas);
       });
 
-      it('Should call gs.addinventory once with 0 as count.', () => {
-        command.execute(gameState, publisher);
-
-        mockito.verify(GameStateMock.addInventory(item, 0)).once();
-      });
-
       it('Should call publisher.publish once.', () => {
         command.execute(gameState, publisher);
 
@@ -181,12 +156,6 @@ describe('AddInventoryCommand', () => {
       beforeEach(() => {
         command = new AddInventoryCommand([]);
         command.addDelta(item, 1);
-      });
-
-      it('Should call gs.addinventory once.', () => {
-        command.execute(gameState, publisher);
-
-        mockito.verify(GameStateMock.addInventory(item, 1)).once();
       });
 
       it('Should call publisher.publish once.', () => {

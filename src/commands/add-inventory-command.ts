@@ -4,7 +4,7 @@ import { Command } from './command';
 import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
 import { ItemFormatter } from './item-formatter';
-import { GameState } from '../state/game-state';
+import { ReadOnlyGameState } from '../state/game-state';
 
 /** Class representing a command instructing the game to add a list of item deltas to inventory.
  * Item deltas consist of an item and a count.
@@ -44,10 +44,8 @@ export class AddInventoryCommand implements Command {
     }
   }
 
-  execute(gameState: GameState, publisher: EventPublisher): void {
+  execute(gameState: ReadOnlyGameState, publisher: EventPublisher): void {
     for (const delta of this.deltas) {
-      gameState.addInventory(delta.item, delta.count);
-
       publisher.publish({
         topic: 'player.inventory.added',
         message: `You add ${ItemFormatter.formatProseItem(delta.item, delta.count)} to your pack.`,

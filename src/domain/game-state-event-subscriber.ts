@@ -12,6 +12,9 @@ export class GameStateEventSubscriber implements EventSubscriber {
       case 'player.location.moved':
         this.gameState.setCurrentLocation(this.map.get(event.currentNode.id));
         break;
+      case 'player.inventory.added':
+        this.gameState.addInventory(event.item, event.count);
+        break;
     }
   }
 }
