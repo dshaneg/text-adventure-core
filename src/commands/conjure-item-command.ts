@@ -3,7 +3,7 @@
 import { Command } from './command';
 import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
-import { GameState } from '../state/game-state';
+import { ReadOnlyGameState } from '../state/game-state';
 import { CommandFactory } from './command-factory';
 
 import { ItemRepository } from '../item-repository';
@@ -20,7 +20,7 @@ export class ConjureItemCommand implements Command {
     private count: number = 1) {
   }
 
-  execute(gameState: GameState, publisher: EventPublisher): void {
+  execute(gameState: ReadOnlyGameState, publisher: EventPublisher): void {
     const item = this.itemRepository.get(this.itemId);
     const count = this.count;
 

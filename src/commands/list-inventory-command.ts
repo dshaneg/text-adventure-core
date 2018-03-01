@@ -3,7 +3,7 @@
 import { Command } from './command';
 import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
-import { GameState } from '../state/game-state';
+import { ReadOnlyGameState } from '../state/game-state';
 import { ItemFormatter } from './item-formatter';
 
 /**
@@ -11,7 +11,7 @@ import { ItemFormatter } from './item-formatter';
  */
 export class ListInventoryCommand implements Command {
 
-  execute(gameState: GameState, publisher: EventPublisher): void {
+  execute(gameState: ReadOnlyGameState, publisher: EventPublisher): void {
     const items = gameState.queryInventory();
 
     let message: string;
