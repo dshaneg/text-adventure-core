@@ -49,10 +49,6 @@ describe('StopGameCommand', () => {
 
         expect(event).to.deep.equal(expectedEvent);
       });
-
-      it('Should execute stop on gameState.', () => {
-        mockito.verify(GameStateMock.stop()).once();
-      });
     });
 
     describe('Request Stop', () => {
@@ -75,10 +71,6 @@ describe('StopGameCommand', () => {
         };
 
         expect(event).to.deep.equal(expectedEvent);
-      });
-
-      it('Should not execute stop on gameState.', () => {
-        mockito.verify(GameStateMock.stop()).never();
       });
     });
   });

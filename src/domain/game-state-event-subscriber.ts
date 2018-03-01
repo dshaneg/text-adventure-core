@@ -21,6 +21,8 @@ export class GameStateEventSubscriber implements EventSubscriber {
       case 'game.started':
         this.gameState.start();
         break;
+      case 'game.stopped':
+        this.gameState.stop();
     }
   }
 }
