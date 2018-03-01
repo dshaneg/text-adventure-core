@@ -37,11 +37,11 @@ describe('EquipItemCommand', () => {
         mockito.verify(EventPublisherMock.publish(mockito.anything())).once();
       });
 
-      it('Should call publisher player.inventory.item-equipped event.', () => {
+      it('Should call publisher player.inventory.equipped event.', () => {
         command.execute(gameState, publisher);
 
         const [event] = mockito.capture(EventPublisherMock.publish).first();
-        expect(event.topic).to.equal('player.inventory.item-equipped');
+        expect(event.topic).to.equal('player.inventory.equipped');
         expect(event.message).not.to.be.empty;
         expect(event.item).to.equal(item);
         expect(event.voice).to.equal(Voice.gamemaster);
@@ -62,11 +62,11 @@ describe('EquipItemCommand', () => {
         mockito.verify(EventPublisherMock.publish(mockito.anything())).once();
       });
 
-      it('Should call publisher player.inventory.item-equipped event with mute voice.', () => {
+      it('Should call publisher player.inventory.equipped event with mute voice.', () => {
         command.execute(gameState, publisher);
 
         const [event] = mockito.capture(EventPublisherMock.publish).first();
-        expect(event.topic).to.equal('player.inventory.item-equipped');
+        expect(event.topic).to.equal('player.inventory.equipped');
         expect(event.message).not.to.be.empty;
         expect(event.item).to.equal(item);
         expect(event.voice).to.equal(Voice.mute);

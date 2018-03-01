@@ -21,7 +21,7 @@ export class EquipItemCommand implements Command {
 
   execute(gameState: ReadOnlyGameState, publisher: EventPublisher, silent: boolean = false): void {
     publisher.publish({
-      topic: 'player.inventory.item-equipped',
+      topic: 'player.inventory.equipped',
       message: `You equip the ${this.item.name}.`,
       voice: this.silent ? Voice.mute : Voice.gamemaster,
       item: this.item
