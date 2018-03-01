@@ -5,19 +5,14 @@ import { Voice } from './domain/voice';
 import { Parser } from './parsers/parser';
 import { MapNodeRepository } from './map-node-repository';
 import { QueueingEventSubscriber } from './domain/queueing-event-subscriber';
-import { GameStateEventSubscriber } from './domain/game-state-event-subscriber';
+import { GameStateEventSubscriberFactory } from './game-state-event-subscriber-factory';
 import { Publisher } from './domain/event-publisher';
-
-import { GameStartedHandler } from './domain/state-change-handler/game-started-handler';
-import { GameStoppedHandler } from './domain/state-change-handler/game-stopped-handler';
-import { PlayerInventoryAddedHandler } from './domain/state-change-handler/player-inventory-added-handler';
-import { PlayerInventoryEquippedHandler } from './domain/state-change-handler/player-inventory-equipped-handler';
-import { PlayerLocationMovedHandler } from './domain/state-change-handler/player-location-moved-handler';
 
 // game command handlers
 export class GameEngine {
   constructor(
     private parser: Parser,
+    private gameStateEventSubscriberFactory: GameStateEventSubscriberFactory,
     private mapNodeRepository: MapNodeRepository) {
   }
 
@@ -38,7 +33,7 @@ export class GameEngine {
     // this subscriber queues events for the current command then those events are returned at the end of the function
     const queueingSubscriber = new QueueingEventSubscriber();
     // this subscriber updates the gamestate each time an event is published. Giving event sourcing a try, but have to only let the events drive changes to the state
-    const stateSubscriber = this.createStateSubscriber(gameState);
+    const stateSubscriber = this.gameStateEventSubscriberFactory.create(gameState);
     const publisher = new Publisher([queueingSubscriber, stateSubscriber]);
 
     const command = this.parser.parse(inputText);
@@ -55,17 +50,5 @@ export class GameEngine {
     }
 
     return { command: inputText, session: gameState.sessionToken, events: queueingSubscriber.events };
-  }
-
-  private createStateSubscriber(gameState: GameState) {
-    const handlers = [
-      new PlayerLocationMovedHandler(this.mapNodeRepository),
-      new PlayerInventoryAddedHandler(),
-      new PlayerInventoryEquippedHandler(),
-      new GameStartedHandler(),
-      new GameStoppedHandler()
-    ];
-
-    return new GameStateEventSubscriber(gameState, handlers);
   }
 }

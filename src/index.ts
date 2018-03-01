@@ -18,6 +18,7 @@ import { Command } from './commands/command';
 import { GameManager } from './game-manager';
 import { GameEngine } from './game-engine';
 import { GameState } from './state/game-state';
+import { GameStateEventSubscriberFactory } from './game-state-event-subscriber-factory';
 
 // command parsers
 import { Parser } from './parsers/parser';
@@ -62,7 +63,7 @@ export class TextAdventureCore {
 
     const parser = buildParserChain(commandFactory, clientParserChain, debugMode);
 
-    return new GameEngine(parser, mapNodeRepository);
+    return new GameEngine(parser, new GameStateEventSubscriberFactory(mapNodeRepository), mapNodeRepository);
   }
 
   static defaultImplementations = {
