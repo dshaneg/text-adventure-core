@@ -8,8 +8,7 @@ import { MapNodeRepositoryDefault } from '../../impl/map-node-repository-default
 import { GameMap } from '../../domain/game-map';
 import { MapNode } from '../../domain/map-node';
 import { GameState } from '../../state/game-state';
-import { EventPublisher } from '../../domain/event-publisher';
-import { EventQueue } from '../../event-queue';
+import { Publisher } from '../../domain/event-publisher';
 import { Voice } from '../../domain/voice';
 
 import { TeleportCommand } from '../../commands/teleport-command';
@@ -42,7 +41,7 @@ describe('TeleportCommand', () => {
     let gameState: GameState;
 
     // mock the EventPublisher
-    const EventPublisherMock = mockito.mock(EventQueue);
+    const EventPublisherMock = mockito.mock(Publisher);
     const publisher = mockito.instance(EventPublisherMock);
 
     beforeEach(() => {
@@ -95,10 +94,6 @@ describe('TeleportCommand', () => {
 
         expect(event).to.deep.equal(expectedEvent);
       });
-
-      it('Should call teleport with targetNode on gameState.', () => {
-        mockito.verify(GameStateMock.teleport(targetNode)).once();
-      });
     });
 
     describe('Target node does not exist', () => {
@@ -130,10 +125,6 @@ describe('TeleportCommand', () => {
         };
 
         expect(event).to.deep.equal(expectedEvent);
-      });
-
-      it('Should not call teleport on gameState.', () => {
-        mockito.verify(GameStateMock.teleport(targetNode)).never();
       });
     });
   });

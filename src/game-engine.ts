@@ -4,7 +4,9 @@ import { GameState } from './state/game-state';
 import { Voice } from './domain/voice';
 import { Parser } from './parsers/parser';
 import { MapNodeRepository } from './map-node-repository';
-import { EventQueue } from './event-queue';
+import { QueueingEventSubscriber } from './domain/queueing-event-subscriber';
+import { GameStateEventSubscriber } from './domain/game-state-event-subscriber';
+import { Publisher } from './domain/event-publisher';
 
 // game command handlers
 export class GameEngine {
@@ -26,21 +28,26 @@ export class GameEngine {
   }
 
   handleInput(gameState: GameState, inputText: string) {
-    const eventQueue = new EventQueue();
+    // todo: need a factory for the publisher that still allows me to get at the queued events...
+    // this subscriber queues events for the current command then those events are returned at the end of the function
+    const queueingSubscriber = new QueueingEventSubscriber();
+    // this subscriber updates the gamestate each time an event is published. Giving event sourcing a try, but have to only let the events drive changes to the state
+    const stateSubscriber = new GameStateEventSubscriber(this.mapNodeRepository.getMap(), gameState);
+    const publisher = new Publisher([queueingSubscriber, stateSubscriber]);
 
     const command = this.parser.parse(inputText);
 
     if (command) {
-      command.execute(gameState, eventQueue);
+      command.execute(gameState, publisher);
     }
     else {
-      eventQueue.publish({
+      publisher.publish({
         topic: 'parser.failed',
         message: 'Huh? I didn\'t understand that. Type <<help>> if you\'re stuck.',
         voice: Voice.gamemaster
       });
     }
 
-    return { command: inputText, session: gameState.sessionToken, events: eventQueue.events };
+    return { command: inputText, session: gameState.sessionToken, events: queueingSubscriber.events };
   }
 }

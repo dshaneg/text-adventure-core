@@ -3,7 +3,7 @@
 import { Command } from './command';
 import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
-import { GameState } from '../state/game-state';
+import { ReadOnlyGameState } from '../state/game-state';
 import { GameMap } from '../domain/game-map';
 
 /**
@@ -20,7 +20,7 @@ export class TeleportCommand implements Command {
     private silent: boolean = false) {
   }
 
-  execute(gameState: GameState, publisher: EventPublisher): void {
+  execute(gameState: ReadOnlyGameState, publisher: EventPublisher): void {
     const targetNode = this.map.get(this.targetNodeId);
 
     if (!targetNode) {
@@ -33,7 +33,6 @@ export class TeleportCommand implements Command {
     }
 
     const previousNode = gameState.queryCurrentNode();
-    gameState.teleport(targetNode);
 
     publisher.publish({
       topic: 'player.location.teleporting',

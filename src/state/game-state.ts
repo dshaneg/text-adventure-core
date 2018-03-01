@@ -5,7 +5,19 @@ import { GameMap } from '../domain/game-map';
 import { Player, createRealityNode } from './player';
 import { EdgeState } from './player-map-node';
 
-export class GameState {
+export interface ReadOnlyGameState {
+  readonly isStarted: boolean;
+  readonly sessionToken: string;
+
+  queryCurrentNode(): MapNode;
+  querySuccessorNode(direction: string): MapNode;
+  queryAvailableDirections(gameMap: GameMap): Array<EdgeState>;
+
+  queryInventory(): any[];
+  queryEquippedItems(): any[];
+}
+
+export class GameState implements ReadOnlyGameState {
   constructor(sessionToken: string) {
     this.player = new Player(createRealityNode());
     this._started = false;
@@ -33,6 +45,28 @@ export class GameState {
     this._started = false;
   }
 
+  setCurrentLocation(targetNode: MapNode) {
+    if (!targetNode) {
+      throw new Error('Can\'t set location to a nonexistent node!');
+    }
+
+    this.player.currentNode = targetNode;
+  }
+
+  querySuccessorNode(direction: string): MapNode {
+    const currentNode = this.player.currentNode;
+    const successor = currentNode.getSuccessor(direction);
+
+    return successor;
+  }
+    queryCurrentNode() {
+    return this.player.currentNode;
+  }
+
+  queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
+    return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
+  }
+
   tryMove(direction: string): boolean {
     const currentNode = this.player.currentNode;
     const successor = currentNode.getSuccessor(direction);
@@ -43,14 +77,6 @@ export class GameState {
     }
 
     return false;
-  }
-
-  teleport(targetNode: MapNode) {
-    if (!targetNode) {
-      throw new Error('Can\'t teleport to a nonexistent node!');
-    }
-
-    this.player.currentNode = targetNode;
   }
 
   addInventory(item: any, count: number = 1) {
@@ -67,13 +93,5 @@ export class GameState {
 
   queryEquippedItems() {
     return this.player.inventory.getEquipped();
-  }
-
-  queryCurrentNode() {
-    return this.player.currentNode;
-  }
-
-  queryAvailableDirections(gameMap: GameMap): Array<EdgeState> {
-    return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
   }
 }

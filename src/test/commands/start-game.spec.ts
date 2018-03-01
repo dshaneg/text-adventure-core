@@ -12,8 +12,7 @@ import { StartSetItem } from '../../item-repository';
 import { GameMap } from '../../domain/game-map';
 import { MapNode } from '../../domain/map-node';
 import { GameState } from '../../state/game-state';
-import { EventPublisher } from '../../domain/event-publisher';
-import { EventQueue } from '../../event-queue';
+import { Publisher } from '../../domain/event-publisher';
 import { Voice } from '../../domain/voice';
 
 import { StartGameCommand } from '../../commands/start-game-command';
@@ -28,7 +27,7 @@ describe('StartGameCommand', () => {
     let gameState: GameState;
 
     // mock the EventPublisher
-    const EventPublisherMock = mockito.mock(EventQueue);
+    const EventPublisherMock = mockito.mock(Publisher);
     const publisher = mockito.instance(EventPublisherMock);
 
     // mock the Item Repository

@@ -5,8 +5,7 @@ import 'mocha';
 import * as mockito from 'ts-mockito';
 
 import { GameState } from '../../state/game-state';
-import { EventPublisher } from '../../domain/event-publisher';
-import { EventQueue } from '../../event-queue';
+import { Publisher } from '../../domain/event-publisher';
 import { Voice } from '../../domain/voice';
 import { GameDefinitionRepository, GameDefinition } from '../../game-definition-repository';
 import { GameDefinitionRepositoryDefault } from '../../impl/game-definition-repository-default';
@@ -18,7 +17,7 @@ describe('HelpCommand', () => {
     const GameStateMock = mockito.mock(GameState);
     const gameState = mockito.instance(GameStateMock);
 
-    const EventPublisherMock = mockito.mock(EventQueue);
+    const EventPublisherMock = mockito.mock(Publisher);
     const publisher = mockito.instance(EventPublisherMock);
 
     const gameDefinition: GameDefinition = {

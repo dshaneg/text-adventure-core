@@ -90,7 +90,7 @@ describe('GameState', () => {
     });
   });
 
-  describe('teleport', () => {
+  describe('setCurrentLocation', () => {
     it('should move to destination node.', () => {
       // creating a map node that does not have an edge get to it
       const destConfig = {
@@ -101,13 +101,13 @@ describe('GameState', () => {
       };
       const destNode = new MapNode(destConfig);
 
-      state.teleport(destNode);
+      state.setCurrentLocation(destNode);
 
       expect(state.queryCurrentNode().id).to.equal(destConfig.id);
     });
 
     it('should throw error if node is null.', () => {
-      expect(() => state.teleport(undefined)).to.throw(/^Can\'t teleport/);
+      expect(() => state.setCurrentLocation(undefined)).to.throw(/^Can\'t set location/);
     });
   });
 
@@ -176,7 +176,7 @@ describe('GameState', () => {
 
     it('should list a single direction when only one is available', () => {
       // have to teleport in from the real world since there are no edges
-      state.teleport(entryNode);
+      state.setCurrentLocation(entryNode);
       state.tryMove('s');
 
       expect(state.queryAvailableDirections(gameMap)).to.have.lengthOf(1);

@@ -89,7 +89,7 @@ describe('PlayerMapNode', () => {
 
     it('should list a single direction when only one is available', () => {
       // have to teleport in from the real world since there are no edges
-      state.teleport(entryNode);
+      state.setCurrentLocation(entryNode);
       // state.tryMove('s');
 
       const expected: any[] = [{ direction: 's', traversed: false, 'visited': 0 }];
@@ -99,7 +99,7 @@ describe('PlayerMapNode', () => {
     describe('Enter a simple loop', () => {
       beforeEach(() => {
         // have to teleport in from the real world since there are no edges
-        state.teleport(entryNode);
+        state.setCurrentLocation(entryNode);
         state.tryMove('s'); // now on loop a node
       });
 
@@ -126,7 +126,7 @@ describe('PlayerMapNode', () => {
     describe('Enter a simple loop and go back to start node', () => {
       beforeEach(() => {
         // have to teleport in from the real world since there are no edges
-        state.teleport(entryNode);
+        state.setCurrentLocation(entryNode);
         state.tryMove('s'); // now on loop a node
         state.tryMove('n'); // now on entry node
       });
@@ -149,7 +149,7 @@ describe('PlayerMapNode', () => {
     describe('Traverse a simple loop without coming back to the start of the loop', () => {
       beforeEach(() => {
         // have to teleport in from the real world since there are no edges
-        state.teleport(entryNode);
+        state.setCurrentLocation(entryNode);
         state.tryMove('s'); // now on loop a node
         state.tryMove('s'); // now on loop b node
         state.tryMove('e'); // now on loop c node. has path back to a.

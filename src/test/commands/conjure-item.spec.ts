@@ -8,8 +8,7 @@ import { CommandFactory } from '../../commands/command-factory';
 import { ItemRepositoryDefault } from '../../impl/item-repository-default';
 
 import { GameState } from '../../state/game-state';
-import { EventPublisher } from '../../domain/event-publisher';
-import { EventQueue } from '../../event-queue';
+import { Publisher } from '../../domain/event-publisher';
 import { Voice } from '../../domain/voice';
 
 import { ConjureItemCommand } from '../../commands/conjure-item-command';
@@ -19,7 +18,7 @@ describe('ConjureItemCommand', () => {
   describe('execute', () => {
     const gameState = mockito.instance(mockito.mock(GameState));
 
-    const EventPublisherMock = mockito.mock(EventQueue);
+    const EventPublisherMock = mockito.mock(Publisher);
     const publisher = mockito.instance(EventPublisherMock);
 
     const ItemRepositoryMock = mockito.mock(ItemRepositoryDefault);
