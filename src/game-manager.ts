@@ -7,7 +7,7 @@ export class GameManager {
   constructor(private gameSessionRepository: any) {
   }
 
-  createGame() {
+  createGame(): GameState {
     const gameState = this.gameSessionRepository.create();
 
     return gameState;

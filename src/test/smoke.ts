@@ -24,10 +24,11 @@ class HelloParser extends Parser {
   }
 }
 
-describe('Smoke Tests', () => {
+const gameEngine = TextAdventureCore.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, new HelloParser(), true);
+
+describe('Sequential Smoke Tests', () => {
 
   const gameState = TextAdventureCore.createGameManager(gameSessionRepository).createGame();
-  const gameEngine = TextAdventureCore.createGameEngine(gameDefinitionRepository, mapNodeRepository, itemRepository, new HelloParser(), true);
 
   it('start the game', () => {
     const response = gameEngine.startGame(gameState);
@@ -76,6 +77,33 @@ describe('Smoke Tests', () => {
     const response = gameEngine.stopGame(gameState);
     debug(response);
     expect(response.events).to.have.lengthOf(1);
+  });
+});
+
+describe('Replay Tests', () => {
+  let gameState: GameState;
+
+  beforeEach(() => {
+    gameState = TextAdventureCore.createGameManager(gameSessionRepository).createGame();
+  });
+
+  it('replay should reproduce same state as original play', () => {
+    const events: any[] = gameEngine.startGame(gameState).events
+      .concat(gameEngine.handleInput(gameState, 'go south').events)
+      .concat(gameEngine.handleInput(gameState, 'go south').events)
+      .concat(gameEngine.handleInput(gameState, 'go south').events)
+      .concat(gameEngine.handleInput(gameState, 'hello').events)
+      .concat(gameEngine.handleInput(gameState, 'conjureitem 1002').events)
+      .concat(gameEngine.handleInput(gameState, 'help').events)
+      .concat(gameEngine.handleInput(gameState, 'inventory').events)
+      .concat(gameEngine.handleInput(gameState, 'exit').events)
+      .concat(gameEngine.stopGame(gameState).events);
+
+    const newState = TextAdventureCore.createGameManager(gameSessionRepository).createGame();
+    gameEngine.replayEvents(newState, events);
+
+    expect(newState.player).to.deep.equal(gameState.player);
+    expect(newState.isStarted).to.equal(gameState.isStarted);
   });
 });
 

@@ -16,6 +16,15 @@ export class GameEngine {
     private mapNodeRepository: MapNodeRepository) {
   }
 
+  replayEvents(gameState: GameState, events: any[]) {
+    const stateSubscriber = this.gameStateEventSubscriberFactory.create(gameState);
+    const publisher = new Publisher([stateSubscriber]);
+
+    events.forEach(event => {
+      publisher.publish(event);
+    });
+  }
+
   startGame(gameState: GameState): any {
     return this.handleInput(gameState, 'start game');
   }
