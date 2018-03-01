@@ -3,7 +3,7 @@
 import { Command } from './command';
 import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
-import { GameState } from '../state/game-state';
+import { ReadOnlyGameState } from '../state/game-state';
 import { CommandFactory } from './command-factory';
 
 import { ItemRepository } from '../item-repository';
@@ -33,7 +33,7 @@ export class StartGameCommand {
   private gameDefinitionRepository: GameDefinitionRepository;
   private mapNodeRepository: MapNodeRepository;
 
-  execute(gameState: GameState, publisher: EventPublisher): void {
+  execute(gameState: ReadOnlyGameState, publisher: EventPublisher): void {
     if (gameState.isStarted) {
       return;
     }
@@ -56,8 +56,6 @@ export class StartGameCommand {
       message: this.gameDefinitionRepository.getGameDefinition().banner,
       voice: Voice.herald
     });
-
-    gameState.start();
 
     publisher.publish({
       topic: 'game.started',

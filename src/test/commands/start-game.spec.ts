@@ -218,11 +218,6 @@ describe('StartGameCommand', () => {
       it('Should execute TeleportCommand.', () => {
         mockito.verify(TeleportCommandMock.execute(gameState, publisher)).once();
       });
-
-      // gameState start
-      it('Should execute start on gameState.', () => {
-        mockito.verify(GameStateMock.start()).once();
-      });
     });
 
     describe('Starting an already started game', () => {
