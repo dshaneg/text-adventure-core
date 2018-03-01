@@ -28,10 +28,6 @@
   version "0.0.27"
   resolved "https://registry.yarnpkg.com/@types/pluralize/-/pluralize-0.0.27.tgz#087354a791ce027db1101ff399db6111fc9275f7"
 
-"@types/postal@^1.0.28":
-  version "1.0.29"
-  resolved "https://registry.yarnpkg.com/@types/postal/-/postal-1.0.29.tgz#aaf92d64f88b4a36b1980f24b7011ec09cf68d1a"
-
 "@types/strip-bom@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/strip-bom/-/strip-bom-3.0.0.tgz#14a8ec3956c2e81edb7520790aecf21c290aebd2"
@@ -1149,7 +1145,7 @@ lodash.keys@^3.0.0:
     lodash.isarguments "^3.0.0"
     lodash.isarray "^3.0.0"
 
-lodash@^4.12.0, lodash@^4.17.4:
+lodash@^4.17.4:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
@@ -1516,12 +1512,6 @@ pkg-dir@^1.0.0:
 pluralize@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-3.1.0.tgz#84213d0a12356069daa84060c559242633161368"
-
-postal@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/postal/-/postal-2.0.5.tgz#7f9f035943a24daa9963ac5a53b5d0cf07df24b9"
-  dependencies:
-    lodash "^4.12.0"
 
 prelude-ls@~1.1.2:
   version "1.1.2"
