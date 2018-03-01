@@ -2,27 +2,16 @@
 
 import { EventSubscriber } from './event-subscriber';
 import { GameState } from '../state/game-state';
-import { GameMap } from '../domain/game-map';
+import { StateChangeHandler } from './state-change-handler/state-change-handler';
 
 export class GameStateEventSubscriber implements EventSubscriber {
-  constructor(private map: GameMap, private gameState: GameState) {}
+  constructor(private gameState: GameState, private handlers: StateChangeHandler[]) {}
 
   handle(event: any): void {
-    switch (event.topic) {
-      case 'player.location.moved':
-        this.gameState.setCurrentLocation(this.map.get(event.currentNode.id));
-        break;
-      case 'player.inventory.added':
-        this.gameState.addInventory(event.item, event.count);
-        break;
-      case 'player.inventory.item-equipped':
-        this.gameState.equip(event.item);
-        break;
-      case 'game.started':
-        this.gameState.start();
-        break;
-      case 'game.stopped':
-        this.gameState.stop();
+    const handler = this.handlers.find(element => element.handles(event));
+
+    if (handler) {
+      handler.handle(event, this.gameState);
     }
   }
 }
