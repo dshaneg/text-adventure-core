@@ -31,12 +31,6 @@ describe('EquipItemCommand', () => {
         command = new EquipItemCommand(item);
       });
 
-      it('Should call gs.equip once.', () => {
-        command.execute(gameState, publisher);
-
-        mockito.verify(GameStateMock.equip(item)).once();
-      });
-
       it('Should call publisher.publish once.', () => {
         command.execute(gameState, publisher);
 
@@ -60,12 +54,6 @@ describe('EquipItemCommand', () => {
 
       beforeEach(() => {
         command = new EquipItemCommand(item, true);
-      });
-
-      it('Should call gs.equip once.', () => {
-        command.execute(gameState, publisher);
-
-        mockito.verify(GameStateMock.equip(item)).once();
       });
 
       it('Should call publisher.publish once.', () => {

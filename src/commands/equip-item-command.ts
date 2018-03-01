@@ -3,7 +3,7 @@
 import { Command } from './command';
 import { EventPublisher } from '../domain/event-publisher';
 import { Voice } from '../domain/voice';
-import { GameState } from '../state/game-state';
+import { ReadOnlyGameState } from '../state/game-state';
 
 const topic = 'player.inventory.equip-item';
 
@@ -19,9 +19,7 @@ export class EquipItemCommand implements Command {
     private silent: boolean = false) {
   }
 
-  execute(gameState: GameState, publisher: EventPublisher, silent: boolean = false): void {
-    gameState.equip(this.item);
-
+  execute(gameState: ReadOnlyGameState, publisher: EventPublisher, silent: boolean = false): void {
     publisher.publish({
       topic: 'player.inventory.item-equipped',
       message: `You equip the ${this.item.name}.`,

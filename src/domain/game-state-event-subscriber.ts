@@ -15,6 +15,9 @@ export class GameStateEventSubscriber implements EventSubscriber {
       case 'player.inventory.added':
         this.gameState.addInventory(event.item, event.count);
         break;
+      case 'player.inventory.item-equipped':
+        this.gameState.equip(event.item);
+        break;
     }
   }
 }
