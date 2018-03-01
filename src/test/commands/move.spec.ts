@@ -49,7 +49,7 @@ describe('MoveCommand', () => {
 
         mockito.reset(GameStateMock);
 
-        mockito.when(GameStateMock.tryMove(direction)).thenReturn(true);
+        mockito.when(GameStateMock.querySuccessorNode(direction)).thenReturn(endNode);
         mockito.when(GameStateMock.queryCurrentNode())
           .thenReturn(startNode)
           .thenReturn(endNode);
@@ -106,7 +106,7 @@ describe('MoveCommand', () => {
 
         mockito.reset(GameStateMock);
 
-        mockito.when(GameStateMock.tryMove(direction)).thenReturn(false);
+        mockito.when(GameStateMock.querySuccessorNode(direction)).thenReturn(undefined);
         mockito.when(GameStateMock.queryCurrentNode()).thenReturn(startNode);
 
         gameState = mockito.instance(GameStateMock);

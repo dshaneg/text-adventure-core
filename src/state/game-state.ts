@@ -67,18 +67,6 @@ export class GameState implements ReadOnlyGameState {
     return this.player.getPlayerMapNode(this.player.currentNode).getAvailableDirections(this, gameMap);
   }
 
-  tryMove(direction: string): boolean {
-    const currentNode = this.player.currentNode;
-    const successor = currentNode.getSuccessor(direction);
-
-    if (successor) {
-      this.player.currentNode = successor;
-      return true;
-    }
-
-    return false;
-  }
-
   addInventory(item: any, count: number = 1) {
     this.player.inventory.add(item, count);
   }

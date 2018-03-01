@@ -100,7 +100,7 @@ describe('PlayerMapNode', () => {
       beforeEach(() => {
         // have to teleport in from the real world since there are no edges
         state.setCurrentLocation(entryNode);
-        state.tryMove('s'); // now on loop a node
+        state.setCurrentLocation(state.querySuccessorNode('s')); // now on loop a node
       });
 
       it('should list 3 available directions when entering a loop from outside the loop', () => {
@@ -127,8 +127,8 @@ describe('PlayerMapNode', () => {
       beforeEach(() => {
         // have to teleport in from the real world since there are no edges
         state.setCurrentLocation(entryNode);
-        state.tryMove('s'); // now on loop a node
-        state.tryMove('n'); // now on entry node
+        state.setCurrentLocation(state.querySuccessorNode('s')); // now on loop a node
+        state.setCurrentLocation(state.querySuccessorNode('n')); // now on entry node
       });
 
       it('should list 1 available direction', () => {
@@ -150,9 +150,9 @@ describe('PlayerMapNode', () => {
       beforeEach(() => {
         // have to teleport in from the real world since there are no edges
         state.setCurrentLocation(entryNode);
-        state.tryMove('s'); // now on loop a node
-        state.tryMove('s'); // now on loop b node
-        state.tryMove('e'); // now on loop c node. has path back to a.
+        state.setCurrentLocation(state.querySuccessorNode('s')); // now on loop a node
+        state.setCurrentLocation(state.querySuccessorNode('s')); // now on loop b node
+        state.setCurrentLocation(state.querySuccessorNode('e')); // now on loop c node. has path back to a.
       });
 
       it('should list 2 available directions when entering a loop from outside the loop', () => {

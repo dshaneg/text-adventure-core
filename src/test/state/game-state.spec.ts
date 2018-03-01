@@ -49,7 +49,7 @@ describe('GameState', () => {
     });
   });
 
-  describe('tryMove', () => {
+  describe('querySuccessorNode', () => {
     let destNode: MapNode;
 
     beforeEach(() => {
@@ -64,29 +64,16 @@ describe('GameState', () => {
       state.queryCurrentNode().addEdge({ direction: 's', headNode: destNode });
     });
 
-    it('returns false when requested move is not available.', () => {
-      expect(state.tryMove('n')).to.be.false;
+    it('returns undefined when requested move is not available.', () => {
+      expect(state.querySuccessorNode('n')).to.be.undefined;
     });
 
-    it('returns false when requested direction doesn\'t represent a recognized direction.', () => {
-      expect(state.tryMove('x')).to.be.false;
+    it('returns undefined when requested direction doesn\'t represent a recognized direction.', () => {
+      expect(state.querySuccessorNode('x')).to.be.undefined;
     });
 
-    it('should remain on same node if tryMove fails.', () => {
-      const current = state.queryCurrentNode();
-
-      state.tryMove('n');
-
-      expect(state.queryCurrentNode().id).to.equal(current.id);
-    });
-
-    it('returns true when a move is successful.', () => {
-      expect(state.tryMove('s')).to.be.true;
-    });
-
-    it('should have current node set to dest node on success.', () => {
-      state.tryMove('s');
-      expect(state.queryCurrentNode().id).to.equal(destNode.id);
+    it('returns successor node if found.', () => {
+      expect(state.querySuccessorNode('s')).to.deep.equal(destNode);
     });
   });
 
@@ -177,7 +164,7 @@ describe('GameState', () => {
     it('should list a single direction when only one is available', () => {
       // have to teleport in from the real world since there are no edges
       state.setCurrentLocation(entryNode);
-      state.tryMove('s');
+      state.setCurrentLocation(state.querySuccessorNode('s'));
 
       expect(state.queryAvailableDirections(gameMap)).to.have.lengthOf(1);
     });
